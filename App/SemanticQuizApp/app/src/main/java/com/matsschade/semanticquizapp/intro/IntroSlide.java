@@ -1,4 +1,4 @@
-package com.matsschade.semanticquizapp;
+package com.matsschade.semanticquizapp.intro;
 
 /**
  * Created by Mats on 10/11/15.

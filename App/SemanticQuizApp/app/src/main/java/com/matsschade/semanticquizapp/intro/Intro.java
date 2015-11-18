@@ -1,4 +1,4 @@
-package com.matsschade.semanticquizapp;
+package com.matsschade.semanticquizapp.intro;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
+import com.matsschade.semanticquizapp.MainActivity;
+import com.matsschade.semanticquizapp.R;
 
 /**
  * Created by Mats on 10/11/15.
