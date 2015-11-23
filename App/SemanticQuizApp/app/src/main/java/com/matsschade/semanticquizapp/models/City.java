@@ -6,11 +6,11 @@ import com.hp.hpl.jena.query.Query;
 /**
  * Created by Mats on 10/11/15.
  */
-public class CityPopulation {
+public class City {
 
     private Query q;
 
-    public CityPopulation(int limit) {
+    public City(int limit) {
     }
 
     public Query getQuery() {

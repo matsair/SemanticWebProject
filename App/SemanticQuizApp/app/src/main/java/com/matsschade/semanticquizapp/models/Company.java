@@ -17,6 +17,22 @@ public class Company {
     }
 
     public Query getRevenue() {
+        String query = "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
+                "PREFIX dct: <http://purl.org/dc/terms/>\n" +
+                "PREFIX dbc: <http://dbpedia.org/resource/Category:>\n" +
+                "PREFIX dbp: <http://dbpedia.org/property/>\n" +
+                "\n" +
+                "SELECT DISTINCT ?company\n" +
+                "WHERE\n" +
+                "{\n" +
+                "  ?city rdf:type dbo:Company .\n" +
+                "  ?city rdfs:label ?company .\n" +
+                "  ?city dbo:revenue ?revenue .\n" +
+                "\n" +
+                "  FILTER (?revenue > 1000000000).\n" +
+                "  FILTER (langMatches(lang(?company), \"EN\")) .\n" +
+                "}\n" +
+                "LIMIT 10";
         return this.q;
     }
 

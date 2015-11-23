@@ -8,6 +8,8 @@ public class Artist {
     private String name;
     private double familiarity;
 
+    private String TAG;
+
     public Artist(String name) {
         this.name = name;
     }
