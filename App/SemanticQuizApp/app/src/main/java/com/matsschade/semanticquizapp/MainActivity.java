@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -17,9 +18,10 @@ import com.android.volley.toolbox.Volley;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.hp.hpl.jena.query.Query;
+import com.hp.hpl.jena.query.QueryExecution;
+import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
-import com.matsschade.semanticquizapp.database.DatabaseManager;
-import com.matsschade.semanticquizapp.database.QuestionDbHelper;
+import com.hp.hpl.jena.query.ResultSet;
 import com.matsschade.semanticquizapp.intro.Intro;
 
 import org.json.JSONException;
@@ -46,11 +48,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DatabaseManager.initializeInstance(new QuestionDbHelper(this));
-
-        QuestionDbHelper.addCategory("Companies");
-        QuestionDbHelper.addQuestion("Which of the following has the most employees?", QuestionDbHelper.getCategoryId("Companies"));
-
         TextView tv = (TextView) findViewById(R.id.question);
         tv.setText(R.string.question);
 
@@ -62,23 +59,34 @@ public class MainActivity extends AppCompatActivity {
                 "PREFIX dbp: <http://dbpedia.org/property/>\n" +
                 "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
                 "\n" +
-                "SELECT DISTINCT ?country_name ?population_total\n" +
+                "SELECT DISTINCT ?city_name\n" +
                 "WHERE\n" +
                 "{\n" +
-                "  ?city dct:subject dbc:Countries_in_Europe .\n" +
-                "  ?city rdfs:label ?country_name .\n" +
+                "  ?city dct:subject dbc:Capitals_in_Europe .\n" +
+                "  ?city rdfs:label ?city_name .\n" +
                 "  OPTIONAL { ?city dbo:populationTotal ?population_total . }\n" +
                 "  OPTIONAL { ?city dbp:populationBlank ?population_blank . }\n" +
                 "\n" +
                 "  FILTER (?population_total > 2000000 || ?population_blank > 2000000) .\n" +
-                "  FILTER (langMatches(lang(?country_name), \"EN\")) .\n" +
+                "  FILTER (langMatches(lang(?city_name), \"EN\")) .\n" +
                 "}\n" +
-                "LIMIT 1";
+                "LIMIT 10";
 
         Query query = QueryFactory.create(q);
+        String endpoint = "http://dbpedia.org/sparql";
 
-//        QueryExecution qexec = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", query);
-//        ResultSet results = qexec.execSelect();
+        QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+        ResultSet results;
+        try {
+            results  = qexec.execSelect();
+            for (; results.hasNext(); ) {
+                Log.d("SPARQL Results ", results.toString());
+            }
+        }
+        catch (Exception e){
+            Log.e("DBPEDIADetail", "Failed DBPEDIA DOWN "+ e.toString());
+        }
+
 
         String requestURL = "http://developer.echonest.com/api/v4/artist/familiarity?api_key=MN9EYDKKLH6QBGHBH&name=Rihanna&format=json";
 
