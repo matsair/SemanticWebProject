@@ -1,6 +1,5 @@
 package com.matsschade.semanticquizapp.models;
 
-
 import com.hp.hpl.jena.query.Query;
 
 /**

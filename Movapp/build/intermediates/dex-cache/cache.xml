@@ -2,13 +2,6 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\libs\volley.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="d4aaa36e04ee71a83444f8367c97a46fda662d2c">
-        <dex dex="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\build\intermediates\pre-dexed\debug\volley-e1999b9472aa3c1836b1d1d6a2382eef26a65ea9.jar" />
-    </item>
-    <item
         jar="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\libs\lib\androjena_0.5.jar"
         jumboMode="false"
         revision="20.0.0"
@@ -23,46 +16,18 @@
         <dex dex="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\build\intermediates\pre-dexed\debug\slf4j-android-1.6.1-RC1-be71a770ec4e99646b8a8c04ab4d0d0ae9a692ba.jar" />
     </item>
     <item
-        jar="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\libs\lib\icu4j-3.4.5.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="300633b5d32bba8638ab3434f1525ff3705aaa49">
-        <dex dex="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\build\intermediates\pre-dexed\debug\icu4j-3.4.5-f9221df3a4c22743748a9bab2af8e9ee4da22cbf.jar" />
-    </item>
-    <item
-        jar="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\build\intermediates\exploded-aar\com.android.support\support-v13\20.0.0\jars\libs\internal_impl-20.0.0.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="27bbd3982cdfe4468a9bf99c8c773734a9049e33">
-        <dex dex="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\build\intermediates\pre-dexed\debug\internal_impl-20.0.0-396c95bad084b01d2dd1da9b9c183a3e3b1fc9e8.jar" />
-    </item>
-    <item
-        jar="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\libs\lib\lucenoid_3.0.2.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="23abffb1a6cb5473294c438385d5644d38ff30ba">
-        <dex dex="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\build\intermediates\pre-dexed\debug\lucenoid_3.0.2-9f715ef98c201a0e6d208f042b6287e2f16cc61e.jar" />
-    </item>
-    <item
-        jar="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\libs\simple-xml-2.4.1.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="314910df77771b33c481a175fbde56fd9295d58a">
-        <dex dex="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\build\intermediates\pre-dexed\debug\simple-xml-2.4.1-b0e8c9f38d7d758d0cb3a90b6f8be08052a3ac7a.jar" />
-    </item>
-    <item
-        jar="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\libs\arqoid_0.5.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="d5da896d0dbc1d6cf9313449e119a3dce389e182">
-        <dex dex="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\build\intermediates\pre-dexed\debug\arqoid_0.5-e167569fdcf621185e0b937d4dc4483715daa697.jar" />
-    </item>
-    <item
         jar="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\libs\android-support-v4.jar"
         jumboMode="false"
         revision="20.0.0"
         sha1="5896b0a4e377ac4242eb2bc785220c1c4fc052f4">
         <dex dex="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\build\intermediates\pre-dexed\debug\android-support-v4-6fe0a31ff02077ce67ac0b3f0d6dea41de9834cd.jar" />
+    </item>
+    <item
+        jar="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\build\intermediates\exploded-aar\com.android.support\support-v13\20.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="e128103d5281ddd26195a7f980b36d0d005a4e56">
+        <dex dex="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\build\intermediates\pre-dexed\debug\classes-4eb8d0187a7e109e1e4343f709197ae7279e5a24.jar" />
     </item>
     <item
         jar="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\libs\lib\iri-0.8.jar"
@@ -72,11 +37,46 @@
         <dex dex="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\build\intermediates\pre-dexed\debug\iri-0.8-4698f1adc324916d943b923ce31666f047eb746a.jar" />
     </item>
     <item
-        jar="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\build\intermediates\exploded-aar\com.android.support\support-v13\20.0.0\jars\classes.jar"
+        jar="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\libs\simple-xml-2.4.1.jar"
         jumboMode="false"
         revision="20.0.0"
-        sha1="e128103d5281ddd26195a7f980b36d0d005a4e56">
-        <dex dex="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\build\intermediates\pre-dexed\debug\classes-4eb8d0187a7e109e1e4343f709197ae7279e5a24.jar" />
+        sha1="314910df77771b33c481a175fbde56fd9295d58a">
+        <dex dex="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\build\intermediates\pre-dexed\debug\simple-xml-2.4.1-b0e8c9f38d7d758d0cb3a90b6f8be08052a3ac7a.jar" />
+    </item>
+    <item
+        jar="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\libs\lib\icu4j-3.4.5.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="300633b5d32bba8638ab3434f1525ff3705aaa49">
+        <dex dex="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\build\intermediates\pre-dexed\debug\icu4j-3.4.5-f9221df3a4c22743748a9bab2af8e9ee4da22cbf.jar" />
+    </item>
+    <item
+        jar="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\libs\volley.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="d4aaa36e04ee71a83444f8367c97a46fda662d2c">
+        <dex dex="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\build\intermediates\pre-dexed\debug\volley-e1999b9472aa3c1836b1d1d6a2382eef26a65ea9.jar" />
+    </item>
+    <item
+        jar="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\libs\lib\lucenoid_3.0.2.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="23abffb1a6cb5473294c438385d5644d38ff30ba">
+        <dex dex="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\build\intermediates\pre-dexed\debug\lucenoid_3.0.2-9f715ef98c201a0e6d208f042b6287e2f16cc61e.jar" />
+    </item>
+    <item
+        jar="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\build\intermediates\exploded-aar\com.android.support\support-v13\20.0.0\jars\libs\internal_impl-20.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="27bbd3982cdfe4468a9bf99c8c773734a9049e33">
+        <dex dex="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\build\intermediates\pre-dexed\debug\internal_impl-20.0.0-396c95bad084b01d2dd1da9b9c183a3e3b1fc9e8.jar" />
+    </item>
+    <item
+        jar="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\libs\arqoid_0.5.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="d5da896d0dbc1d6cf9313449e119a3dce389e182">
+        <dex dex="C:\Users\rober_000\workspace\SemanticWebProject\Movapp\app\build\intermediates\pre-dexed\debug\arqoid_0.5-e167569fdcf621185e0b937d4dc4483715daa697.jar" />
     </item>
 
 </items>

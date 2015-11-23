@@ -1,6 +1,5 @@
 package com.matsschade.semanticquizapp.models;
 
-
 import com.hp.hpl.jena.query.Query;
 
 /**
@@ -35,5 +34,4 @@ public class Company {
                 "LIMIT 10";
         return this.q;
     }
-
 }

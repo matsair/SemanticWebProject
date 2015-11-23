@@ -3,37 +3,30 @@ package com.matsschade.semanticquizapp;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.TypefaceProvider;
-import com.hp.hpl.jena.query.Query;
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.query.ResultSet;
 import com.matsschade.semanticquizapp.intro.Intro;
+import com.matsschade.semanticquizapp.models.Question;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import static com.matsschade.semanticquizapp.models.Queries.initializeQueries;
 
 public class MainActivity extends AppCompatActivity {
 
     BootstrapButton answerOne;
 
+    private Question question;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         SharedPreferences settings = getSharedPreferences("prefs", 0);
         boolean firstRun = settings.getBoolean("firstRun", true);
@@ -51,9 +44,16 @@ public class MainActivity extends AppCompatActivity {
         TextView tv = (TextView) findViewById(R.id.question);
         tv.setText(R.string.question);
 
-        answerOne = (BootstrapButton) findViewById(R.id.answer_button_one);
+        initializeQueries();
 
-        String q = "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
+        question = new Question(0);
+
+
+
+
+       /*answerOne = (BootstrapButton) findViewById(R.id.answer_button_one);
+
+       String q = "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
                 "PREFIX dct: <http://purl.org/dc/terms/>\n" +
                 "PREFIX dbc: <http://dbpedia.org/resource/Category:>\n" +
                 "PREFIX dbp: <http://dbpedia.org/property/>\n" +
@@ -87,14 +87,11 @@ public class MainActivity extends AppCompatActivity {
             Log.e("DBPEDIADetail", "Failed DBPEDIA DOWN "+ e.toString());
         }
 
-
         String requestURL = "http://developer.echonest.com/api/v4/artist/familiarity?api_key=MN9EYDKKLH6QBGHBH&name=Rihanna&format=json";
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET, requestURL, createMyReqSuccessListener(), createMyReqErrorListener());
 
         Volley.newRequestQueue(this).add(jsonObjReq);
-
-    }
 
     private Response.Listener<JSONObject> createMyReqSuccessListener() {
         return new Response.Listener<JSONObject>() {
@@ -139,5 +136,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    */
     }
+
 }
