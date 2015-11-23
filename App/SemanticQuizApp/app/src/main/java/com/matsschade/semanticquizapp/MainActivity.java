@@ -13,11 +13,11 @@ import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.matsschade.semanticquizapp.intro.Intro;
 import com.matsschade.semanticquizapp.models.Question;
 
-import static com.matsschade.semanticquizapp.models.Queries.initializeQueries;
+import static com.matsschade.semanticquizapp.models.QueryStrings.initializeQueries;
 
 public class MainActivity extends AppCompatActivity {
 
-    BootstrapButton answerOne;
+    BootstrapButton buttonOne, buttonTwo, buttonThree, buttonFour;
 
     private Question question;
 
@@ -45,48 +45,19 @@ public class MainActivity extends AppCompatActivity {
         tv.setText(R.string.question);
 
         initializeQueries();
-
         question = new Question(0);
 
+        buttonOne = (BootstrapButton) findViewById(R.id.answer_button_one);
+        buttonOne.setText(question.getCandA());
+        buttonTwo = (BootstrapButton) findViewById(R.id.answer_button_two);
+        buttonTwo.setText(question.getCandB());
+        buttonThree = (BootstrapButton) findViewById(R.id.answer_button_three);
+        buttonThree.setText(question.getCandC());
+        buttonFour = (BootstrapButton) findViewById(R.id.answer_button_four);
+        buttonFour.setText(question.getCandD());
 
 
-
-       /*answerOne = (BootstrapButton) findViewById(R.id.answer_button_one);
-
-       String q = "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
-                "PREFIX dct: <http://purl.org/dc/terms/>\n" +
-                "PREFIX dbc: <http://dbpedia.org/resource/Category:>\n" +
-                "PREFIX dbp: <http://dbpedia.org/property/>\n" +
-                "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
-                "\n" +
-                "SELECT DISTINCT ?city_name\n" +
-                "WHERE\n" +
-                "{\n" +
-                "  ?city dct:subject dbc:Capitals_in_Europe .\n" +
-                "  ?city rdfs:label ?city_name .\n" +
-                "  OPTIONAL { ?city dbo:populationTotal ?population_total . }\n" +
-                "  OPTIONAL { ?city dbp:populationBlank ?population_blank . }\n" +
-                "\n" +
-                "  FILTER (?population_total > 2000000 || ?population_blank > 2000000) .\n" +
-                "  FILTER (langMatches(lang(?city_name), \"EN\")) .\n" +
-                "}\n" +
-                "LIMIT 10";
-
-        Query query = QueryFactory.create(q);
-        String endpoint = "http://dbpedia.org/sparql";
-
-        QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
-        ResultSet results;
-        try {
-            results  = qexec.execSelect();
-            for (; results.hasNext(); ) {
-                Log.d("SPARQL Results ", results.toString());
-            }
-        }
-        catch (Exception e){
-            Log.e("DBPEDIADetail", "Failed DBPEDIA DOWN "+ e.toString());
-        }
-
+       /*
         String requestURL = "http://developer.echonest.com/api/v4/artist/familiarity?api_key=MN9EYDKKLH6QBGHBH&name=Rihanna&format=json";
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET, requestURL, createMyReqSuccessListener(), createMyReqErrorListener());
@@ -138,5 +109,4 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     */
     }
-
 }
