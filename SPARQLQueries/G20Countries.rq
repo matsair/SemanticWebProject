@@ -1,0 +1,17 @@
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX dbc: <http://dbpedia.org/resource/Category:>
+PREFIX dbp: <http://dbpedia.org/property/>
+
+SELECT DISTINCT ?country_name ?population_total ?hdi ?gini
+WHERE
+{
+  ?country dct:subject dbc:G20_nations .
+  ?country rdfs:label ?country_name .
+
+  OPTIONAL { ?country dbp:gini ?gini . }
+  OPTIONAL { ?country dbp:hdiRank ?hdi . }
+  OPTIONAL { ?country dbo:populationTotal ?population_total . }
+
+  FILTER (langMatches(lang(?country_name), "EN")) .
+}
