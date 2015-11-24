@@ -1,4 +1,4 @@
-package com.matsschade.semanticquizapp.models;
+package com.matsschade.semanticquizapp.Objects;
 
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
@@ -6,6 +6,7 @@ import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
+import com.matsschade.semanticquizapp.Processing.StringProcessing;
 
 /**
  * Created by rober_000 on 23.11.2015.
@@ -72,9 +73,14 @@ public class Question {
         while (this.matrix.hasNext() && (i <= 4)) {
             QuerySolution qs;
             qs = matrix.next();
-            String element = String.valueOf(qs.getLiteral(q.getElement()));
-            double attribute = Double.valueOf(String.valueOf(qs.getLiteral(q.getAttribute())));
-            System.out.println(element);
+            String element = StringProcessing.clean(
+                    String.valueOf(qs.getLiteral(q.getElement())));
+
+            double attribute = Double.valueOf(
+                    StringProcessing.clean(
+                            String.valueOf(qs.getLiteral(q.getAttribute()))));
+
+            System.out.println(element + " " + attribute);
 
             switch (i) {
                 case 1:

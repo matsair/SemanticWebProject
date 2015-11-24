@@ -1,4 +1,4 @@
-package com.matsschade.semanticquizapp.models;
+package com.matsschade.semanticquizapp.Objects;
 
 /**
  * Created by rober_000 on 23.11.2015.
@@ -31,7 +31,7 @@ public class QueryStrings {
                 "  }\n" +
                 "LIMIT   10";
 
-        queries[0][0] = new QueryString(abc,"city_name", "callret-2");
+        queries[0][0] = new QueryString(abc,"city_name", "sun");
 
     }
 

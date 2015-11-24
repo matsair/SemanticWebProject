@@ -13,8 +13,8 @@ import android.widget.Toast;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.matsschade.semanticquizapp.intro.Intro;
-import com.matsschade.semanticquizapp.models.QueryStrings;
-import com.matsschade.semanticquizapp.models.Question;
+import com.matsschade.semanticquizapp.Objects.QueryStrings;
+import com.matsschade.semanticquizapp.Objects.Question;
 
 public class MainActivity extends AppCompatActivity {
 
