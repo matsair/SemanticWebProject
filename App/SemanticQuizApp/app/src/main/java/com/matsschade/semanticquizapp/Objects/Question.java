@@ -6,7 +6,12 @@ import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
+import com.hp.hpl.jena.query.ResultSetFactory;
+import com.hp.hpl.jena.query.ResultSetFormatter;
 import com.matsschade.semanticquizapp.Processing.StringProcessing;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by rober_000 on 23.11.2015.
@@ -14,12 +19,118 @@ import com.matsschade.semanticquizapp.Processing.StringProcessing;
 public class Question {
 
     private int categoryID;
-    private ResultSet matrix;
     private QueryString q;
     private String question;
     private String candAName, candBName, candCName, candDName;
     private double candAAttribute, candBAttribute, candCAttribute, candDAttribute;
     private String correctAnswer;
+    private ResultSet resultsSet;
+    private ArrayList<String> elementsArray;
+    private ArrayList<String> attributesArray;
+
+
+    public Question(int categoryID) {
+
+        this.categoryID = categoryID;
+        executeQuery(categoryID);
+        initializeCandidates();
+        determineCorrectAnswer();
+    }
+
+
+    private void executeQuery(int categoryID) {
+
+        //Initialize the resultsSet
+        q = QueryStrings.getRandomQueryString(categoryID);
+        Query query = QueryFactory.create(q.getQuery());
+        String endpoint = "http://dbpedia.org/sparql";
+        //String endpoint = "http://linkedmdb.org/sparql";
+
+        QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+        try {
+            this.resultsSet = qexec.execSelect();
+
+            //additional result set to print out results
+            ResultSet showSet = ResultSetFactory.copyResults(qexec.execSelect());
+
+            //This also moves the resultsSet to the last row --> commented out to avoid errors
+            ResultSetFormatter.out(System.out, showSet);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        elementsArray = new ArrayList<String>();
+        attributesArray = new ArrayList<String>();
+
+        //Fill the arrays
+        while (this.resultsSet.hasNext()) {
+            QuerySolution qs;
+            qs = resultsSet.next();
+
+            elementsArray.add(StringProcessing.clean(
+                        String.valueOf(qs.getLiteral(q.getElement()))));
+
+            attributesArray.add(StringProcessing.clean(
+                    String.valueOf(qs.getLiteral(q.getAttribute()))));
+        }
+    }
+
+    private void initializeCandidates() {
+        int randomInt1, randomInt2, randomInt3, randomInt4;
+
+        //Use shuffledArray in order to generate random numbers
+        ArrayList <Integer> shuffledArray = getShuffledArray(elementsArray.size());
+
+        randomInt1 = shuffledArray.get(0);
+        randomInt2 = shuffledArray.get(1);
+        randomInt3 = shuffledArray.get(2);
+        randomInt4 = shuffledArray.get(3);
+
+        this.candAName = elementsArray.get(randomInt1);
+        this.candAAttribute = Double.valueOf(attributesArray.get(randomInt1));
+
+        this.candBName = elementsArray.get(randomInt2);
+        this.candBAttribute = Double.valueOf(attributesArray.get(randomInt2));
+
+        this.candCName = elementsArray.get(randomInt3);
+        this.candCAttribute = Double.valueOf(attributesArray.get(randomInt3));
+
+        this.candDName = elementsArray.get(randomInt4);
+        this.candDAttribute = Double.valueOf(attributesArray.get(randomInt4));
+    }
+
+
+    private void determineCorrectAnswer() {
+
+        double highestValue;
+        highestValue = Math.max(Double.valueOf(candAAttribute), Math.max(Double.valueOf(candBAttribute),
+                Math.max(Double.valueOf(candCAttribute), Double.valueOf(candDAttribute))));
+
+        if (highestValue == candAAttribute){
+                this.correctAnswer = candAName;}
+        if (highestValue == candBAttribute){
+            this.correctAnswer = candBName;}
+        if (highestValue == candCAttribute){
+            this.correctAnswer = candCName;}
+        if (highestValue == candDAttribute){
+            this.correctAnswer = candDName;}
+    }
+
+
+    private static  ArrayList<Integer> getShuffledArray (int range) {
+
+        ArrayList<Integer> list = new ArrayList<Integer>();
+
+        for (int i = 0; i < range; i++) {
+            list.add(new Integer(i));
+        }
+        Collections.shuffle(list);
+
+        return list;
+    }
+
+
+
 
     public String getCorrectAnswer() {
         return correctAnswer;
@@ -41,78 +152,5 @@ public class Question {
         return candAName;
     }
 
-    public Question(int categoryID) {
-        this.categoryID = categoryID;
-        setMatrix(categoryID);
-        initializeCandidates();
-        determineCorrectAnswer();
-    }
 
-
-    private void setMatrix(int categoryID) {
-
-        //Initialize the matrix
-        q = QueryStrings.getRandomQueryString(categoryID);
-        Query query = QueryFactory.create(q.getQuery());
-        String endpoint = "http://dbpedia.org/sparql";
-        //String endpoint = "http://linkedmdb.org/sparql";
-
-        QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
-        try {
-            this.matrix = qexec.execSelect();
-
-            //This also moves the matrix to the last row --> commented out to avoid errors
-            //ResultSetFormatter.out(System.out, this.matrix);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void initializeCandidates() {
-        int i = 1;
-        while (this.matrix.hasNext() && (i <= 4)) {
-            QuerySolution qs;
-            qs = matrix.next();
-            String element = StringProcessing.clean(
-                    String.valueOf(qs.getLiteral(q.getElement())));
-
-            double attribute = Double.valueOf(
-                    StringProcessing.clean(
-                            String.valueOf(qs.getLiteral(q.getAttribute()))));
-
-            System.out.println(element + " " + attribute);
-
-            switch (i) {
-                case 1:
-                    this.candAName = element;
-                    this.candAAttribute = attribute;
-                case 2:
-                    this.candBName = element;
-                    this.candBAttribute = attribute;
-                case 3:
-                    this.candCName = element;
-                    this.candCAttribute = attribute;
-                case 4:
-                    this.candDName = element;
-                    this.candDAttribute = attribute;
-            }
-            i++;
-        }
-    }
-
-    private void determineCorrectAnswer() {
-
-        double highestValue;
-        highestValue = Math.max(Double.valueOf(candAAttribute), Math.max(Double.valueOf(candBAttribute),
-                Math.max(Double.valueOf(candCAttribute), Double.valueOf(candDAttribute))));
-
-        if (highestValue == candAAttribute){
-                this.correctAnswer = candAName;}
-        if (highestValue == candBAttribute){
-            this.correctAnswer = candBName;}
-        if (highestValue == candCAttribute){
-            this.correctAnswer = candCName;}
-        if (highestValue == candDAttribute){
-            this.correctAnswer = candDName;}
-    }
 }

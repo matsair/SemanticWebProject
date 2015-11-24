@@ -46,16 +46,13 @@ public class MainActivity extends AppCompatActivity {
         tv.setText(R.string.question);
 
         QueryStrings.initializeQueries();
-        question = new Question(0);
 
         buttonOne = (BootstrapButton) findViewById(R.id.answer_button_one);
-        buttonOne.setText(question.getCandAName());
         buttonTwo = (BootstrapButton) findViewById(R.id.answer_button_two);
-        buttonTwo.setText(question.getCandBName());
         buttonThree = (BootstrapButton) findViewById(R.id.answer_button_three);
-        buttonThree.setText(question.getCandCName());
         buttonFour = (BootstrapButton) findViewById(R.id.answer_button_four);
-        buttonFour.setText(question.getCandDName());
+
+        generateNewQuestion();
 
         buttonOne.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Bullshit!",
                             Toast.LENGTH_SHORT).show();
                 }
+                generateNewQuestion();
             }
         });
 
@@ -80,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Bullshit!",
                             Toast.LENGTH_SHORT).show();
                 }
+                generateNewQuestion();
             }
         });
 
@@ -93,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Bullshit!",
                             Toast.LENGTH_SHORT).show();
                 }
+                generateNewQuestion();
             }
         });
 
@@ -106,8 +106,22 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Bullshit!",
                             Toast.LENGTH_SHORT).show();
                 }
+                generateNewQuestion();
             }
         });
+
+    }
+
+    private void generateNewQuestion(){
+
+        question = new Question(0);
+
+        buttonOne.setText(question.getCandAName());
+        buttonTwo.setText(question.getCandBName());
+        buttonThree.setText(question.getCandCName());
+        buttonFour.setText(question.getCandDName());
+
+    }
 
 
        /*
@@ -161,5 +175,4 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     */
-    }
 }
