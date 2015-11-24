@@ -16,37 +16,39 @@ public class Question {
     private ResultSet matrix;
     private QueryString q;
     private String question;
-    private String candA;
-    private String candB;
-    private String candC;
-    private String candD;
+    private String candAName, candBName, candCName, candDName;
+    private double candAAttribute, candBAttribute, candCAttribute, candDAttribute;
     private String correctAnswer;
 
-
-    public String getCandD() {
-        return candD;
+    public String getCorrectAnswer() {
+        return correctAnswer;
     }
 
-    public String getCandC() {
-        return candC;
+    public String getCandDName() {
+        return candDName;
     }
 
-    public String getCandB() {
-        return candB;
+    public String getCandCName() {
+        return candCName;
     }
 
-    public String getCandA() {
-        return candA;
+    public String getCandBName() {
+        return candBName;
     }
 
-    public Question (int categoryID) {
+    public String getCandAName() {
+        return candAName;
+    }
+
+    public Question(int categoryID) {
         this.categoryID = categoryID;
         setMatrix(categoryID);
-        nameCandidates();
+        initializeCandidates();
+        determineCorrectAnswer();
     }
 
 
-    private void setMatrix (int categoryID) {
+    private void setMatrix(int categoryID) {
 
         //Initialize the matrix
         q = QueryStrings.getRandomQueryString(categoryID);
@@ -65,25 +67,46 @@ public class Question {
         }
     }
 
-    private void nameCandidates(){
+    private void initializeCandidates() {
         int i = 1;
         while (this.matrix.hasNext() && (i <= 4)) {
             QuerySolution qs;
             qs = matrix.next();
             String element = String.valueOf(qs.getLiteral(q.getElement()));
+            double attribute = Double.valueOf(String.valueOf(qs.getLiteral(q.getAttribute())));
             System.out.println(element);
 
             switch (i) {
                 case 1:
-                    this.candA = element;
+                    this.candAName = element;
+                    this.candAAttribute = attribute;
                 case 2:
-                    this.candB = element;
+                    this.candBName = element;
+                    this.candBAttribute = attribute;
                 case 3:
-                    this.candC = element;
+                    this.candCName = element;
+                    this.candCAttribute = attribute;
                 case 4:
-                    this.candD = element;
+                    this.candDName = element;
+                    this.candDAttribute = attribute;
             }
             i++;
         }
+    }
+
+    private void determineCorrectAnswer() {
+
+        double highestValue;
+        highestValue = Math.max(Double.valueOf(candAAttribute), Math.max(Double.valueOf(candBAttribute),
+                Math.max(Double.valueOf(candCAttribute), Double.valueOf(candDAttribute))));
+
+        if (highestValue == candAAttribute){
+                this.correctAnswer = candAName;}
+        if (highestValue == candBAttribute){
+            this.correctAnswer = candBName;}
+        if (highestValue == candCAttribute){
+            this.correctAnswer = candCName;}
+        if (highestValue == candDAttribute){
+            this.correctAnswer = candDName;}
     }
 }

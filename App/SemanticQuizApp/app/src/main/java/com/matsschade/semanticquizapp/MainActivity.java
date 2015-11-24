@@ -6,14 +6,15 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.matsschade.semanticquizapp.intro.Intro;
+import com.matsschade.semanticquizapp.models.QueryStrings;
 import com.matsschade.semanticquizapp.models.Question;
-
-import static com.matsschade.semanticquizapp.models.QueryStrings.initializeQueries;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,17 +45,69 @@ public class MainActivity extends AppCompatActivity {
         TextView tv = (TextView) findViewById(R.id.question);
         tv.setText(R.string.question);
 
-        initializeQueries();
+        QueryStrings.initializeQueries();
         question = new Question(0);
 
         buttonOne = (BootstrapButton) findViewById(R.id.answer_button_one);
-        buttonOne.setText(question.getCandA());
+        buttonOne.setText(question.getCandAName());
         buttonTwo = (BootstrapButton) findViewById(R.id.answer_button_two);
-        buttonTwo.setText(question.getCandB());
+        buttonTwo.setText(question.getCandBName());
         buttonThree = (BootstrapButton) findViewById(R.id.answer_button_three);
-        buttonThree.setText(question.getCandC());
+        buttonThree.setText(question.getCandCName());
         buttonFour = (BootstrapButton) findViewById(R.id.answer_button_four);
-        buttonFour.setText(question.getCandD());
+        buttonFour.setText(question.getCandDName());
+
+        buttonOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (question.getCorrectAnswer().equals(buttonOne.getText())) {
+                    Toast.makeText(getApplicationContext(), "Well Done!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Bullshit!",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        buttonTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (question.getCorrectAnswer().equals(buttonTwo.getText())) {
+                    Toast.makeText(getApplicationContext(), "Well Done!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Bullshit!",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        buttonThree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (question.getCorrectAnswer().equals(buttonThree.getText())) {
+                    Toast.makeText(getApplicationContext(), "Well Done!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Bullshit!",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        buttonFour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (question.getCorrectAnswer().equals(buttonFour.getText())) {
+                    Toast.makeText(getApplicationContext(), "Well Done!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Bullshit!",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
        /*
