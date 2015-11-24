@@ -1,0 +1,19 @@
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX dbp: <http://dbpedia.org/property/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT DISTINCT ?city_name ?country MAX(?sun)
+WHERE
+{
+  ?city rdf:type yago:City108524735 .
+  ?city rdfs:label ?city_name .
+  ?city dbo:country ?country .
+
+  ?city dbo:populationTotal ?population_total .
+  ?city dbp:yearSun ?sun .
+
+  FILTER (?population_total > 1000000) .
+  FILTER (langMatches(lang(?city_name), "EN")) .
+}
+ORDER BY DESC(?sun)

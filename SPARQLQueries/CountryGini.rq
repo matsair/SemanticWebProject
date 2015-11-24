@@ -1,0 +1,16 @@
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX dbp: <http://dbpedia.org/property/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT DISTINCT ?country_name ?population_total ?gini
+WHERE
+{
+  ?country rdf:type dbo:Country .
+  ?country rdfs:label ?country_name .
+  ?country dbp:gini ?gini .
+  ?country dbo:populationTotal ?population_total .
+
+  FILTER (langMatches(lang(?country_name), "EN")) .
+}
+ORDER BY ASC(?gini)

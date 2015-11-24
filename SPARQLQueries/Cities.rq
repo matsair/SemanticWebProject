@@ -2,18 +2,18 @@ PREFIX dbo: <http://dbpedia.org/ontology/>
 PREFIX dct: <http://purl.org/dc/terms/>
 PREFIX dbc: <http://dbpedia.org/resource/Category:>
 PREFIX dbp: <http://dbpedia.org/property/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
-SELECT DISTINCT ?city_name ?country ?population_total ?area ?precip ?sun
+SELECT DISTINCT ?city_name ?country ?population_total ?population_blank
 WHERE
 {
   ?city rdf:type yago:City108524735 .
   ?city rdfs:label ?city_name .
   ?city dbo:country ?country .
 
-  ?city dbo:populationTotal ?population_total .
-  ?city dbp:yearPrecipitationMm ?precip .
-  ?city dbp:areaTotalKm ?area .
-  ?city dbp:yearSun ?sun .
+  OPTIONAL { ?city dbo:populationTotal ?population_total . }
+  OPTIONAL { ?city dbo:populationBlank ?population_blank . }
 
   FILTER (?population_total > 100000 || ?population_blank > 100000) .
   FILTER (langMatches(lang(?city_name), "EN")) .

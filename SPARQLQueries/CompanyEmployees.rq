@@ -1,0 +1,15 @@
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT DISTINCT ?name ?employees
+WHERE
+{
+  ?company rdf:type dbo:Company .
+  ?company rdfs:label ?name .
+  ?company dbo:numberOfEmployees ?employees .
+
+  FILTER (?employees > 100000).
+  FILTER (langMatches(lang(?name), "EN")) .
+}
+LIMIT 100
