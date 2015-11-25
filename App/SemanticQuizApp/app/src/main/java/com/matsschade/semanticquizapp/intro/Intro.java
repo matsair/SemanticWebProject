@@ -7,8 +7,8 @@ import android.os.Bundle;
 
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
-import com.matsschade.semanticquizapp.MainActivity;
 import com.matsschade.semanticquizapp.R;
+import com.matsschade.semanticquizapp.StartActivity;
 
 /**
  * Created by Mats on 10/11/15.
@@ -40,7 +40,7 @@ public class Intro extends AppIntro {
     }
 
     private void loadMainActivity(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, StartActivity.class);
         startActivity(intent);
     }
 

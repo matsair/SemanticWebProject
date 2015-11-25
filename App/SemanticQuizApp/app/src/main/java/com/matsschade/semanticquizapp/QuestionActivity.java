@@ -3,22 +3,24 @@ package com.matsschade.semanticquizapp;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.TypefaceProvider;
-import com.matsschade.semanticquizapp.intro.Intro;
-import com.matsschade.semanticquizapp.Objects.QuestionTemplates;
+import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
 import com.matsschade.semanticquizapp.Objects.Question;
+import com.matsschade.semanticquizapp.Objects.QuestionTemplates;
 
-public class MainActivity extends AppCompatActivity {
+public class QuestionActivity extends AppCompatActivity {
 
     BootstrapButton buttonOne, buttonTwo, buttonThree, buttonFour;
+    Button back;
     TextView questionText;
 
     private Question question;
@@ -27,18 +29,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            int category = extras.getInt("category");
+        }
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        SharedPreferences settings = getSharedPreferences("prefs", 0);
-        boolean firstRun = settings.getBoolean("firstRun", true);
-        if (firstRun) {
-            Intent intent = new Intent(this, Intro.class);
-            startActivity(intent);
-        }
-
         TypefaceProvider.registerDefaultIconSets();
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_question);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -49,6 +49,15 @@ public class MainActivity extends AppCompatActivity {
         buttonThree = (BootstrapButton) findViewById(R.id.answer_button_three);
         buttonFour = (BootstrapButton) findViewById(R.id.answer_button_four);
 
+        back = (Button) findViewById(R.id.button_back);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goBack();
+            }
+        });
+
         QuestionTemplates.initializeQueries();
         generateNewQuestion();
 
@@ -56,13 +65,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (question.getCorrectAnswer().equals(buttonOne.getText())) {
-                    Toast.makeText(getApplicationContext(), "Well Done!",
-                            Toast.LENGTH_SHORT).show();
+                    incrementCorrect();
+                    buttonOne.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Bullshit!",
-                            Toast.LENGTH_SHORT).show();
+                    incrementWrong();
+                    buttonOne.setBootstrapBrand(DefaultBootstrapBrand.DANGER);
+                    setRightAnswer();
                 }
-                generateNewQuestion();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        generateNewQuestion();
+                        resetButtonColors();
+                    }
+                }, 2000);
             }
         });
 
@@ -70,13 +87,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (question.getCorrectAnswer().equals(buttonTwo.getText())) {
-                    Toast.makeText(getApplicationContext(), "Well Done!",
-                            Toast.LENGTH_SHORT).show();
+                    incrementCorrect();
+                    buttonTwo.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Bullshit!",
-                            Toast.LENGTH_SHORT).show();
+                    incrementWrong();
+                    buttonTwo.setBootstrapBrand(DefaultBootstrapBrand.DANGER);
+                    setRightAnswer();
                 }
-                generateNewQuestion();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        generateNewQuestion();
+                        resetButtonColors();
+                    }
+                }, 2000);
             }
         });
 
@@ -84,13 +109,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (question.getCorrectAnswer().equals(buttonThree.getText())) {
-                    Toast.makeText(getApplicationContext(), "Well Done!",
-                            Toast.LENGTH_SHORT).show();
+                    incrementCorrect();
+                    buttonThree.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Bullshit!",
-                            Toast.LENGTH_SHORT).show();
+                    incrementWrong();
+                    buttonThree.setBootstrapBrand(DefaultBootstrapBrand.DANGER);
+                    setRightAnswer();
                 }
-                generateNewQuestion();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        generateNewQuestion();
+                        resetButtonColors();
+                    }
+                }, 2000);
             }
         });
 
@@ -98,13 +131,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (question.getCorrectAnswer().equals(buttonFour.getText())) {
-                    Toast.makeText(getApplicationContext(), "Well Done!",
-                            Toast.LENGTH_SHORT).show();
+                    incrementCorrect();
+                    buttonFour.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Bullshit!",
-                            Toast.LENGTH_SHORT).show();
+                    incrementWrong();
+                    buttonFour.setBootstrapBrand(DefaultBootstrapBrand.DANGER);
+                    setRightAnswer();
                 }
-                generateNewQuestion();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        generateNewQuestion();
+                        resetButtonColors();
+                    }
+                }, 2000);
             }
         });
 
@@ -120,6 +161,28 @@ public class MainActivity extends AppCompatActivity {
         buttonThree.setText(question.getCandCName());
         buttonFour.setText(question.getCandDName());
 
+    }
+
+    private void setRightAnswer() {
+        if (question.getCorrectAnswer().equals(buttonFour.getText())) {
+            buttonFour.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
+        }
+        else if (question.getCorrectAnswer().equals(buttonThree.getText())) {
+            buttonThree.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
+        }
+        else if (question.getCorrectAnswer().equals(buttonTwo.getText())) {
+            buttonTwo.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
+        }
+        else {
+            buttonOne.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
+        }
+    }
+
+    private void resetButtonColors() {
+        buttonOne.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
+        buttonTwo.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
+        buttonThree.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
+        buttonFour.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
     }
 
 
@@ -174,4 +237,27 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     */
+
+    private void incrementCorrect() {
+        SharedPreferences prefs = getSharedPreferences("score", 0);
+        int correct = prefs.getInt("correct", 0);
+        correct++;
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putInt("correct", correct);
+        edit.commit();
+    }
+
+    private void incrementWrong() {
+        SharedPreferences prefs = getSharedPreferences("score", 0);
+        int wrong = prefs.getInt("wrong", 0);
+        wrong++;
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putInt("wrong", wrong);
+        edit.commit();
+    }
+
+    private void goBack(){
+        Intent intent = new Intent(this, StartActivity.class);
+        startActivity(intent);
+    }
 }
