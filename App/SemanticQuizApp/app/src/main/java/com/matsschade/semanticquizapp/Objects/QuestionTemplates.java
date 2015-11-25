@@ -47,10 +47,10 @@ public class QuestionTemplates {
                 "  }\n" +
                 "LIMIT   100";
 
-        String questionCompany1 = "Which company has the highest revenue?";
+        String questionCompany1 = "Which company has the most employees?";
 
         queries[0][0] = new QuestionTemplate(queryCity1,"city_name", "sun", questionCity1);
-        queries[0][1] = new QuestionTemplate(queryCompany1, "name", "revenue", questionCompany1);
+        queries[0][1] = new QuestionTemplate(queryCompany1, "name", "employees", questionCompany1);
     }
 
     // Has to be randomized
