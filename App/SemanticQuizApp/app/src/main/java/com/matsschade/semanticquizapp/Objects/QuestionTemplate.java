@@ -3,17 +3,20 @@ package com.matsschade.semanticquizapp.Objects;
 /**
  * Created by rober_000 on 23.11.2015.
  */
-public class QueryString {
+public class QuestionTemplate {
 
 
     private String query;
     private String element;
     private String attribute;
+    private String question;
 
-    public QueryString (String query, String element, String attribute){
+
+    public QuestionTemplate(String query, String element, String attribute, String question){
         this.query = query;
         this.element = element;
         this.attribute = attribute;
+        this.question = question;
     }
 
     public String getElement() {
@@ -27,5 +30,7 @@ public class QueryString {
         return query;
     }
 
-
+    public String getQuestion() {
+        return question;
+    }
 }

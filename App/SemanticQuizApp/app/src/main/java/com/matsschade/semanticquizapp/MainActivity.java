@@ -13,12 +13,13 @@ import android.widget.Toast;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.matsschade.semanticquizapp.intro.Intro;
-import com.matsschade.semanticquizapp.Objects.QueryStrings;
+import com.matsschade.semanticquizapp.Objects.QuestionTemplates;
 import com.matsschade.semanticquizapp.Objects.Question;
 
 public class MainActivity extends AppCompatActivity {
 
     BootstrapButton buttonOne, buttonTwo, buttonThree, buttonFour;
+    TextView questionText;
 
     private Question question;
 
@@ -42,16 +43,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        TextView tv = (TextView) findViewById(R.id.question);
-        tv.setText(R.string.question);
-
-        QueryStrings.initializeQueries();
-
+        questionText = (TextView) findViewById(R.id.question);
         buttonOne = (BootstrapButton) findViewById(R.id.answer_button_one);
         buttonTwo = (BootstrapButton) findViewById(R.id.answer_button_two);
         buttonThree = (BootstrapButton) findViewById(R.id.answer_button_three);
         buttonFour = (BootstrapButton) findViewById(R.id.answer_button_four);
 
+        QuestionTemplates.initializeQueries();
         generateNewQuestion();
 
         buttonOne.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
         question = new Question(0);
 
+        questionText.setText(question.getQuestionText());
         buttonOne.setText(question.getCandAName());
         buttonTwo.setText(question.getCandBName());
         buttonThree.setText(question.getCandCName());

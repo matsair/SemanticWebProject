@@ -19,8 +19,8 @@ import java.util.Collections;
 public class Question {
 
     private int categoryID;
-    private QueryString q;
-    private String question;
+    private QuestionTemplate q;
+    private String questionText;
     private String candAName, candBName, candCName, candDName;
     private double candAAttribute, candBAttribute, candCAttribute, candDAttribute;
     private String correctAnswer;
@@ -41,7 +41,8 @@ public class Question {
     private void executeQuery(int categoryID) {
 
         //Initialize the resultsSet
-        q = QueryStrings.getRandomQueryString(categoryID);
+        q = QuestionTemplates.getRandomQuestionTemplate(categoryID);
+        questionText = q.getQuestion();
         Query query = QueryFactory.create(q.getQuery());
         String endpoint = "http://dbpedia.org/sparql";
         //String endpoint = "http://linkedmdb.org/sparql";
@@ -151,6 +152,8 @@ public class Question {
     public String getCandAName() {
         return candAName;
     }
+
+    public String getQuestionText(){return questionText;}
 
 
 }
