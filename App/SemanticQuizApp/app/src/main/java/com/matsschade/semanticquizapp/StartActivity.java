@@ -1,8 +1,11 @@
 package com.matsschade.semanticquizapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -138,7 +141,12 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private void startQuiz() {
-        startActivity(intent);
+        if (isNetworkAvailable()) {
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(getBaseContext(), "Please connect to the internet to start the quiz.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private class PieTouchListener implements PieChartOnValueSelectListener {
@@ -194,5 +202,12 @@ public class StartActivity extends AppCompatActivity {
                     intent.putExtra("category", 0);
                     break;
         }
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

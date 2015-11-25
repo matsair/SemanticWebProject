@@ -48,12 +48,23 @@
             android:layout_height="230dp"
             android:layout_marginBottom="@dimen/activity_vertical_margin"/>
 
-        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        <TextView
+            android:id="@+id/categories_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:text="Select a category"
+            android:layout_below="@id/chart"
+            android:gravity="center"
+            />
+
+        <RadioGroup
+            android:id="@+id/radio_buttons"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_below="@id/chart" >
+            android:layout_below="@id/categories_title" >
             <RadioButton android:id="@+id/radio_cities"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -70,10 +81,10 @@
             android:id="@+id/start_quiz_button"
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/chart"
+            android:layout_below="@id/radio_buttons"
             android:text="Start Quiz"
             app:bootstrapBrand="primary"
             app:bootstrapSize="lg"
