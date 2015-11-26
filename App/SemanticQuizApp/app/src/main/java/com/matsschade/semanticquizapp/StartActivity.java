@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -95,10 +94,10 @@ public class StartActivity extends AppCompatActivity {
 
         List<SliceValue> values = new ArrayList<SliceValue>();
 
-        SliceValue sliceValueCorrect = new SliceValue(correct, getColor(this, R.color.correct));
+        SliceValue sliceValueCorrect = new SliceValue(correct, ContextCompat.getColor(this, R.color.correct));
         sliceValueCorrect.setLabel("Correct");
         values.add(sliceValueCorrect);
-        SliceValue sliceValueWrong = new SliceValue(wrong, getColor(this, R.color.wrong));
+        SliceValue sliceValueWrong = new SliceValue(wrong, ContextCompat.getColor(this, R.color.wrong));
         sliceValueWrong.setLabel("Wrong");
         values.add(sliceValueWrong);
 
@@ -127,7 +126,7 @@ public class StartActivity extends AppCompatActivity {
             chart.setVisibility(View.VISIBLE);
         }
         else {
-            SliceValue sliceValue = new SliceValue(1, getColor(this, R.color.colorPrimary));
+            SliceValue sliceValue = new SliceValue(1, ContextCompat.getColor(this, R.color.colorPrimary));
             values.add(sliceValue);
             emptyData = new PieChartData(values);
             emptyData.setHasCenterCircle(hasCenterCircle);
@@ -211,14 +210,5 @@ public class StartActivity extends AppCompatActivity {
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
-    public static final int getColor(Context context, int id) {
-        final int version = Build.VERSION.SDK_INT;
-        if (version >= 23) {
-            return ContextCompat.getColor(context, id);
-        } else {
-            return context.getResources().getColor(id);
-        }
     }
 }
