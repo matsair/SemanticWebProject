@@ -1,0 +1,14 @@
+PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX  dbo:  <http://dbpedia.org/ontology/>
+PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX yago: <http://dbpedia.org/class/yago/>
+
+SELECT DISTINCT  ?name ?population
+WHERE
+  { ?city rdf:type yago:Capital108518505 .
+    ?city rdfs:label ?name .
+    ?city dbo:populationTotal ?population
+
+    FILTER langMatches(lang(?name), "DE")
+    FILTER (?population > 2000000)
+  }
