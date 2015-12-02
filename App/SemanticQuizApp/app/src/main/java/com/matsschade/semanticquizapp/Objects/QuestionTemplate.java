@@ -10,13 +10,14 @@ public class QuestionTemplate {
     private String element;
     private String attribute;
     private String question;
+    private String attributeType;
 
-
-    public QuestionTemplate(String query, String element, String attribute, String question){
+    public QuestionTemplate(String query, String element, String attribute, String question, String type){
         this.query = query;
         this.element = element;
         this.attribute = attribute;
         this.question = question;
+        this. attributeType = type;
     }
 
     public String getElement() {
@@ -32,5 +33,9 @@ public class QuestionTemplate {
 
     public String getQuestion() {
         return question;
+    }
+
+    public String getAttributeType() {
+        return attributeType;
     }
 }

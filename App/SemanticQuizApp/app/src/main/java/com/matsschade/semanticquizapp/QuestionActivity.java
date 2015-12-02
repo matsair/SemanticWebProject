@@ -21,6 +21,7 @@ public class QuestionActivity extends AppCompatActivity {
     BootstrapButton buttonOne, buttonTwo, buttonThree, buttonFour;
     Button back;
     TextView questionText;
+    int categoryID;
 
     private Question question;
 
@@ -30,7 +31,7 @@ public class QuestionActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            int category = extras.getInt("category");
+            categoryID = extras.getInt("category");
         }
 
         TypefaceProvider.registerDefaultIconSets();
@@ -149,14 +150,13 @@ public class QuestionActivity extends AppCompatActivity {
 
     private void generateNewQuestion(){
 
-        question = new Question(0);
+        question = new Question(categoryID);
 
         questionText.setText(question.getQuestionText());
         buttonOne.setText(question.getCandAName());
         buttonTwo.setText(question.getCandBName());
         buttonThree.setText(question.getCandCName());
         buttonFour.setText(question.getCandDName());
-
     }
 
     private void setRightAnswer() {

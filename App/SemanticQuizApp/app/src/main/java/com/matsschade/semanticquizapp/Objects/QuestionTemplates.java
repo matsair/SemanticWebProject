@@ -72,9 +72,9 @@ public class QuestionTemplates {
 
         String questionCompany2 = "Which company has the highest revenue?";
 
-        queries[0][0] = new QuestionTemplate(queryCity1,"city_name", "sun", questionCity1);
-        queries[0][1] = new QuestionTemplate(queryCompany1, "name", "employees", questionCompany1);
-        queries[0][2] = new QuestionTemplate(queryCompany2, "name", "revenue", questionCompany2);
+        queries[0][0] = new QuestionTemplate(queryCity1,"city_name", "sun", questionCity1, "number");
+        queries[0][1] = new QuestionTemplate(queryCompany1, "name", "employees", questionCompany1, "number");
+        queries[0][2] = new QuestionTemplate(queryCompany2, "name", "revenue", questionCompany2, "currency");
 
     }
 
@@ -82,6 +82,6 @@ public class QuestionTemplates {
     public static QuestionTemplate getRandomQuestionTemplate(int categoryID) {
         int arraySize = queries[categoryID].length;
         int randomNumber = (int) (Math.random()*arraySize);
-        return queries[categoryID][2];
+        return queries[categoryID][randomNumber];
     }
 }

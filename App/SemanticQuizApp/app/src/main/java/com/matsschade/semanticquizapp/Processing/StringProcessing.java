@@ -1,16 +1,25 @@
 package com.matsschade.semanticquizapp.Processing;
 
-import android.util.Log;
-
 /**
  * Created by rober_000 on 24.11.2015.
  */
 public class StringProcessing {
 
 
-    public static String clean(String string) {
+    public static String clean(String string, String attributeType) {
 
-        Log.d("test", string);
+        //Log.d("test", string);
+
+        if (attributeType.equals("string") || attributeType.equals("number")) {
+            string = cleanString(string);
+        } else if (attributeType.equals("currency")) {
+            string = cleanCurrency(string);
+        }
+
+        return string;
+    }
+
+    public static String cleanString (String string){
 
         if (string.contains("\"")) {
             string = removeQuotation(string);
@@ -24,12 +33,12 @@ public class StringProcessing {
             string = removeAt(string);
         }
 
-        Log.d("test", string);
+        //Log.d("test", string);
         return string;
     }
 
-    public static String convertToUSD(String string) {
-        Log.d("test", string);
+    public static String cleanCurrency(String string) {
+        //Log.d("test", string);
         String currency = "undefined";
         double value = 0;
 
@@ -41,7 +50,7 @@ public class StringProcessing {
         }
 
         //remove unnecessary string attachments
-        string = clean(string);
+        string = cleanString(string);
 
         try {
             //if String has the form "23.0E10", we can use the value
@@ -73,7 +82,7 @@ public class StringProcessing {
             value = value * 1.06;
         }
 
-        Log.d("test", Double.toString(value));
+        //Log.d("test", Double.toString(value));
         return Double.toString(value);
     }
 

@@ -1,14 +1,17 @@
 PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX  dbo:  <http://dbpedia.org/ontology/>
 PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX dbp: <http://dbpedia.org/property/>
 
-SELECT DISTINCT  ?name ?employees
+SELECT DISTINCT  ?name ?employees 
 WHERE
   { ?company rdf:type dbo:Company .
     ?company rdfs:label ?name .
-    ?company dbo:numberOfEmployees ?employees
+    ?company dbo:numberOfEmployees ?employees.
+    ?company dbp:intl ?intl
+
     FILTER ( ?employees > 100000 )
     FILTER langMatches(lang(?name), "DE")
-	FILTER regex(?intl, "yes", "i")
+    FILTER regex(?intl, "yes", "i")
   }
-LIMIT   100
+

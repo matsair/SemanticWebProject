@@ -68,11 +68,16 @@ public class Question {
             QuerySolution qs;
             qs = resultsSet.next();
 
-            elementsArray.add(StringProcessing.clean(
-                        String.valueOf(qs.getLiteral(q.getElement()))));
+            String element = StringProcessing.clean(
+                    String.valueOf(qs.getLiteral(q.getElement())), "string");
 
-            attributesArray.add(StringProcessing.convertToUSD(
-                    String.valueOf(qs.getLiteral(q.getAttribute()))));
+            String attribute = StringProcessing.clean(
+                    String.valueOf(qs.getLiteral(q.getAttribute())), q.getAttributeType());
+
+            if (!attribute.equals("0.0")) {
+                elementsArray.add(element);
+                attributesArray.add(attribute);
+            }
         }
     }
 
@@ -108,7 +113,7 @@ public class Question {
                 Math.max(Double.valueOf(candCAttribute), Double.valueOf(candDAttribute))));
 
         if (highestValue == candAAttribute){
-                this.correctAnswer = candAName;}
+            this.correctAnswer = candAName;}
         if (highestValue == candBAttribute){
             this.correctAnswer = candBName;}
         if (highestValue == candCAttribute){
@@ -154,6 +159,24 @@ public class Question {
     }
 
     public String getQuestionText(){return questionText;}
+
+
+    public double getCandAAttribute() {
+        return candAAttribute;
+    }
+
+    public double getCandBAttribute() {
+        return candBAttribute;
+    }
+
+    public double getCandCAttribute() {
+        return candCAttribute;
+    }
+
+    public double getCandDAttribute() {
+        return candDAttribute;
+    }
+
 
 
 }
