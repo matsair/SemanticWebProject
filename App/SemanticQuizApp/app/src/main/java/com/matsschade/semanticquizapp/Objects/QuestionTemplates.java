@@ -17,20 +17,15 @@ public class QuestionTemplates {
                 "PREFIX  dct:  <http://purl.org/dc/terms/>\n" +
                 "PREFIX  dbc:  <http://dbpedia.org/resource/Category:>\n" +
                 "PREFIX yago: <http://yago-knowledge.org/resource/>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
                 "\n" +
                 "SELECT DISTINCT  ?city_name ?sun\n" +
-                "WHERE\n" +
-                "  { ?city  rdf:type yago:City108524735 ;\n" +
-                "           rdfs:label   ?city_name ;\n" +
-                "           dbp:yearSun  ?sun\n" +
-                "    OPTIONAL\n" +
-                "      { ?city  dbo:populationTotal  ?population_total }\n" +
-                "    OPTIONAL\n" +
-                "      { ?city  dbp:populationBlank  ?population_blank }\n" +
-                "    FILTER ( ( ?population_total > 2000000 ) || ( ?population_blank > 2000000 ) )\n" +
-                "    FILTER langMatches(lang(?city_name), \"EN\")\n" +
-                "  }\n" +
-                "LIMIT   10";
+                "WHERE {\n" +
+                "  ?city  dct:subject  dbc:Capitals_in_Europe ;\n" +
+                "                      rdfs:label  ?city_name ;\n" +
+                "                      dbp:yearSun  ?sun\n" +
+                "  FILTER langMatches(lang(?city_name), \"EN\")\n" +
+                "}";
 
         String questionCity1 = "Which of the following is the sunniest city?";
 
@@ -169,6 +164,6 @@ public class QuestionTemplates {
     public static QuestionTemplate getRandomQuestionTemplate(int categoryID) {
         int arraySize = queries[categoryID].length;
         int randomNumber = (int) (Math.random()*arraySize);
-        return queries[categoryID][3];
+        return queries[categoryID][0];
     }
 }
