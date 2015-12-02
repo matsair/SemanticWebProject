@@ -129,19 +129,18 @@ public class StartActivity extends AppCompatActivity {
         chart.setChartRotationEnabled(isRotationEnabled);
         chart.setClickable(isClickable);
 
-        if (values.size() > 0) {
+        if (wrong > 0 && correct > 0) {
             emptyChart.setVisibility(View.INVISIBLE);
             chart.setVisibility(View.VISIBLE);
         }
         else {
-            SliceValue sliceValue = new SliceValue(1, ContextCompat.getColor(this, R.color.colorPrimary));
+            SliceValue sliceValue = new SliceValue(1, ContextCompat.getColor(this, R.color.bootstrap_gray));
             values.add(sliceValue);
             emptyData = new PieChartData(values);
             emptyData.setHasCenterCircle(hasCenterCircle);
-            emptyData.setCenterText1("No data");
-            emptyData.setCenterText1FontSize(15);
-            emptyData.setCenterText2("yet");
-            emptyData.setCenterText2FontSize(15);
+            emptyData.setCenterText1("Stats");
+            emptyData.setCenterText1FontSize(19);
+            data.setCenterText1Typeface((Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)));
             emptyData.setHasLabels(false);
             emptyChart.setPieChartData(emptyData);
             emptyChart.setVisibility(View.VISIBLE);
@@ -189,6 +188,15 @@ public class StartActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
             return true;
+        }
+
+        if (id == R.id.action_reset) {
+            SharedPreferences prefs = getSharedPreferences("score", 0);
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putInt("wrong", 0);
+            edit.putInt("correct", 0);
+            edit.commit();
+            getPieChartData();
         }
 
         return super.onOptionsItemSelected(item);
