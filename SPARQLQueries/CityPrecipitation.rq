@@ -2,18 +2,20 @@ PREFIX dbo: <http://dbpedia.org/ontology/>
 PREFIX dbp: <http://dbpedia.org/property/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX yago: <http://yago-knowledge.org/resource/>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX dbc:  <http://dbpedia.org/resource/Category:>
 
-SELECT DISTINCT ?city_name ?country MAX(?precip)
+SELECT DISTINCT ?city_name ?precip
 WHERE
 {
-  ?city rdf:type yago:City108524735 .
+  ?city dct:subject  dbc:Capitals_in_Europe .
   ?city rdfs:label ?city_name .
   ?city dbo:country ?country .
 
   ?city dbo:populationTotal ?population_total .
   ?city dbp:yearPrecipitationMm ?precip .
 
-  FILTER (?population_total > 1000000) .
   FILTER (langMatches(lang(?city_name), "EN")) .
 }
 ORDER BY DESC(?precip)

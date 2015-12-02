@@ -1,0 +1,15 @@
+PREFIX  dbo:  <http://dbpedia.org/ontology/>
+PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX  dbp:  <http://dbpedia.org/property/>
+PREFIX  dct:  <http://purl.org/dc/terms/>
+PREFIX  dbc:  <http://dbpedia.org/resource/Category:>
+PREFIX yago: <http://yago-knowledge.org/resource/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT DISTINCT  ?city_name ?sun
+WHERE {
+  ?city  dct:subject  dbc:Capitals_in_Europe ;
+                      rdfs:label  ?city_name ;
+                      dbp:yearSun  ?sun
+  FILTER langMatches(lang(?city_name), "EN")
+}

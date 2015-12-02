@@ -9,29 +9,49 @@ public class QuestionTemplates {
 
     public static void initializeQueries() {
 
-        queries = new QuestionTemplate[3][3];
+        queries = new QuestionTemplate[3][7];
 
         String queryCity1 = "PREFIX  dbo:  <http://dbpedia.org/ontology/>\n" +
                 "PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
                 "PREFIX  dbp:  <http://dbpedia.org/property/>\n" +
                 "PREFIX  dct:  <http://purl.org/dc/terms/>\n" +
                 "PREFIX  dbc:  <http://dbpedia.org/resource/Category:>\n" +
+                "PREFIX yago: <http://yago-knowledge.org/resource/>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
                 "\n" +
                 "SELECT DISTINCT  ?city_name ?sun\n" +
-                "WHERE\n" +
-                "  { ?city  dct:subject  dbc:Capitals_in_Europe ;\n" +
-                "           rdfs:label   ?city_name ;\n" +
-                "           dbp:yearSun  ?sun\n" +
-                "    OPTIONAL\n" +
-                "      { ?city  dbo:populationTotal  ?population_total }\n" +
-                "    OPTIONAL\n" +
-                "      { ?city  dbp:populationBlank  ?population_blank }\n" +
-                "    FILTER ( ( ?population_total > 2000000 ) || ( ?population_blank > 2000000 ) )\n" +
-                "    FILTER langMatches(lang(?city_name), \"EN\")\n" +
-                "  }\n" +
-                "LIMIT   10";
+                "WHERE {\n" +
+                "  ?city  dct:subject  dbc:Capitals_in_Europe ;\n" +
+                "                      rdfs:label  ?city_name ;\n" +
+                "                      dbp:yearSun  ?sun\n" +
+                "  FILTER langMatches(lang(?city_name), \"EN\")\n" +
+                "}";
 
         String questionCity1 = "Which of the following is the sunniest city?";
+
+        String queryCity2 = "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
+                "PREFIX dbp: <http://dbpedia.org/property/>\n" +
+                "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX yago: <http://yago-knowledge.org/resource/>\n" +
+                "PREFIX dct:  <http://purl.org/dc/terms/>\n" +
+                "PREFIX dbc:  <http://dbpedia.org/resource/Category:>\n" +
+                "\n" +
+                "SELECT DISTINCT ?city_name ?precip\n" +
+                "WHERE\n" +
+                "{\n" +
+                "  ?city dct:subject  dbc:Capitals_in_Europe .\n" +
+                "  ?city rdfs:label ?city_name .\n" +
+                "  ?city dbo:country ?country .\n" +
+                "\n" +
+                "  ?city dbo:populationTotal ?population_total .\n" +
+                "  ?city dbp:yearPrecipitationMm ?precip .\n" +
+                "\n" +
+                "  FILTER (langMatches(lang(?city_name), \"EN\")) .\n" +
+                "}\n" +
+                "ORDER BY DESC(?precip)\n";
+
+        String questionCity2 = "Which city experiences the most annual rainfall?";
 
         String queryCompany1 = "PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
                 "PREFIX  dbo:  <http://dbpedia.org/ontology/>\n" +
@@ -72,9 +92,70 @@ public class QuestionTemplates {
 
         String questionCompany2 = "Which company has the highest revenue?";
 
-        queries[0][0] = new QuestionTemplate(queryCity1,"city_name", "sun", questionCity1, "number");
-        queries[0][1] = new QuestionTemplate(queryCompany1, "name", "employees", questionCompany1, "number");
-        queries[0][2] = new QuestionTemplate(queryCompany2, "name", "revenue", questionCompany2, "currency");
+        String queryCountry1 = "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
+                "PREFIX dct: <http://purl.org/dc/terms/>\n" +
+                "PREFIX dbc: <http://dbpedia.org/resource/Category:>\n" +
+                "PREFIX dbp: <http://dbpedia.org/property/>\n" +
+                "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "\n" +
+                "SELECT DISTINCT ?country_name ?area\n" +
+                "WHERE\n" +
+                "{\n" +
+                "  ?country rdf:type dbo:Country .\n" +
+                "  ?country rdfs:label ?country_name .\n" +
+                "  ?country dbp:areaKm ?area .\n" +
+                "  ?country dbp:gini ?gini .\n" +
+                "\n" +
+                "  FILTER (langMatches(lang(?country_name), \"EN\")) .\n" +
+                "}\n";
+
+        String questionCountry1 = "Which is the largest country by area?";
+
+        String queryCountry2 = "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
+                "PREFIX dbp: <http://dbpedia.org/property/>\n" +
+                "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "\n" +
+                "SELECT DISTINCT ?country_name ?gini\n" +
+                "WHERE\n" +
+                "{\n" +
+                "  ?country rdf:type dbo:Country .\n" +
+                "  ?country rdfs:label ?country_name .\n" +
+                "  ?country dbp:gini ?gini .\n" +
+                "\n" +
+                "  FILTER (langMatches(lang(?country_name), \"EN\")) .\n" +
+                "}\n";
+
+        String questionCountry2 = "Which country is the most corrupt?";
+
+        String queryCountry3 = "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
+                "PREFIX dct: <http://purl.org/dc/terms/>\n" +
+                "PREFIX dbc: <http://dbpedia.org/resource/Category:>\n" +
+                "PREFIX dbp: <http://dbpedia.org/property/>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "\n" +
+                "SELECT DISTINCT ?country_name ?hdi\n" +
+                "WHERE\n" +
+                "{\n" +
+                "  ?country rdf:type dbo:Country .\n" +
+                "  ?country rdfs:label ?country_name .\n" +
+                "  ?country dbp:hdi ?hdi .\n" +
+                "  ?country dbo:populationTotal ?population_total .\n" +
+                "\n" +
+                "  FILTER (langMatches(lang(?country_name), \"EN\")) .\n" +
+                "}\n";
+
+        String questionCountry3 = "Which country has the highest standard of living?";
+
+        queries[0][0] = new QuestionTemplate(queryCity1,"city_name", "sun", questionCity1,"number");
+        queries[0][1] = new QuestionTemplate(queryCompany1, "name", "employees", questionCompany1,"number");
+        queries[0][2] = new QuestionTemplate(queryCompany2, "name", "revenue", questionCompany2,"currency");
+        queries[0][3] = new QuestionTemplate(queryCountry1, "country_name", "area", questionCountry1,"number");
+        queries[0][4] = new QuestionTemplate(queryCountry2, "country_name", "gini", questionCountry2,"number");
+        queries[0][5] = new QuestionTemplate(queryCountry3, "country_name", "hdi", questionCountry3,"number");
+        queries[0][6] = new QuestionTemplate(queryCity2, "city_name", "precip", questionCity2,"number");
 
     }
 

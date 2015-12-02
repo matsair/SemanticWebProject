@@ -109,8 +109,8 @@ public class Question {
     private void determineCorrectAnswer() {
 
         double highestValue;
-        highestValue = Math.max(Double.valueOf(candAAttribute), Math.max(Double.valueOf(candBAttribute),
-                Math.max(Double.valueOf(candCAttribute), Double.valueOf(candDAttribute))));
+        highestValue = Math.max(candAAttribute, Math.max(candBAttribute,
+                Math.max(candCAttribute, candDAttribute)));
 
         if (highestValue == candAAttribute){
             this.correctAnswer = candAName;}

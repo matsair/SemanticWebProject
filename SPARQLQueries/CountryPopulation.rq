@@ -6,12 +6,9 @@ PREFIX dbp: <http://dbpedia.org/property/>
 SELECT DISTINCT ?country_name ?population_total
 WHERE
 {
-  ?city dct:subject dbc:Countries_in_Europe .
-  ?city rdfs:label ?country_name .
-  OPTIONAL { ?city dbo:populationTotal ?population_total . }
-  OPTIONAL { ?city dbp:populationBlank ?population_blank . }
+  ?country rdf:type yago:MemberStatesOfTheUnitedNations .
+  ?country rdfs:label ?country_name .
+  ?country dbo:populationTotal ?population_total .
 
-  FILTER (?population_total > 2000000 || ?population_blank > 2000000) .
   FILTER (langMatches(lang(?country_name), "EN")) .
 }
-LIMIT 1
