@@ -5,12 +5,12 @@ PREFIX dbp: <http://dbpedia.org/property/>
 PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT DISTINCT ?name ?caption
+SELECT DISTINCT ?name ?year
 WHERE
 {
-  ?company dct:subject dbc:Companies_in_the_Dow_Jones_Industrial_Average .
+  ?company dct:subject dbc:Multinational_companies_headquartered_in_the_United_States .
   ?company rdfs:label ?name .
-  ?company dbp:caption ?caption .
+  ?company dbo:foundingYear ?year
 
   FILTER langMatches(lang(?name), "EN")
 }
