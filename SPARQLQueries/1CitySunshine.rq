@@ -1,0 +1,19 @@
+PREFIX  dbo:  <http://dbpedia.org/ontology/> 
+                PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+                PREFIX  dbp:  <http://dbpedia.org/property/> 
+                PREFIX  dct:  <http://purl.org/dc/terms/> 
+                PREFIX  dbc:  <http://dbpedia.org/resource/Category:> 
+                 
+                SELECT DISTINCT  ?city_name ?sun 
+                WHERE 
+                  { ?city  dct:subject  dbc:Capitals_in_Europe ; 
+                           rdfs:label   ?city_name ; 
+                           dbp:yearSun  ?sun 
+                    OPTIONAL 
+                      { ?city  dbo:populationTotal  ?population_total } 
+                    OPTIONAL 
+                      { ?city  dbp:populationBlank  ?population_blank } 
+                    FILTER ( ( ?population_total > 2000000 ) || ( ?population_blank > 2000000 ) ) 
+                    FILTER langMatches(lang(?city_name), "EN") 
+                  } 
+                LIMIT   10

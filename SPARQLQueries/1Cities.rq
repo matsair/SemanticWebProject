@@ -4,6 +4,7 @@ PREFIX dbc: <http://dbpedia.org/resource/Category:>
 PREFIX dbp: <http://dbpedia.org/property/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX yago: <http://dbpedia.org/class/yago/>
 
 SELECT DISTINCT ?city_name ?country ?population_total ?population_blank
 WHERE
@@ -15,7 +16,7 @@ WHERE
   OPTIONAL { ?city dbo:populationTotal ?population_total . }
   OPTIONAL { ?city dbo:populationBlank ?population_blank . }
 
-  FILTER (?population_total > 100000 || ?population_blank > 100000) .
+  FILTER (?population_total > 3000000 || ?population_blank > 3000000) .
   FILTER (langMatches(lang(?city_name), "EN")) .
 }
 ORDER BY DESC(?population_total)

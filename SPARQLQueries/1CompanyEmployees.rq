@@ -9,5 +9,6 @@ WHERE
     ?company dbo:numberOfEmployees ?employees
     FILTER ( ?employees > 100000 )
     FILTER langMatches(lang(?name), "DE")
+	FILTER regex(?intl, "yes", "i")
   }
 LIMIT   100
