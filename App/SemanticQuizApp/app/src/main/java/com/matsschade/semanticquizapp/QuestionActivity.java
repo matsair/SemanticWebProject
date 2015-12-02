@@ -2,8 +2,9 @@ package com.matsschade.semanticquizapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -22,6 +23,7 @@ public class QuestionActivity extends AppCompatActivity {
     Button back;
     TextView questionText;
     int categoryID;
+    String snackbarText;
 
     private Question question;
 
@@ -71,14 +73,14 @@ public class QuestionActivity extends AppCompatActivity {
                     makeButtonsClickable(false);
                     setRightAnswer();
                 }
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        generateNewQuestion();
-                        resetButtonColors();
-                    }
-                }, 2000);
+//                Handler handler = new Handler();
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        generateNewQuestion();
+//                        resetButtonColors();
+//                    }
+//                }, 2000);
             }
         });
 
@@ -95,14 +97,14 @@ public class QuestionActivity extends AppCompatActivity {
                     makeButtonsClickable(false);
                     setRightAnswer();
                 }
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        generateNewQuestion();
-                        resetButtonColors();
-                    }
-                }, 2000);
+//                Handler handler = new Handler();
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        generateNewQuestion();
+//                        resetButtonColors();
+//                    }
+//                }, 2000);
             }
         });
 
@@ -119,14 +121,14 @@ public class QuestionActivity extends AppCompatActivity {
                     makeButtonsClickable(false);
                     setRightAnswer();
                 }
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        generateNewQuestion();
-                        resetButtonColors();
-                    }
-                }, 2000);
+//                Handler handler = new Handler();
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        generateNewQuestion();
+//                        resetButtonColors();
+//                    }
+//                }, 2000);
             }
         });
 
@@ -137,24 +139,22 @@ public class QuestionActivity extends AppCompatActivity {
                     incrementCorrect();
                     buttonFour.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
                     makeButtonsClickable(false);
-
                 } else {
                     incrementWrong();
                     buttonFour.setBootstrapBrand(DefaultBootstrapBrand.DANGER);
                     makeButtonsClickable(false);
                     setRightAnswer();
                 }
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        generateNewQuestion();
-                        resetButtonColors();
-                    }
-                }, 2000);
+//                Handler handler = new Handler();
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        generateNewQuestion();
+//                        resetButtonColors();
+//                    }
+//                }, 2000);
             }
         });
-
     }
 
     private void generateNewQuestion(){
@@ -181,6 +181,29 @@ public class QuestionActivity extends AppCompatActivity {
         else {
             buttonOne.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
         }
+        if (question.getQuestionType().equals("sun")) {
+            snackbarText = question.getCorrectNumAnswer() + " hours of sunshine annually.";
+        }
+        else if (question.getQuestionType().equals("rain")) {
+            snackbarText = question.getCorrectNumAnswer() + " mm of rain per year.";
+        }
+        else if (question.getQuestionType().equals("population")) {
+            snackbarText = question.getCorrectAnswer() + " has " + question.getCorrectNumAnswer() + " inhabitants";
+        }
+        else {
+            snackbarText = "" + question.getCorrectNumAnswer();
+        }
+        Snackbar.make(findViewById(android.R.id.content), snackbarText, Snackbar.LENGTH_LONG)
+                .setActionTextColor(Color.RED)
+                .setAction("Next", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        generateNewQuestion();
+                        resetButtonColors();
+                    }
+                })
+                .show();
+
     }
 
     private void resetButtonColors() {

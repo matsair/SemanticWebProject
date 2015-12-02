@@ -140,7 +140,7 @@ public class StartActivity extends AppCompatActivity {
             emptyData.setHasCenterCircle(hasCenterCircle);
             emptyData.setCenterText1("Stats");
             emptyData.setCenterText1FontSize(19);
-            data.setCenterText1Typeface((Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)));
+            emptyData.setCenterText1Typeface((Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)));
             emptyData.setHasLabels(false);
             emptyChart.setPieChartData(emptyData);
             emptyChart.setVisibility(View.VISIBLE);

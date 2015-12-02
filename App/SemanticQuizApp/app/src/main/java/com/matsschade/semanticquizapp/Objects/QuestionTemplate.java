@@ -11,18 +11,21 @@ public class QuestionTemplate {
     private String attribute;
     private String question;
     private String attributeType;
+    private String questionType;
 
-    public QuestionTemplate(String query, String element, String attribute, String question, String type){
+    public QuestionTemplate(String query, String element, String attribute, String question, String attributeType, String questionType){
         this.query = query;
         this.element = element;
         this.attribute = attribute;
         this.question = question;
-        this. attributeType = type;
+        this.attributeType = attributeType;
+        this.questionType = questionType;
     }
 
     public String getElement() {
         return element;
     }
+
     public String getAttribute() {
         return attribute;
     }
@@ -37,5 +40,9 @@ public class QuestionTemplate {
 
     public String getAttributeType() {
         return attributeType;
+    }
+
+    public String getQuestionType() {
+        return questionType;
     }
 }

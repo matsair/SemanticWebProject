@@ -20,10 +20,12 @@ public class Question {
 
     private int categoryID;
     private QuestionTemplate q;
+    private String questionType;
     private String questionText;
     private String candAName, candBName, candCName, candDName;
     private double candAAttribute, candBAttribute, candCAttribute, candDAttribute;
     private String correctAnswer;
+    private double correctNumAnswer;
     private ResultSet resultsSet;
     private ArrayList<String> elementsArray;
     private ArrayList<String> attributesArray;
@@ -43,6 +45,7 @@ public class Question {
         //Initialize the resultsSet
         q = QuestionTemplates.getRandomQuestionTemplate(categoryID);
         questionText = q.getQuestion();
+        questionType = q.getQuestionType();
         Query query = QueryFactory.create(q.getQuery());
         String endpoint = "http://dbpedia.org/sparql";
         //String endpoint = "http://linkedmdb.org/sparql";
@@ -114,13 +117,21 @@ public class Question {
                 Math.max(candCAttribute, candDAttribute)));
 
         if (highestValue == candAAttribute){
-            this.correctAnswer = candAName;}
+            this.correctAnswer = candAName;
+            this.correctNumAnswer = candAAttribute;
+        }
         if (highestValue == candBAttribute){
-            this.correctAnswer = candBName;}
+            this.correctAnswer = candBName;
+            this.correctNumAnswer = candBAttribute;
+        }
         if (highestValue == candCAttribute){
-            this.correctAnswer = candCName;}
+            this.correctAnswer = candCName;
+            this.correctNumAnswer = candCAttribute;
+        }
         if (highestValue == candDAttribute){
-            this.correctAnswer = candDName;}
+            this.correctAnswer = candDName;
+            this.correctNumAnswer = candDAttribute;
+        }
     }
 
 
@@ -143,6 +154,10 @@ public class Question {
         return correctAnswer;
     }
 
+    public double getCorrectNumAnswer() {
+        return correctNumAnswer;
+    }
+
     public String getCandDName() {
         return candDName;
     }
@@ -161,6 +176,9 @@ public class Question {
 
     public String getQuestionText(){return questionText;}
 
+    public String getQuestionType() {
+        return questionType;
+    }
 
     public double getCandAAttribute() {
         return candAAttribute;
