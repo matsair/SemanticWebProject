@@ -68,7 +68,7 @@ public class QuestionTemplates {
                 "    FILTER (?population > 2000000)\n" +
                 "  }\n";
 
-        String questionCity3 = "Which City has the highest population?";
+        String questionCity3 = "Which city has the highest population?";
 
         String queryCompany1 = "PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
                 "PREFIX  dbo:  <http://dbpedia.org/ontology/>\n" +

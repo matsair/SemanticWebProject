@@ -64,9 +64,11 @@ public class QuestionActivity extends AppCompatActivity {
                 if (question.getCorrectAnswer().equals(buttonOne.getText())) {
                     incrementCorrect();
                     buttonOne.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
+                    makeButtonsClickable(false);
                 } else {
                     incrementWrong();
                     buttonOne.setBootstrapBrand(DefaultBootstrapBrand.DANGER);
+                    makeButtonsClickable(false);
                     setRightAnswer();
                 }
                 Handler handler = new Handler();
@@ -86,9 +88,11 @@ public class QuestionActivity extends AppCompatActivity {
                 if (question.getCorrectAnswer().equals(buttonTwo.getText())) {
                     incrementCorrect();
                     buttonTwo.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
+                    makeButtonsClickable(false);
                 } else {
                     incrementWrong();
                     buttonTwo.setBootstrapBrand(DefaultBootstrapBrand.DANGER);
+                    makeButtonsClickable(false);
                     setRightAnswer();
                 }
                 Handler handler = new Handler();
@@ -108,9 +112,11 @@ public class QuestionActivity extends AppCompatActivity {
                 if (question.getCorrectAnswer().equals(buttonThree.getText())) {
                     incrementCorrect();
                     buttonThree.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
+                    makeButtonsClickable(false);
                 } else {
                     incrementWrong();
                     buttonThree.setBootstrapBrand(DefaultBootstrapBrand.DANGER);
+                    makeButtonsClickable(false);
                     setRightAnswer();
                 }
                 Handler handler = new Handler();
@@ -130,9 +136,12 @@ public class QuestionActivity extends AppCompatActivity {
                 if (question.getCorrectAnswer().equals(buttonFour.getText())) {
                     incrementCorrect();
                     buttonFour.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
+                    makeButtonsClickable(false);
+
                 } else {
                     incrementWrong();
                     buttonFour.setBootstrapBrand(DefaultBootstrapBrand.DANGER);
+                    makeButtonsClickable(false);
                     setRightAnswer();
                 }
                 Handler handler = new Handler();
@@ -179,8 +188,15 @@ public class QuestionActivity extends AppCompatActivity {
         buttonTwo.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
         buttonThree.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
         buttonFour.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
+        makeButtonsClickable(true);
     }
 
+    private void makeButtonsClickable(boolean bool) {
+        buttonOne.setClickable(bool);
+        buttonTwo.setClickable(bool);
+        buttonThree.setClickable(bool);
+        buttonFour.setClickable(bool);
+    }
 
        /*
         String requestURL = "http://developer.echonest.com/api/v4/artist/familiarity?api_key=MN9EYDKKLH6QBGHBH&name=Rihanna&format=json";
