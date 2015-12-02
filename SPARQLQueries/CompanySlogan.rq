@@ -1,0 +1,16 @@
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX dbc: <http://dbpedia.org/resource/Category:>
+PREFIX dbp: <http://dbpedia.org/property/>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?name ?caption
+WHERE
+{
+  ?company dct:subject dbc:Companies_in_the_Dow_Jones_Industrial_Average .
+  ?company rdfs:label ?name .
+  ?company dbp:caption ?caption .
+
+  FILTER langMatches(lang(?name), "EN")
+}
