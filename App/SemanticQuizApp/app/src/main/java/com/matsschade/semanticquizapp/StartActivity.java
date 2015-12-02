@@ -208,8 +208,14 @@ public class StartActivity extends AppCompatActivity {
                 if (checked)
                     // TODO
                     // change passed integer values
-                    intent.putExtra("category", 0);
+                    intent.putExtra("category", 1);
                     break;
+            case R.id.radio_countries:
+                if (checked)
+                    // TODO
+                    // change passed integer values
+                    intent.putExtra("category", 2);
+                break;
         }
     }
 

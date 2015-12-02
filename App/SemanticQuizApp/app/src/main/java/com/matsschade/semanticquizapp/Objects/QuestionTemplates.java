@@ -150,12 +150,12 @@ public class QuestionTemplates {
         String questionCountry3 = "Which country has the highest standard of living?";
 
         queries[0][0] = new QuestionTemplate(queryCity1,"city_name", "sun", questionCity1);
-        queries[0][1] = new QuestionTemplate(queryCompany1, "name", "employees", questionCompany1);
-        queries[0][2] = new QuestionTemplate(queryCompany2, "name", "revenue", questionCompany2);
+        queries[1][1] = new QuestionTemplate(queryCompany1, "name", "employees", questionCompany1);
+        queries[1][2] = new QuestionTemplate(queryCompany2, "name", "revenue", questionCompany2);
 
-        queries[0][3] = new QuestionTemplate(queryCountry1, "country_name", "area", questionCountry1);
-        queries[0][4] = new QuestionTemplate(queryCountry2, "country_name", "gini", questionCountry2);
-        queries[0][5] = new QuestionTemplate(queryCountry3, "country_name", "hdi", questionCountry3);
+        queries[2][3] = new QuestionTemplate(queryCountry1, "country_name", "area", questionCountry1);
+        queries[2][4] = new QuestionTemplate(queryCountry2, "country_name", "gini", questionCountry2);
+        queries[2][5] = new QuestionTemplate(queryCountry3, "country_name", "hdi", questionCountry3);
         queries[0][6] = new QuestionTemplate(queryCity2, "city_name", "precip", questionCity2);
 
     }
