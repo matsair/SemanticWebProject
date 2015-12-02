@@ -1,0 +1,17 @@
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+
+SELECT DISTINCT  ?name COUNT (DISTINCT ?personName)
+WHERE
+  { 
+    ?city rdf:type yago:Capital108518505 .
+    ?city rdfs:label ?name.
+    ?person rdfs:label ?personName.
+    ?person dbpedia-owl:birthPlace ?city.
+    ?city dbo:populationTotal ?population.
+
+FILTER (langMatches(lang(?name), "EN")) .
+    FILTER (?population > 2000000)
+ }

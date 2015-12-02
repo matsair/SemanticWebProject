@@ -74,8 +74,8 @@ public class Question {
             String attribute = StringProcessing.clean(
                     String.valueOf(qs.getLiteral(q.getAttribute())), q.getAttributeType());
 
-            // get rid of unuseful values and redundant elements
-            if (!attribute.equals("0.0")||!elementsArray.contains(element)) {
+            // get rid of useless values and redundant elements
+            if (!attribute.equals("0.0") && !elementsArray.contains(element)) {
                 elementsArray.add(element);
                 attributesArray.add(attribute);
             }

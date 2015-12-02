@@ -9,6 +9,6 @@ WHERE
     ?city rdfs:label ?name .
     ?city dbo:populationTotal ?population
 
-    FILTER langMatches(lang(?name), "DE")
+    FILTER langMatches(lang(?name), "EN")
     FILTER (?population > 2000000)
   }

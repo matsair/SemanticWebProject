@@ -92,8 +92,9 @@ public class QuestionTemplates {
                 "PREFIX dbp: <http://dbpedia.org/property/>\n" +
                 "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
                 "PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
                 "\n" +
-                "SELECT DISTINCT ?name ?revenue ?intl\n" +
+                "SELECT DISTINCT ?name ?revenue ?intl ?employees\n" +
                 "WHERE\n" +
                 "{\n" +
                 "  ?company rdf:type dbo:Company .\n" +
@@ -103,7 +104,7 @@ public class QuestionTemplates {
                 "  ?company dbp:intl ?intl .\n" +
                 "\n" +
                 "   FILTER langMatches(lang(?name), \"DE\")\n" +
-                "   FILTER (?employees>100000).\n" +
+                "   FILTER (?employees>100000 && datatype(?employees) = xsd:integer).\n" +
                 "   FILTER regex(?intl, \"yes\", \"i\") \n" +
                 "}";
 
@@ -190,7 +191,7 @@ public class QuestionTemplates {
         queries[0][2] = new QuestionTemplate(queryCity3, "name", "population", questionCity3,"number");
         queries[1][0] = new QuestionTemplate(queryCompany1, "name", "employees", questionCompany1,"number");
         queries[1][1] = new QuestionTemplate(queryCompany2, "name", "revenue", questionCompany2,"currency");
-        queries[1][2] = new QuestionTemplate(queryCompany3, "name", "year", questionCompany2,"number");
+        queries[1][2] = new QuestionTemplate(queryCompany3, "name", "year", questionCompany3,"number");
         queries[2][0] = new QuestionTemplate(queryCountry1, "country_name", "area", questionCountry1,"number");
         queries[2][1] = new QuestionTemplate(queryCountry2, "country_name", "gini", questionCountry2,"number");
         queries[2][2] = new QuestionTemplate(queryCountry3, "country_name", "hdi", questionCountry3,"number");

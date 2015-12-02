@@ -4,8 +4,9 @@ PREFIX dbc: <http://dbpedia.org/resource/Category:>
 PREFIX dbp: <http://dbpedia.org/property/>
 PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-SELECT DISTINCT ?name ?revenue ?intl
+SELECT DISTINCT ?name ?revenue ?intl ?employees
 WHERE
 {
   ?company rdf:type dbo:Company .
@@ -15,6 +16,6 @@ WHERE
   ?company dbp:intl ?intl .
 
    FILTER langMatches(lang(?name), "DE")
-   FILTER (?employees>100000).
+   FILTER (?employees>100000 && datatype(?employees) = xsd:integer).
    FILTER regex(?intl, "yes", "i") 
 }
