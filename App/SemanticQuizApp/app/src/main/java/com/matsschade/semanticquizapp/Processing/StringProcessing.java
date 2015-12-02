@@ -28,6 +28,55 @@ public class StringProcessing {
         return string;
     }
 
+    public static String convertToUSD(String string) {
+        Log.d("test", string);
+        String currency = "undefined";
+        double value = 0;
+
+        //first check for currency
+        if (string.contains("US$") || string.toLowerCase().contains("/usdollar") || string.contains("US $")) {
+            currency = "dollar";
+        } else if (string.contains("€") || string.toLowerCase().contains("/euro")) {
+            currency = "euro";
+        }
+
+        //remove unnecessary string attachments
+        string = clean(string);
+
+        try {
+            //if String has the form "23.0E10", we can use the value
+            value = Double.valueOf(string).longValue();
+        } catch (Exception e) {
+//
+//            if (
+//                string.contains("million")){ milBil = "million";
+//                string = string.replace("million", "");
+//            }
+//            else if (string.contains ("billion")) { milBil = "billion";
+//                string = string.replace("billion", "");
+//            }
+//
+//                Pattern p = Pattern.compile("[0-9]*\\.?[0-9]+");
+//                Matcher m = p.matcher(string);
+//
+//                while (m.find()) {
+//                    value = Double.parseDouble(m.group());
+//                }
+//
+        }
+
+        if (value == 0 || currency == "undefined") {
+            value = 0;
+        } else if (currency == "dollar") {
+            // do nothing and keep the value
+        } else {
+            value = value * 1.06;
+        }
+
+        Log.d("test", Double.toString(value));
+        return Double.toString(value);
+    }
+
     private static String removeQuotation(String quoted) {
         String unquoted;
         unquoted = quoted.replace("\"", "");

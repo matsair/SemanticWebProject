@@ -9,7 +9,7 @@ public class QuestionTemplates {
 
     public static void initializeQueries() {
 
-        queries = new QuestionTemplate[3][2];
+        queries = new QuestionTemplate[3][3];
 
         String queryCity1 = "PREFIX  dbo:  <http://dbpedia.org/ontology/>\n" +
                 "PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
@@ -49,14 +49,39 @@ public class QuestionTemplates {
 
         String questionCompany1 = "Which company has the most employees?";
 
+        String queryCompany2 = "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
+                "PREFIX dct: <http://purl.org/dc/terms/>\n" +
+                "PREFIX dbc: <http://dbpedia.org/resource/Category:>\n" +
+                "PREFIX dbp: <http://dbpedia.org/property/>\n" +
+                "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "\n" +
+                "SELECT DISTINCT ?name ?revenue ?intl\n" +
+                "WHERE\n" +
+                "{\n" +
+                "  ?company rdf:type dbo:Company .\n" +
+                "  ?company rdfs:label ?name .\n" +
+                "  ?company dbp:revenue ?revenue.\n" +
+                "  ?company dbp:numEmployees ?employees .\n" +
+                "  ?company dbp:intl ?intl .\n" +
+                "\n" +
+                "   FILTER langMatches(lang(?name), \"DE\")\n" +
+                "   FILTER (?employees>100000).\n" +
+                "   FILTER regex(?intl, \"yes\", \"i\") \n" +
+                "}";
+
+        String questionCompany2 = "Which company has the highest revenue?";
+
         queries[0][0] = new QuestionTemplate(queryCity1,"city_name", "sun", questionCity1);
         queries[0][1] = new QuestionTemplate(queryCompany1, "name", "employees", questionCompany1);
+        queries[0][2] = new QuestionTemplate(queryCompany2, "name", "revenue", questionCompany2);
+
     }
 
     // Has to be randomized
     public static QuestionTemplate getRandomQuestionTemplate(int categoryID) {
         int arraySize = queries[categoryID].length;
         int randomNumber = (int) (Math.random()*arraySize);
-        return queries[categoryID][randomNumber];
+        return queries[categoryID][2];
     }
 }

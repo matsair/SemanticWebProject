@@ -71,7 +71,7 @@ public class Question {
             elementsArray.add(StringProcessing.clean(
                         String.valueOf(qs.getLiteral(q.getElement()))));
 
-            attributesArray.add(StringProcessing.clean(
+            attributesArray.add(StringProcessing.convertToUSD(
                     String.valueOf(qs.getLiteral(q.getAttribute()))));
         }
     }

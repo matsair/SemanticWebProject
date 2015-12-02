@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -33,9 +32,6 @@ public class QuestionActivity extends AppCompatActivity {
         if (extras != null) {
             int category = extras.getInt("category");
         }
-
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
 
         TypefaceProvider.registerDefaultIconSets();
         setContentView(R.layout.activity_question);
