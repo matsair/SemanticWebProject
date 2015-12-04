@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -46,14 +48,14 @@ public class QuestionActivity extends AppCompatActivity {
         buttonThree = (BootstrapButton) findViewById(R.id.answer_button_three);
         buttonFour = (BootstrapButton) findViewById(R.id.answer_button_four);
 
-        back = (Button) findViewById(R.id.button_back);
+//        back = (Button) findViewById(R.id.button_back);
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goBack();
-            }
-        });
+//        back.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                goBack();
+//            }
+//        });
 
         QuestionTemplates.initializeQueries();
         generateNewQuestion();
@@ -78,7 +80,7 @@ public class QuestionActivity extends AppCompatActivity {
                         generateNewQuestion();
                         resetButtonColors();
                     }
-                }, 2000);
+                }, 5000);
             }
         });
 
@@ -102,7 +104,7 @@ public class QuestionActivity extends AppCompatActivity {
                         generateNewQuestion();
                         resetButtonColors();
                     }
-                }, 2000);
+                }, 5000);
             }
         });
 
@@ -126,7 +128,7 @@ public class QuestionActivity extends AppCompatActivity {
                         generateNewQuestion();
                         resetButtonColors();
                     }
-                }, 2000);
+                }, 5000);
             }
         });
 
@@ -151,7 +153,7 @@ public class QuestionActivity extends AppCompatActivity {
                         generateNewQuestion();
                         resetButtonColors();
                     }
-                }, 2000);
+                }, 5000);
             }
         });
 
@@ -171,15 +173,19 @@ public class QuestionActivity extends AppCompatActivity {
     private void setRightAnswer() {
         if (question.getCorrectAnswer().equals(buttonFour.getText())) {
             buttonFour.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
+            buttonFour.append("\n" + question.getCandDAttribute());
         }
         else if (question.getCorrectAnswer().equals(buttonThree.getText())) {
             buttonThree.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
+            buttonThree.append("\n" + question.getCandCAttribute());
         }
         else if (question.getCorrectAnswer().equals(buttonTwo.getText())) {
             buttonTwo.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
+            buttonTwo.append("\n" + question.getCandBAttribute());
         }
         else {
             buttonOne.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
+            buttonOne.append("\n" + question.getCandAAttribute());
         }
     }
 
@@ -227,11 +233,11 @@ public class QuestionActivity extends AppCompatActivity {
             }
         };
     }
-
+    */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_question, menu);
         return true;
     }
 
@@ -243,12 +249,12 @@ public class QuestionActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_back) {
+            goBack();
         }
 
         return super.onOptionsItemSelected(item);
-    */
+    }
 
     private void incrementCorrect() {
         SharedPreferences prefs = getSharedPreferences("score", 0);

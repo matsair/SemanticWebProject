@@ -108,15 +108,6 @@
             app:roundedCorners="true"
             />
 
-        <Button
-            android:id="@+id/button_back"
-            android:layout_width="@dimen/button_width"
-            android:layout_height="@dimen/button_height"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/answer_button_four"
-            android:text="Back to Start Screen"
-            />
-
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
