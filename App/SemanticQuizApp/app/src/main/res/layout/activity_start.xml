@@ -56,6 +56,9 @@
             android:text="Select a category"
             android:layout_below="@id/chart"
             android:gravity="center"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:typeface="sans"
             />
 
         <RadioGroup

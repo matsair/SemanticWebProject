@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +18,8 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.matsschade.semanticquizapp.intro.Intro;
@@ -39,7 +42,6 @@ public class StartActivity extends AppCompatActivity {
     private PieChartView chart;
     private PieChartView emptyChart;
     private PieChartData data;
-    private PieChartData emptyData;
 
     private boolean hasLabels = true;
     private boolean hasLabelsOutside = false;
@@ -74,9 +76,9 @@ public class StartActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         intent = new Intent(getBaseContext(), QuestionActivity.class);
 
+        emptyChart = (PieChartView) findViewById(R.id.empty_chart);
         chart = (PieChartView) findViewById(R.id.chart);
         chart.setOnValueTouchListener(new PieTouchListener());
-        emptyChart = (PieChartView) findViewById(R.id.empty_chart);
 
         startQuiz = (BootstrapButton) findViewById(R.id.start_quiz_button);
 
@@ -129,20 +131,11 @@ public class StartActivity extends AppCompatActivity {
         chart.setChartRotationEnabled(isRotationEnabled);
         chart.setClickable(isClickable);
 
-        if (wrong > 0 && correct > 0) {
-            emptyChart.setVisibility(View.INVISIBLE);
+        if (wrong > 0 || correct > 0) {
             chart.setVisibility(View.VISIBLE);
+            emptyChart.setVisibility(View.INVISIBLE);
         }
         else {
-            SliceValue sliceValue = new SliceValue(1, ContextCompat.getColor(this, R.color.bootstrap_gray));
-            values.add(sliceValue);
-            emptyData = new PieChartData(values);
-            emptyData.setHasCenterCircle(hasCenterCircle);
-            emptyData.setCenterText1("Stats");
-            emptyData.setCenterText1FontSize(19);
-            data.setCenterText1Typeface((Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)));
-            emptyData.setHasLabels(false);
-            emptyChart.setPieChartData(emptyData);
             emptyChart.setVisibility(View.VISIBLE);
             chart.setVisibility(View.INVISIBLE);
         }
@@ -191,12 +184,23 @@ public class StartActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_reset) {
-            SharedPreferences prefs = getSharedPreferences("score", 0);
-            SharedPreferences.Editor edit = prefs.edit();
-            edit.putInt("wrong", 0);
-            edit.putInt("correct", 0);
-            edit.commit();
-            getPieChartData();
+            new MaterialDialog.Builder(this)
+                    .title("Confirmation")
+                    .content("Are you sure you want to reset your stats?")
+                    .positiveText("Yes, I'm sure")
+                    .negativeText("No, don't reset")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            SharedPreferences prefs = getSharedPreferences("score", 0);
+                            SharedPreferences.Editor edit = prefs.edit();
+                            edit.putInt("wrong", 0);
+                            edit.putInt("correct", 0);
+                            edit.commit();
+                            getPieChartData();
+                        }
+                    })
+                    .show();
         }
 
         return super.onOptionsItemSelected(item);
