@@ -5,8 +5,13 @@ PREFIX dbp: <http://dbpedia.org/property/>
 PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX vrank:<http://purl.org/voc/vrank#>
 
 SELECT DISTINCT ?name ?revenue ?intl ?employees
+
+FROM <http://dbpedia.org> 
+FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank> 
+
 WHERE
 {
   ?company rdf:type dbo:Company .
@@ -14,8 +19,12 @@ WHERE
   ?company dbp:revenue ?revenue.
   ?company dbp:numEmployees ?employees .
   ?company dbp:intl ?intl .
+?company vrank:hasRank ?value.
 
-   FILTER langMatches(lang(?name), "DE")
+   FILTER langMatches(lang(?name), "EN")
    FILTER (?employees>100000 && datatype(?employees) = xsd:integer).
    FILTER regex(?intl, "yes", "i") 
 }
+
+ORDER BY DESC(?value)
+LIMIT 40

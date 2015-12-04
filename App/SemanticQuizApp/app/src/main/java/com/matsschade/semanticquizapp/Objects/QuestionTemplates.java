@@ -121,8 +121,13 @@ public class QuestionTemplates {
                 "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
                 "PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
                 "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+                "PREFIX vrank:<http://purl.org/voc/vrank#>\n" +
                 "\n" +
                 "SELECT DISTINCT ?name ?revenue ?intl ?employees\n" +
+                "\n" +
+                "FROM <http://dbpedia.org> \n" +
+                "FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank> \n" +
+                "\n" +
                 "WHERE\n" +
                 "{\n" +
                 "  ?company rdf:type dbo:Company .\n" +
@@ -130,11 +135,15 @@ public class QuestionTemplates {
                 "  ?company dbp:revenue ?revenue.\n" +
                 "  ?company dbp:numEmployees ?employees .\n" +
                 "  ?company dbp:intl ?intl .\n" +
+                "?company vrank:hasRank ?value.\n" +
                 "\n" +
-                "   FILTER langMatches(lang(?name), \"DE\")\n" +
+                "   FILTER langMatches(lang(?name), \"EN\")\n" +
                 "   FILTER (?employees>100000 && datatype(?employees) = xsd:integer).\n" +
                 "   FILTER regex(?intl, \"yes\", \"i\") \n" +
-                "}";
+                "}\n" +
+                "\n" +
+                "ORDER BY DESC(?value)\n" +
+                "LIMIT 40";
 
         String questionCompany2 = "Which company has the highest revenue?";
 
@@ -287,6 +296,6 @@ public class QuestionTemplates {
     public static QuestionTemplate getRandomQuestionTemplate(int categoryID) {
         int arraySize = queries[categoryID].length;
         int randomNumber = (int) (Math.random()*arraySize);
-        return queries[categoryID][3];
+        return queries[categoryID][randomNumber];
     }
 }
