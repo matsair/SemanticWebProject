@@ -237,7 +237,7 @@ public class QuestionTemplates {
 
         String questionCountry3 = "Which country has the highest standard of living?";
 
-        String queryCountry4 = "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
+            String queryCountry4 = "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
                 "PREFIX dct: <http://purl.org/dc/terms/>\n" +
                 "PREFIX dbc: <http://dbpedia.org/resource/Category:>\n" +
                 "PREFIX dbp: <http://dbpedia.org/property/>\n" +
@@ -269,18 +269,18 @@ public class QuestionTemplates {
 
         String questionCountry4 = "Considering the capital, which country is closest to your current location?";
 
-        queries[0][0] = new QuestionTemplate(queryCity1,"city_name", "sun", questionCity1,"number");
-        queries[0][1] = new QuestionTemplate(queryCity2, "city_name", "precip", questionCity2,"number");
-        queries[0][2] = new QuestionTemplate(queryCity3, "name", "population", questionCity3,"number");
-        queries[0][3] = new QuestionTemplate(queryCity4, "name", "geo", questionCity4,"location");
-        queries[1][0] = new QuestionTemplate(queryCompany1, "name", "employees", questionCompany1,"number");
-        queries[1][1] = new QuestionTemplate(queryCompany2, "name", "revenue", questionCompany2,"currency");
-        queries[1][2] = new QuestionTemplate(queryCompany3, "name", "year", questionCompany3,"number");
-        queries[1][3] = new QuestionTemplate(queryCompany4, "name", "geo", questionCompany4,"location");
-        queries[2][0] = new QuestionTemplate(queryCountry1, "country_name", "area", questionCountry1,"number");
-        queries[2][1] = new QuestionTemplate(queryCountry2, "country_name", "gini", questionCountry2,"number");
-        queries[2][2] = new QuestionTemplate(queryCountry3, "country_name", "hdi", questionCountry3,"number");
-        queries[2][3] = new QuestionTemplate(queryCountry4, "country_name", "geo", questionCountry4,"location");
+        queries[0][0] = new QuestionTemplate(queryCity1,"city_name", "sun", questionCity1,"number", "hours");
+        queries[0][1] = new QuestionTemplate(queryCity2, "city_name", "precip", questionCity2,"number", "mm");
+        queries[0][2] = new QuestionTemplate(queryCity3, "name", "population", questionCity3,"number", "inhabitants");
+        queries[0][3] = new QuestionTemplate(queryCity4, "name", "geo", questionCity4,"location", "km");
+        queries[1][0] = new QuestionTemplate(queryCompany1, "name", "employees", questionCompany1,"number", "employees");
+        queries[1][1] = new QuestionTemplate(queryCompany2, "name", "revenue", questionCompany2,"currency", "US Dollars");
+        queries[1][2] = new QuestionTemplate(queryCompany3, "name", "year", questionCompany3,"number", "");
+        queries[1][3] = new QuestionTemplate(queryCompany4, "name", "geo", questionCompany4,"location", "km");
+        queries[2][0] = new QuestionTemplate(queryCountry1, "country_name", "area", questionCountry1,"number", "square kilometers");
+        queries[2][1] = new QuestionTemplate(queryCountry2, "country_name", "gini", questionCountry2,"number", "Gini Index");
+        queries[2][2] = new QuestionTemplate(queryCountry3, "country_name", "hdi", questionCountry3,"number", "HDI Index");
+        queries[2][3] = new QuestionTemplate(queryCountry4, "country_name", "geo", questionCountry4,"location", "km");
     }
 
     // Has to be randomized

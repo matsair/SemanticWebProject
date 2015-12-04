@@ -10,9 +10,15 @@ public class StringProcessing {
 
         //Log.d("test", string);
 
-        if (attributeType.equals("string") || attributeType.equals("number") || attributeType.equals("location")) {
+        if (attributeType.equals("string")  || attributeType.equals("location")) {
             string = cleanString(string);
-        } else if (attributeType.equals("currency")) {
+        }
+        else if (attributeType.equals("number")) {
+            string = cleanString(string);
+            double value = Double.valueOf(string).longValue();
+            string = Double.toString(value);
+        }
+        else if (attributeType.equals("currency")) {
             string = cleanCurrency(string);
         }
 
