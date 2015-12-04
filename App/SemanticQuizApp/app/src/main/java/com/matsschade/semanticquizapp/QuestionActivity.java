@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -177,14 +178,23 @@ public class QuestionActivity extends AppCompatActivity {
         buttonThree.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
         buttonFour.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
         makeButtonsClickable(true);
+        changeButtonTextSize(18);
     }
 
     private void finishQuestion() {
         makeButtonsClickable(false);
-        buttonOne.append("\n" + (int) question.getCandAAttribute() + " " + question.q.getAttributeUnit());
-        buttonTwo.append("\n" + (int) question.getCandBAttribute() + " " + question.q.getAttributeUnit());
-        buttonThree.append("\n" + (int) question.getCandCAttribute() + " " + question.q.getAttributeUnit());
-        buttonFour.append("\n" + (int) question.getCandDAttribute() + " " + question.q.getAttributeUnit());
+        changeButtonTextSize(14);
+        if (question.q.getAttributeUnit().equals("km2")) {
+            buttonOne.append(Html.fromHtml("<br>" + (int) question.getCandAAttribute() + " " + "Xkm<sup>2</sup>"));
+            buttonTwo.append(Html.fromHtml("<br>" + (int) question.getCandBAttribute() + " " + "km<sup>2</sup>"));
+            buttonThree.append(Html.fromHtml("<br>" + (int) question.getCandCAttribute() + " " + "km<sup>2</sup>"));
+            buttonFour.append(Html.fromHtml("<br>" + (int) question.getCandDAttribute() + " " + "km<sup>2</sup>"));
+        } else {
+            buttonOne.append("\n" + (int) question.getCandAAttribute() + " " + question.q.getAttributeUnit());
+            buttonTwo.append("\n" + (int) question.getCandBAttribute() + " " + question.q.getAttributeUnit());
+            buttonThree.append("\n" + (int) question.getCandCAttribute() + " " + question.q.getAttributeUnit());
+            buttonFour.append("\n" + (int) question.getCandDAttribute() + " " + question.q.getAttributeUnit());
+        }
         Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), snackBarText, Snackbar.LENGTH_INDEFINITE)
                 .setAction("Next Question", new View.OnClickListener() {
                     @Override
@@ -206,6 +216,13 @@ public class QuestionActivity extends AppCompatActivity {
         buttonTwo.setClickable(bool);
         buttonThree.setClickable(bool);
         buttonFour.setClickable(bool);
+    }
+
+    private void changeButtonTextSize(int size) {
+        buttonOne.setTextSize(size);
+        buttonTwo.setTextSize(size);
+        buttonThree.setTextSize(size);
+        buttonFour.setTextSize(size);
     }
 
        /*

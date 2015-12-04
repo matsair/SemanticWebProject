@@ -277,7 +277,7 @@ public class QuestionTemplates {
         queries[1][1] = new QuestionTemplate(queryCompany2, "name", "revenue", questionCompany2,"currency", "US Dollars");
         queries[1][2] = new QuestionTemplate(queryCompany3, "name", "year", questionCompany3,"number", "");
         queries[1][3] = new QuestionTemplate(queryCompany4, "name", "geo", questionCompany4,"location", "km");
-        queries[2][0] = new QuestionTemplate(queryCountry1, "country_name", "area", questionCountry1,"number", "square kilometers");
+        queries[2][0] = new QuestionTemplate(queryCountry1, "country_name", "area", questionCountry1,"number", "km2");
         queries[2][1] = new QuestionTemplate(queryCountry2, "country_name", "gini", questionCountry2,"number", "Gini Index");
         queries[2][2] = new QuestionTemplate(queryCountry3, "country_name", "hdi", questionCountry3,"number", "HDI Index");
         queries[2][3] = new QuestionTemplate(queryCountry4, "country_name", "geo", questionCountry4,"location", "km");
