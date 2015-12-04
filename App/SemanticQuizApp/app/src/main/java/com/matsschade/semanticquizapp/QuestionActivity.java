@@ -2,8 +2,9 @@ package com.matsschade.semanticquizapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -24,6 +25,8 @@ public class QuestionActivity extends AppCompatActivity {
     Button back;
     TextView questionText;
     int categoryID;
+
+    String snackBarText;
 
     private Question question;
 
@@ -63,97 +66,80 @@ public class QuestionActivity extends AppCompatActivity {
         buttonOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (question.getCorrectAnswer().equals(buttonOne.getText())) {
+                if (question.getCorrectAnswer().equals(question.getCandAName())) {
                     incrementCorrect();
+                    snackBarText = "Yeah!";
                     buttonOne.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
                     makeButtonsClickable(false);
                 } else {
                     incrementWrong();
+                    snackBarText = "Schlecht!";
                     buttonOne.setBootstrapBrand(DefaultBootstrapBrand.DANGER);
                     makeButtonsClickable(false);
                     setRightAnswer();
                 }
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        generateNewQuestion();
-                        resetButtonColors();
-                    }
-                }, 5000);
+                finishQuestion();
             }
         });
 
         buttonTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (question.getCorrectAnswer().equals(buttonTwo.getText())) {
+                if (question.getCorrectAnswer().equals(question.getCandBName())) {
                     incrementCorrect();
+                    snackBarText = "Yeah!";
                     buttonTwo.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
                     makeButtonsClickable(false);
+
                 } else {
                     incrementWrong();
+                    snackBarText = "Schlecht!";
                     buttonTwo.setBootstrapBrand(DefaultBootstrapBrand.DANGER);
                     makeButtonsClickable(false);
                     setRightAnswer();
                 }
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        generateNewQuestion();
-                        resetButtonColors();
-                    }
-                }, 5000);
+                finishQuestion();
             }
         });
 
         buttonThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (question.getCorrectAnswer().equals(buttonThree.getText())) {
+                if (question.getCorrectAnswer().equals(question.getCandCName())) {
                     incrementCorrect();
+                    snackBarText = "Yeah!";
                     buttonThree.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
                     makeButtonsClickable(false);
+
                 } else {
                     incrementWrong();
+                    snackBarText = "Schlecht!";
                     buttonThree.setBootstrapBrand(DefaultBootstrapBrand.DANGER);
                     makeButtonsClickable(false);
                     setRightAnswer();
+
                 }
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        generateNewQuestion();
-                        resetButtonColors();
-                    }
-                }, 5000);
+                finishQuestion();
             }
         });
 
         buttonFour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (question.getCorrectAnswer().equals(buttonFour.getText())) {
+                if (question.getCorrectAnswer().equals(question.getCandDName())) {
                     incrementCorrect();
+                    snackBarText = "Yeah!";
                     buttonFour.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
                     makeButtonsClickable(false);
 
                 } else {
                     incrementWrong();
+                    snackBarText = "Schlecht!";
                     buttonFour.setBootstrapBrand(DefaultBootstrapBrand.DANGER);
                     makeButtonsClickable(false);
                     setRightAnswer();
                 }
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        generateNewQuestion();
-                        resetButtonColors();
-                    }
-                }, 5000);
+                finishQuestion();
             }
         });
 
@@ -163,7 +149,7 @@ public class QuestionActivity extends AppCompatActivity {
 
         question = new Question(categoryID);
 
-        questionText.setText(question.getQuestionText());
+        questionText.setText(question.q.getQuestion());
         buttonOne.setText(question.getCandAName());
         buttonTwo.setText(question.getCandBName());
         buttonThree.setText(question.getCandCName());
@@ -171,21 +157,17 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     private void setRightAnswer() {
-        if (question.getCorrectAnswer().equals(buttonFour.getText())) {
+        if (question.getCorrectAnswer().equals(question.getCandDName())) {
             buttonFour.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
-            buttonFour.append("\n" + question.getCandDAttribute());
         }
-        else if (question.getCorrectAnswer().equals(buttonThree.getText())) {
+        else if (question.getCorrectAnswer().equals(question.getCandCName())) {
             buttonThree.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
-            buttonThree.append("\n" + question.getCandCAttribute());
         }
-        else if (question.getCorrectAnswer().equals(buttonTwo.getText())) {
+        else if (question.getCorrectAnswer().equals(question.getCandBName())) {
             buttonTwo.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
-            buttonTwo.append("\n" + question.getCandBAttribute());
         }
-        else {
+        else if (question.getCorrectAnswer().equals(question.getCandAName())){
             buttonOne.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
-            buttonOne.append("\n" + question.getCandAAttribute());
         }
     }
 
@@ -195,6 +177,28 @@ public class QuestionActivity extends AppCompatActivity {
         buttonThree.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
         buttonFour.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
         makeButtonsClickable(true);
+    }
+
+    private void finishQuestion() {
+        makeButtonsClickable(false);
+        buttonOne.append("\n" + (int) question.getCandAAttribute() + " " + question.q.getAttributeUnit());
+        buttonTwo.append("\n" + (int) question.getCandBAttribute() + " " + question.q.getAttributeUnit());
+        buttonThree.append("\n" + (int) question.getCandCAttribute() + " " + question.q.getAttributeUnit());
+        buttonFour.append("\n" + (int) question.getCandDAttribute() + " " + question.q.getAttributeUnit());
+        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), snackBarText, Snackbar.LENGTH_INDEFINITE)
+                .setAction("Next Question", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        generateNewQuestion();
+                        resetButtonColors();
+                    }
+                })
+                .setActionTextColor(Color.WHITE);
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+        snackbar.show();
     }
 
     private void makeButtonsClickable(boolean bool) {
