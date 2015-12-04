@@ -9,7 +9,7 @@ public class QuestionTemplates {
 
     public static void initializeQueries() {
 
-        queries = new QuestionTemplate[3][3];
+        queries = new QuestionTemplate[3][4];
 
         String queryCity1 = "PREFIX  dbo:  <http://dbpedia.org/ontology/>\n" +
                 "PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
@@ -70,6 +70,34 @@ public class QuestionTemplates {
 
         String questionCity3 = "Which city has the highest population?";
 
+        String queryCity4 = "PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "PREFIX  dbo:  <http://dbpedia.org/ontology/>\n" +
+                "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX yago: <http://dbpedia.org/class/yago/>\n" +
+                "PREFIX georss: <http://www.georss.org/georss/>\n" +
+                "PREFIX vrank:<http://purl.org/voc/vrank#>\n" +
+                "\n" +
+                "SELECT DISTINCT  ?name ?geo\n" +
+                "\n" +
+                "FROM <http://dbpedia.org> \n" +
+                "FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank> \n" +
+                "\n" +
+                "WHERE\n" +
+                "  { ?city rdf:type yago:Capital108518505 .\n" +
+                "    ?city rdfs:label ?name .\n" +
+                "    ?city dbo:populationTotal ?population.\n" +
+                "    ?city georss:point ?geo.\n" +
+                "    \n" +
+                "    ?city vrank:hasRank ?value.\n" +
+                "\n" +
+                "    FILTER langMatches(lang(?name), \"EN\")\n" +
+                "    FILTER (?population > 2000000)\n" +
+                "  }\n" +
+                "ORDER BY DESC(?value)\n" +
+                "LIMIT 40";
+
+        String questionCity4 = "Which city is closest to your current location?";
+
         String queryCompany1 = "PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
                 "PREFIX  dbo:  <http://dbpedia.org/ontology/>\n" +
                 "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
@@ -129,6 +157,29 @@ public class QuestionTemplates {
 
         String questionCompany3 = "Which company has been founded most recently?";
 
+        String queryCompany4 = "PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "PREFIX  dbo:  <http://dbpedia.org/ontology/>\n" +
+                "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX dbp: <http://dbpedia.org/property/>\n" +
+                "PREFIX georss: <http://www.georss.org/georss/>\n" +
+                "\n" +
+                "SELECT DISTINCT  ?name ?geo\n" +
+                "WHERE\n" +
+                "  { ?company rdf:type dbo:Company .\n" +
+                "    ?company rdfs:label ?name .\n" +
+                "    ?company dbo:numberOfEmployees ?employees.\n" +
+                "    ?company dbp:intl ?intl.\n" +
+                "\n" +
+                "    ?company dbo:location ?location.\n" +
+                "    ?location georss:point ?geo.\n" +
+                "\n" +
+                "    FILTER ( ?employees > 100000 )\n" +
+                "    FILTER langMatches(lang(?name), \"DE\")\n" +
+                "    FILTER regex(?intl, \"yes\", \"i\")\n" +
+                "  }\n";
+
+        String questionCompany4 = "The headquarters of which company are closest to your current location?";
+
         String queryCountry1 = "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
                 "PREFIX dct: <http://purl.org/dc/terms/>\n" +
                 "PREFIX dbc: <http://dbpedia.org/resource/Category:>\n" +
@@ -186,21 +237,56 @@ public class QuestionTemplates {
 
         String questionCountry3 = "Which country has the highest standard of living?";
 
+        String queryCountry4 = "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
+                "PREFIX dct: <http://purl.org/dc/terms/>\n" +
+                "PREFIX dbc: <http://dbpedia.org/resource/Category:>\n" +
+                "PREFIX dbp: <http://dbpedia.org/property/>\n" +
+                "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX georss: <http://www.georss.org/georss/>\n" +
+                "PREFIX vrank:<http://purl.org/voc/vrank#>\n" +
+                "\n" +
+                "SELECT DISTINCT ?country_name ?geo\t\n" +
+                "\n" +
+                "FROM <http://dbpedia.org> \n" +
+                "FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank> \n" +
+                "\n" +
+                "WHERE\n" +
+                "{\n" +
+                "  ?country rdf:type dbo:Country.\n" +
+                "  ?country rdfs:label ?country_name.\n" +
+                "  ?country dbo:capital ?capital. \n" +
+                "  ?capital georss:point ?geo.\n" +
+                "  ?country dbp:gini ?gini .\n" +
+                "\n" +
+                "  ?country vrank:hasRank ?value.\n" +
+                "\n" +
+                "  FILTER (langMatches(lang(?country_name), \"EN\")) .\n" +
+                "}\n" +
+                "\n" +
+                "ORDER BY DESC(?value)\n" +
+                "LIMIT 100";
+
+        String questionCountry4 = "Considering the capital, which country is closest to your current location?";
+
         queries[0][0] = new QuestionTemplate(queryCity1,"city_name", "sun", questionCity1,"number");
         queries[0][1] = new QuestionTemplate(queryCity2, "city_name", "precip", questionCity2,"number");
         queries[0][2] = new QuestionTemplate(queryCity3, "name", "population", questionCity3,"number");
+        queries[0][3] = new QuestionTemplate(queryCity4, "name", "geo", questionCity4,"location");
         queries[1][0] = new QuestionTemplate(queryCompany1, "name", "employees", questionCompany1,"number");
         queries[1][1] = new QuestionTemplate(queryCompany2, "name", "revenue", questionCompany2,"currency");
         queries[1][2] = new QuestionTemplate(queryCompany3, "name", "year", questionCompany3,"number");
+        queries[1][3] = new QuestionTemplate(queryCompany4, "name", "geo", questionCompany4,"location");
         queries[2][0] = new QuestionTemplate(queryCountry1, "country_name", "area", questionCountry1,"number");
         queries[2][1] = new QuestionTemplate(queryCountry2, "country_name", "gini", questionCountry2,"number");
         queries[2][2] = new QuestionTemplate(queryCountry3, "country_name", "hdi", questionCountry3,"number");
+        queries[2][3] = new QuestionTemplate(queryCountry4, "country_name", "geo", questionCountry4,"location");
     }
 
     // Has to be randomized
     public static QuestionTemplate getRandomQuestionTemplate(int categoryID) {
         int arraySize = queries[categoryID].length;
         int randomNumber = (int) (Math.random()*arraySize);
-        return queries[categoryID][randomNumber];
+        return queries[categoryID][3];
     }
 }

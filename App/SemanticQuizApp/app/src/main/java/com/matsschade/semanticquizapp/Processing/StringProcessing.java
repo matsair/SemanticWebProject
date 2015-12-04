@@ -10,7 +10,7 @@ public class StringProcessing {
 
         //Log.d("test", string);
 
-        if (attributeType.equals("string") || attributeType.equals("number")) {
+        if (attributeType.equals("string") || attributeType.equals("number") || attributeType.equals("location")) {
             string = cleanString(string);
         } else if (attributeType.equals("currency")) {
             string = cleanCurrency(string);
