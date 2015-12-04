@@ -1,11 +1,14 @@
 package com.matsschade.semanticquizapp;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
@@ -60,6 +63,14 @@ public class StartActivity extends AppCompatActivity {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            int requestId = 1;
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_DENIED) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, requestId);
+            }
+        }
 
         //doesQueryWork.test();
 
