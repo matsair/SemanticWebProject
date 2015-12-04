@@ -1,0 +1,29 @@
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX dbc: <http://dbpedia.org/resource/Category:>
+PREFIX dbp: <http://dbpedia.org/property/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX georss: <http://www.georss.org/georss/>
+PREFIX vrank:<http://purl.org/voc/vrank#>
+
+SELECT DISTINCT ?country_name ?geo	
+
+FROM <http://dbpedia.org> 
+FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank> 
+
+WHERE
+{
+  ?country rdf:type dbo:Country.
+  ?country rdfs:label ?country_name.
+  ?country dbo:capital ?capital. 
+  ?capital georss:point ?geo.
+  ?country dbp:gini ?gini .
+
+  ?country vrank:hasRank ?value.
+
+  FILTER (langMatches(lang(?country_name), "EN")) .
+}
+
+ORDER BY DESC(?value)
+LIMIT 100

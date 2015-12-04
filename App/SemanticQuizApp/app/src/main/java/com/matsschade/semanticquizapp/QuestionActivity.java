@@ -147,7 +147,7 @@ public class QuestionActivity extends AppCompatActivity {
 
     private void generateNewQuestion(){
 
-        question = new Question(categoryID);
+        question = new Question(categoryID, this);
 
         questionText.setText(question.q.getQuestion());
         buttonOne.setText(question.getCandAName());

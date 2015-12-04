@@ -1,5 +1,8 @@
 package com.matsschade.semanticquizapp.Objects;
 
+import android.content.Context;
+import android.location.Location;
+
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
@@ -8,6 +11,8 @@ import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.query.ResultSetFactory;
 import com.hp.hpl.jena.query.ResultSetFormatter;
+import com.matsschade.semanticquizapp.GPS.GEODistance;
+import com.matsschade.semanticquizapp.GPS.GPSTracker;
 import com.matsschade.semanticquizapp.Processing.StringProcessing;
 
 import java.util.ArrayList;
@@ -26,11 +31,13 @@ public class Question {
     private ResultSet resultsSet;
     private ArrayList<String> elementsArray;
     private ArrayList<String> attributesArray;
+    private GPSTracker tracker;
+    private Context mycontext;
 
-
-    public Question(int categoryID) {
+    public Question(int categoryID, Context mycontext) {
 
         this.categoryID = categoryID;
+        this.mycontext = mycontext;
         executeQuery(categoryID);
         initializeCandidates();
         determineCorrectAnswer();
@@ -84,40 +91,76 @@ public class Question {
         int randomInt1, randomInt2, randomInt3, randomInt4;
 
         //Use shuffledArray in order to generate random numbers
-        ArrayList <Integer> shuffledArray = getShuffledArray(elementsArray.size());
+        ArrayList<Integer> shuffledArray = getShuffledArray(elementsArray.size());
 
         randomInt1 = shuffledArray.get(0);
         randomInt2 = shuffledArray.get(1);
         randomInt3 = shuffledArray.get(2);
         randomInt4 = shuffledArray.get(3);
 
+
         this.candAName = elementsArray.get(randomInt1);
-        this.candAAttribute = Double.valueOf(attributesArray.get(randomInt1));
-
         this.candBName = elementsArray.get(randomInt2);
-        this.candBAttribute = Double.valueOf(attributesArray.get(randomInt2));
-
         this.candCName = elementsArray.get(randomInt3);
-        this.candCAttribute = Double.valueOf(attributesArray.get(randomInt3));
-
         this.candDName = elementsArray.get(randomInt4);
-        this.candDAttribute = Double.valueOf(attributesArray.get(randomInt4));
-    }
 
+        if (q.getAttributeType().equals("location")) {
+
+            tracker = new GPSTracker(mycontext);
+            Location location = tracker.getLocation();
+            double lat1 = location.getLatitude();
+            double lon1= location.getLongitude();
+
+            double lat2, lon2;
+            String lat2lon2;
+
+            lat2lon2 = attributesArray.get(randomInt1);
+            lat2 = Double.valueOf(lat2lon2.split(" ")[0]);
+            lon2 = Double.valueOf(lat2lon2.split(" ")[1]);
+            this.candAAttribute = GEODistance.getDistance(lat1, lon1, lat2, lon2);
+
+            lat2lon2 = attributesArray.get(randomInt2);
+            lat2 = Double.valueOf(lat2lon2.split(" ")[0]);
+            lon2 = Double.valueOf(lat2lon2.split(" ")[1]);
+            this.candBAttribute = GEODistance.getDistance(lat1, lon1, lat2, lon2);
+
+            lat2lon2 = attributesArray.get(randomInt3);
+            lat2 = Double.valueOf(lat2lon2.split(" ")[0]);
+            lon2 = Double.valueOf(lat2lon2.split(" ")[1]);
+            this.candCAttribute = GEODistance.getDistance(lat1, lon1, lat2, lon2);
+
+            lat2lon2 = attributesArray.get(randomInt4);
+            lat2 = Double.valueOf(lat2lon2.split(" ")[0]);
+            lon2 = Double.valueOf(lat2lon2.split(" ")[1]);
+            this.candDAttribute = GEODistance.getDistance(lat1, lon1, lat2, lon2);
+
+        } else {
+            this.candAAttribute = Double.valueOf(attributesArray.get(randomInt1));
+            this.candBAttribute = Double.valueOf(attributesArray.get(randomInt2));
+            this.candCAttribute = Double.valueOf(attributesArray.get(randomInt3));
+            this.candDAttribute = Double.valueOf(attributesArray.get(randomInt4));
+        }
+    }
 
     private void determineCorrectAnswer() {
 
-        double highestValue;
-        highestValue = Math.max(candAAttribute, Math.max(candBAttribute,
-                Math.max(candCAttribute, candDAttribute)));
+        double correctValue;
 
-        if (highestValue == candAAttribute){
+        if (q.getAttributeType().equals("location")) {
+            correctValue = Math.min(candAAttribute, Math.min(candBAttribute,
+                    Math.min(candCAttribute, candDAttribute)));
+        } else {
+            correctValue = Math.max(candAAttribute, Math.max(candBAttribute,
+                    Math.max(candCAttribute, candDAttribute)));
+        }
+
+        if (correctValue == candAAttribute){
             this.correctAnswer = candAName;}
-        if (highestValue == candBAttribute){
+        if (correctValue == candBAttribute){
             this.correctAnswer = candBName;}
-        if (highestValue == candCAttribute){
+        if (correctValue == candCAttribute){
             this.correctAnswer = candCName;}
-        if (highestValue == candDAttribute){
+        if (correctValue == candDAttribute){
             this.correctAnswer = candDName;}
     }
 
@@ -156,7 +199,6 @@ public class Question {
     public String getCandAName() {
         return candAName;
     }
-
 
 
     public double getCandAAttribute() {

@@ -1,0 +1,20 @@
+PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX  dbo:  <http://dbpedia.org/ontology/>
+PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX dbp: <http://dbpedia.org/property/>
+PREFIX georss: <http://www.georss.org/georss/>
+
+SELECT DISTINCT  ?name ?geo
+WHERE
+  { ?company rdf:type dbo:Company .
+    ?company rdfs:label ?name .
+    ?company dbo:numberOfEmployees ?employees.
+    ?company dbp:intl ?intl.
+
+    ?company dbo:location ?location.
+    ?location georss:point ?geo.
+
+    FILTER ( ?employees > 100000 )
+    FILTER langMatches(lang(?name), "DE")
+    FILTER regex(?intl, "yes", "i")
+  }

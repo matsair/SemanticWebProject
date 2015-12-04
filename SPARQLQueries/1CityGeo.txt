@@ -1,0 +1,25 @@
+PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX  dbo:  <http://dbpedia.org/ontology/>
+PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX yago: <http://dbpedia.org/class/yago/>
+PREFIX georss: <http://www.georss.org/georss/>
+PREFIX vrank:<http://purl.org/voc/vrank#>
+
+SELECT DISTINCT  ?name ?geo
+
+FROM <http://dbpedia.org> 
+FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank> 
+
+WHERE
+  { ?city rdf:type yago:Capital108518505 .
+    ?city rdfs:label ?name .
+    ?city dbo:populationTotal ?population.
+    ?city georss:point ?geo.
+    
+    ?city vrank:hasRank ?value.
+
+    FILTER langMatches(lang(?name), "EN")
+    FILTER (?population > 2000000)
+  }
+ORDER BY DESC(?value)
+LIMIT 40
