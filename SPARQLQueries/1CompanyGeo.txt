@@ -3,8 +3,13 @@ PREFIX  dbo:  <http://dbpedia.org/ontology/>
 PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX dbp: <http://dbpedia.org/property/>
 PREFIX georss: <http://www.georss.org/georss/>
+PREFIX vrank:<http://purl.org/voc/vrank#>
 
 SELECT DISTINCT  ?name ?geo
+
+FROM <http://dbpedia.org> 
+FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank> 
+
 WHERE
   { ?company rdf:type dbo:Company .
     ?company rdfs:label ?name .
@@ -13,8 +18,11 @@ WHERE
 
     ?company dbo:location ?location.
     ?location georss:point ?geo.
+?company vrank:hasRank ?value.
 
     FILTER ( ?employees > 100000 )
     FILTER langMatches(lang(?name), "DE")
     FILTER regex(?intl, "yes", "i")
   }
+ORDER BY DESC(?value)
+LIMIT 50

@@ -20,6 +20,10 @@ import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
 import com.matsschade.semanticquizapp.Objects.Question;
 import com.matsschade.semanticquizapp.Objects.QuestionTemplates;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
+
 public class QuestionActivity extends AppCompatActivity {
 
     BootstrapButton buttonOne, buttonTwo, buttonThree, buttonFour;
@@ -74,7 +78,7 @@ public class QuestionActivity extends AppCompatActivity {
                     makeButtonsClickable(false);
                 } else {
                     incrementWrong();
-                    snackBarText = "Schlecht!";
+                    snackBarText = "Too bad...";
                     buttonOne.setBootstrapBrand(DefaultBootstrapBrand.DANGER);
                     makeButtonsClickable(false);
                     setRightAnswer();
@@ -94,7 +98,7 @@ public class QuestionActivity extends AppCompatActivity {
 
                 } else {
                     incrementWrong();
-                    snackBarText = "Schlecht!";
+                    snackBarText = "Too bad...";
                     buttonTwo.setBootstrapBrand(DefaultBootstrapBrand.DANGER);
                     makeButtonsClickable(false);
                     setRightAnswer();
@@ -114,7 +118,7 @@ public class QuestionActivity extends AppCompatActivity {
 
                 } else {
                     incrementWrong();
-                    snackBarText = "Schlecht!";
+                    snackBarText = "Too bad...";
                     buttonThree.setBootstrapBrand(DefaultBootstrapBrand.DANGER);
                     makeButtonsClickable(false);
                     setRightAnswer();
@@ -135,7 +139,7 @@ public class QuestionActivity extends AppCompatActivity {
 
                 } else {
                     incrementWrong();
-                    snackBarText = "Schlecht!";
+                    snackBarText = "Too bad...";
                     buttonFour.setBootstrapBrand(DefaultBootstrapBrand.DANGER);
                     makeButtonsClickable(false);
                     setRightAnswer();
@@ -182,18 +186,30 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     private void finishQuestion() {
+
+        NumberFormat formatter = DecimalFormat.getInstance();
+        formatter.setMaximumFractionDigits(2);
+        formatter.setMinimumFractionDigits(0);
+
         makeButtonsClickable(false);
         changeButtonTextSize(14);
         if (question.q.getAttributeUnit().equals("km2")) {
-            buttonOne.append(Html.fromHtml("<br>" + (int) question.getCandAAttribute() + " " + "Xkm<sup>2</sup>"));
-            buttonTwo.append(Html.fromHtml("<br>" + (int) question.getCandBAttribute() + " " + "km<sup>2</sup>"));
-            buttonThree.append(Html.fromHtml("<br>" + (int) question.getCandCAttribute() + " " + "km<sup>2</sup>"));
-            buttonFour.append(Html.fromHtml("<br>" + (int) question.getCandDAttribute() + " " + "km<sup>2</sup>"));
+            buttonOne.append(Html.fromHtml("<br>" + formatter.format(question.getCandAAttribute()) + " " + "km<sup>2</sup>"));
+            buttonTwo.append(Html.fromHtml("<br>" + formatter.format(question.getCandBAttribute()) + " " + "km<sup>2</sup>"));
+            buttonThree.append(Html.fromHtml("<br>" +formatter.format(question.getCandCAttribute()) + " " + "km<sup>2</sup>"));
+            buttonFour.append(Html.fromHtml("<br>" + formatter.format(question.getCandDAttribute()) + " " + "km<sup>2</sup>"));
+
+        } else if (question.q.getAttributeUnit().equals("year")) {
+            buttonOne.append("\n" + (int) question.getCandAAttribute());
+            buttonTwo.append("\n" + (int) question.getCandBAttribute());
+            buttonThree.append("\n" + (int) question.getCandCAttribute());
+            buttonFour.append("\n" + (int) question.getCandDAttribute());
+
         } else {
-            buttonOne.append("\n" + (int) question.getCandAAttribute() + " " + question.q.getAttributeUnit());
-            buttonTwo.append("\n" + (int) question.getCandBAttribute() + " " + question.q.getAttributeUnit());
-            buttonThree.append("\n" + (int) question.getCandCAttribute() + " " + question.q.getAttributeUnit());
-            buttonFour.append("\n" + (int) question.getCandDAttribute() + " " + question.q.getAttributeUnit());
+            buttonOne.append("\n" + formatter.format(question.getCandAAttribute()) + " " + question.q.getAttributeUnit());
+            buttonTwo.append("\n" + formatter.format(question.getCandBAttribute()) + " " + question.q.getAttributeUnit());
+            buttonThree.append("\n" + formatter.format(question.getCandCAttribute()) + " " + question.q.getAttributeUnit());
+            buttonFour.append("\n" + formatter.format(question.getCandDAttribute()) + " " + question.q.getAttributeUnit());
         }
         Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), snackBarText, Snackbar.LENGTH_INDEFINITE)
                 .setAction("Next Question", new View.OnClickListener() {

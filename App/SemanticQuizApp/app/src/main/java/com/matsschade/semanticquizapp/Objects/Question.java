@@ -2,6 +2,7 @@ package com.matsschade.semanticquizapp.Objects;
 
 import android.content.Context;
 import android.location.Location;
+import android.util.Log;
 
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
@@ -72,6 +73,8 @@ public class Question {
         while (this.resultsSet.hasNext()) {
             QuerySolution qs;
             qs = resultsSet.next();
+
+            Log.d("initial Value",String.valueOf(qs.getLiteral(q.getElement())));
 
             String element = StringProcessing.clean(
                     String.valueOf(qs.getLiteral(q.getElement())), "string");

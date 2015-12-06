@@ -1,5 +1,7 @@
 package com.matsschade.semanticquizapp.Processing;
 
+import android.util.Log;
+
 /**
  * Created by rober_000 on 24.11.2015.
  */
@@ -8,20 +10,20 @@ public class StringProcessing {
 
     public static String clean(String string, String attributeType) {
 
-        //Log.d("test", string);
+        Log.d("test", string);
 
         if (attributeType.equals("string")  || attributeType.equals("location")) {
             string = cleanString(string);
         }
         else if (attributeType.equals("number")) {
             string = cleanString(string);
-            double value = Double.valueOf(string).longValue();
+            double value = Double.valueOf(string);
             string = Double.toString(value);
         }
         else if (attributeType.equals("currency")) {
             string = cleanCurrency(string);
         }
-
+        Log.d("test", string);
         return string;
     }
 

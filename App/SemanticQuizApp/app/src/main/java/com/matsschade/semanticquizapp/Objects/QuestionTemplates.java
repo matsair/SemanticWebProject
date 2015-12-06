@@ -11,21 +11,31 @@ public class QuestionTemplates {
 
         queries = new QuestionTemplate[3][4];
 
-        String queryCity1 = "PREFIX  dbo:  <http://dbpedia.org/ontology/>\n" +
-                "PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
-                "PREFIX  dbp:  <http://dbpedia.org/property/>\n" +
-                "PREFIX  dct:  <http://purl.org/dc/terms/>\n" +
-                "PREFIX  dbc:  <http://dbpedia.org/resource/Category:>\n" +
-                "PREFIX yago: <http://yago-knowledge.org/resource/>\n" +
-                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-                "\n" +
+        String queryCity1 = "PREFIX  dbo:  <http://dbpedia.org/ontology/> \n" +
+                "PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" +
+                "PREFIX  dbp:  <http://dbpedia.org/property/> \n" +
+                "PREFIX  dct:  <http://purl.org/dc/terms/> \n" +
+                "PREFIX  dbc:  <http://dbpedia.org/resource/Category:> \n" +
+                "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX yago: <http://dbpedia.org/class/yago/>\n" +
+                "PREFIX vrank: <http://purl.org/voc/vrank#>\n" +
+                " \n" +
                 "SELECT DISTINCT  ?city_name ?sun\n" +
-                "WHERE {\n" +
-                "  ?city  dct:subject  dbc:Capitals_in_Europe ;\n" +
-                "                      rdfs:label  ?city_name ;\n" +
-                "                      dbp:yearSun  ?sun\n" +
-                "  FILTER langMatches(lang(?city_name), \"EN\")\n" +
-                "}";
+                "\n" +
+                "FROM <http://dbpedia.org> \n" +
+                "FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank> \n" +
+                "\n" +
+                "\n" +
+                "WHERE { \n" +
+                "?city rdf:type yago:Capital108518505 .\n" +
+                "?city rdfs:label   ?city_name. \n" +
+                "?city dbp:yearSun  ?sun.\n" +
+                "?city vrank:hasRank ?value.\n" +
+                "\n" +
+                "FILTER langMatches(lang(?city_name), \"EN\") \n" +
+                "} \n" +
+                "ORDER BY DESC (?value)\n" +
+                "LIMIT 50";
 
         String questionCity1 = "Which of the following is the sunniest city?";
 
@@ -57,16 +67,24 @@ public class QuestionTemplates {
                 "PREFIX  dbo:  <http://dbpedia.org/ontology/>\n" +
                 "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
                 "PREFIX yago: <http://dbpedia.org/class/yago/>\n" +
+                "PREFIX vrank:<http://purl.org/voc/vrank#>\n" +
                 "\n" +
                 "SELECT DISTINCT  ?name ?population\n" +
-                "WHERE\n" +
-                "  { ?city rdf:type yago:Capital108518505 .\n" +
+                "\n" +
+                "FROM <http://dbpedia.org> \n" +
+                "FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank> \n" +
+                "\n" +
+                "WHERE{ \n" +
+                "    ?city rdf:type yago:Capital108518505 .\n" +
                 "    ?city rdfs:label ?name .\n" +
-                "    ?city dbo:populationTotal ?population\n" +
+                "    ?city dbo:populationTotal ?population.\n" +
+                "\t?city vrank:hasRank ?value.\n" +
                 "\n" +
                 "    FILTER langMatches(lang(?name), \"EN\")\n" +
-                "    FILTER (?population > 2000000)\n" +
-                "  }\n";
+                "\t}\n" +
+                "\t\n" +
+                "\tORDER BY DESC (?value)\n" +
+                "   LIMIT 60\n";
 
         String questionCity3 = "Which city has the highest population?";
 
@@ -101,16 +119,29 @@ public class QuestionTemplates {
         String queryCompany1 = "PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
                 "PREFIX  dbo:  <http://dbpedia.org/ontology/>\n" +
                 "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX dbp: <http://dbpedia.org/property/>\n" +
+                "PREFIX georss: <http://www.georss.org/georss/>\n" +
+                "PREFIX vrank:<http://purl.org/voc/vrank#>\n" +
                 "\n" +
                 "SELECT DISTINCT  ?name ?employees\n" +
+                "\n" +
+                "FROM <http://dbpedia.org> \n" +
+                "FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank> \n" +
+                "\n" +
                 "WHERE\n" +
                 "  { ?company rdf:type dbo:Company .\n" +
                 "    ?company rdfs:label ?name .\n" +
-                "    ?company dbo:numberOfEmployees ?employees\n" +
+                "    ?company dbo:numberOfEmployees ?employees.\n" +
+                "    ?company dbp:intl ?intl.\n" +
+                "\n" +
+                "?company vrank:hasRank ?value.\n" +
+                "\n" +
                 "    FILTER ( ?employees > 100000 )\n" +
                 "    FILTER langMatches(lang(?name), \"DE\")\n" +
+                "    FILTER regex(?intl, \"yes\", \"i\")\n" +
                 "  }\n" +
-                "LIMIT   100";
+                "ORDER BY DESC(?value)\n" +
+                "LIMIT 50";
 
         String questionCompany1 = "Which company has the most employees?";
 
@@ -147,22 +178,33 @@ public class QuestionTemplates {
 
         String questionCompany2 = "Which company has the highest revenue?";
 
-        String queryCompany3 = "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
-                "PREFIX dct: <http://purl.org/dc/terms/>\n" +
-                "PREFIX dbc: <http://dbpedia.org/resource/Category:>\n" +
+        String queryCompany3 = "PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "PREFIX  dbo:  <http://dbpedia.org/ontology/>\n" +
+                "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
                 "PREFIX dbp: <http://dbpedia.org/property/>\n" +
-                "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-                "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "PREFIX georss: <http://www.georss.org/georss/>\n" +
+                "PREFIX vrank:<http://purl.org/voc/vrank#>\n" +
                 "\n" +
-                "SELECT DISTINCT ?name ?year\n" +
+                "SELECT DISTINCT  ?name ?year\n" +
+                "\n" +
+                "FROM <http://dbpedia.org> \n" +
+                "FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank> \n" +
+                "\n" +
                 "WHERE\n" +
-                "{\n" +
-                "  ?company dct:subject dbc:Multinational_companies_headquartered_in_the_United_States .\n" +
-                "  ?company rdfs:label ?name .\n" +
-                "  ?company dbo:foundingYear ?year\n" +
+                "  { ?company rdf:type dbo:Company .\n" +
+                "    ?company rdfs:label ?name .\n" +
+                "    ?company dbo:numberOfEmployees ?employees.\n" +
+                "    ?company dbp:intl ?intl.\n" +
                 "\n" +
-                "  FILTER langMatches(lang(?name), \"EN\")\n" +
-                "}\n";
+                "?company dbo:foundingYear ?year.\n" +
+                "?company vrank:hasRank ?value.\n" +
+                "\n" +
+                "    FILTER ( ?employees > 100000 )\n" +
+                "    FILTER langMatches(lang(?name), \"DE\")\n" +
+                "    FILTER regex(?intl, \"yes\", \"i\")\n" +
+                "  }\n" +
+                "ORDER BY DESC(?value)\n" +
+                "LIMIT 50";
 
         String questionCompany3 = "Which company has been founded most recently?";
 
@@ -171,8 +213,13 @@ public class QuestionTemplates {
                 "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
                 "PREFIX dbp: <http://dbpedia.org/property/>\n" +
                 "PREFIX georss: <http://www.georss.org/georss/>\n" +
+                "PREFIX vrank:<http://purl.org/voc/vrank#>\n" +
                 "\n" +
                 "SELECT DISTINCT  ?name ?geo\n" +
+                "\n" +
+                "FROM <http://dbpedia.org> \n" +
+                "FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank> \n" +
+                "\n" +
                 "WHERE\n" +
                 "  { ?company rdf:type dbo:Company .\n" +
                 "    ?company rdfs:label ?name .\n" +
@@ -181,11 +228,14 @@ public class QuestionTemplates {
                 "\n" +
                 "    ?company dbo:location ?location.\n" +
                 "    ?location georss:point ?geo.\n" +
+                "?company vrank:hasRank ?value.\n" +
                 "\n" +
                 "    FILTER ( ?employees > 100000 )\n" +
                 "    FILTER langMatches(lang(?name), \"DE\")\n" +
                 "    FILTER regex(?intl, \"yes\", \"i\")\n" +
-                "  }\n";
+                "  }\n" +
+                "ORDER BY DESC(?value)\n" +
+                "LIMIT 50";
 
         String questionCompany4 = "The headquarters of which company are closest to your current location?";
 
@@ -284,7 +334,7 @@ public class QuestionTemplates {
         queries[0][3] = new QuestionTemplate(queryCity4, "name", "geo", questionCity4,"location", "km");
         queries[1][0] = new QuestionTemplate(queryCompany1, "name", "employees", questionCompany1,"number", "employees");
         queries[1][1] = new QuestionTemplate(queryCompany2, "name", "revenue", questionCompany2,"currency", "US Dollars");
-        queries[1][2] = new QuestionTemplate(queryCompany3, "name", "year", questionCompany3,"number", "");
+        queries[1][2] = new QuestionTemplate(queryCompany3, "name", "year", questionCompany3,"number", "year");
         queries[1][3] = new QuestionTemplate(queryCompany4, "name", "geo", questionCompany4,"location", "km");
         queries[2][0] = new QuestionTemplate(queryCountry1, "country_name", "area", questionCountry1,"number", "km2");
         queries[2][1] = new QuestionTemplate(queryCountry2, "country_name", "gini", questionCountry2,"number", "Gini Index");

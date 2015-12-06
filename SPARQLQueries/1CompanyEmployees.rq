@@ -2,16 +2,25 @@ PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX  dbo:  <http://dbpedia.org/ontology/>
 PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX dbp: <http://dbpedia.org/property/>
+PREFIX georss: <http://www.georss.org/georss/>
+PREFIX vrank:<http://purl.org/voc/vrank#>
 
-SELECT DISTINCT  ?name ?employees 
+SELECT DISTINCT  ?name ?employees
+
+FROM <http://dbpedia.org> 
+FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank> 
+
 WHERE
   { ?company rdf:type dbo:Company .
     ?company rdfs:label ?name .
     ?company dbo:numberOfEmployees ?employees.
-    ?company dbp:intl ?intl
+    ?company dbp:intl ?intl.
+
+?company vrank:hasRank ?value.
 
     FILTER ( ?employees > 100000 )
     FILTER langMatches(lang(?name), "DE")
     FILTER regex(?intl, "yes", "i")
   }
-
+ORDER BY DESC(?value)
+LIMIT 50
