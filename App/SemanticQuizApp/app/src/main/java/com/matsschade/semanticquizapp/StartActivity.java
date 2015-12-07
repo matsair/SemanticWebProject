@@ -173,7 +173,6 @@ public class StartActivity extends AppCompatActivity {
             // do nothing
 
         }
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -188,11 +187,6 @@ public class StartActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_refresh) {
-            return true;
-        }
 
         if (id == R.id.action_reset) {
             new MaterialDialog.Builder(this)

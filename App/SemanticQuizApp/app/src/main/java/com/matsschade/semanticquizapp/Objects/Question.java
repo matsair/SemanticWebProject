@@ -95,7 +95,7 @@ public class Question {
                     String requestURL = "http://www.omdbapi.com/?t=" + element + "&y=&plot=short&r=json";
                     Log.d("Movie Request URL", requestURL);
                     JSONReader reader = new JSONReader();
-                    JSONObject obj = null;
+                    JSONObject obj;
                     try {
                         obj = reader.readJsonFromUrl(requestURL);
                         double rating = obj.getDouble("imdbRating");
@@ -106,6 +106,26 @@ public class Question {
                             attributesArray.add(String.valueOf(rating));
 
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                else if (questionTemplate.getAttribute().equals("director")) {
+                    element = element.replace(" ", "+");
+                    String requestURL = "http://www.omdbapi.com/?t=" + element + "&y=&plot=short&r=json";
+                    Log.d("Movie Request URL", requestURL);
+                    JSONReader reader = new JSONReader();
+                    JSONObject obj;
+                    try {
+                        obj = reader.readJsonFromUrl(requestURL);
+                        String director = obj.getString("Director");
+                        //Log.d("Rating", String.valueOf(rating));
+                        int spaceIndex = director.indexOf(",");
+                        if (spaceIndex != -1)
+                        {
+                            director = director.substring(0, spaceIndex);
+                        }
+                        attributesArray.add(String.valueOf(director));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -128,6 +148,16 @@ public class Question {
         randomInt3 = shuffledArray.get(2);
         randomInt4 = shuffledArray.get(3);
 
+        while (attributesArray.get(randomInt1).equals("N/A") || attributesArray.get(randomInt2).equals("N/A") ||
+                attributesArray.get(randomInt3).equals("N/A") || attributesArray.get(randomInt4).equals("N/A")) {
+
+            shuffledArray = getShuffledArray(elementsArray.size());
+
+            randomInt1 = shuffledArray.get(0);
+            randomInt2 = shuffledArray.get(1);
+            randomInt3 = shuffledArray.get(2);
+            randomInt4 = shuffledArray.get(3);
+        }
         this.candAName = elementsArray.get(randomInt1);
         this.candBName = elementsArray.get(randomInt2);
         this.candCName = elementsArray.get(randomInt3);
@@ -174,6 +204,7 @@ public class Question {
     private void determineCorrectAnswer() {
 
         String correctValue;
+        boolean blabla = true;
 
         if (questionTemplate.getAttributeType().equals("location")) {
             correctValue = String.valueOf(Math.min(Double.valueOf(candAAttribute), Math.min(Double.valueOf(candBAttribute),
@@ -189,20 +220,24 @@ public class Question {
 
             //choose arbitrary string of the four strings
             correctValue = list.get((int) (Math.random()*4));
+            this.correctAnswer = correctValue;
+            blabla = false;
 
         } else {
             correctValue = String.valueOf(Math.max(Double.valueOf(candAAttribute), Math.max(Double.valueOf(candBAttribute),
                     Math.max(Double.valueOf(candCAttribute), Double.valueOf(candDAttribute)))));
         }
 
-        if (correctValue.equals(candAAttribute)){
-            this.correctAnswer = candAName;}
-        if (correctValue.equals(candBAttribute)){
-            this.correctAnswer = candBName;}
-        if (correctValue.equals(candCAttribute)){
-            this.correctAnswer = candCName;}
-        if (correctValue.equals(candDAttribute)){
-            this.correctAnswer = candDName;}
+        if (blabla) {
+            if (correctValue.equals(candAAttribute)){
+                this.correctAnswer = candAName;}
+            if (correctValue.equals(candBAttribute)){
+                this.correctAnswer = candBName;}
+            if (correctValue.equals(candCAttribute)){
+                this.correctAnswer = candCName;}
+            if (correctValue.equals(candDAttribute)){
+                this.correctAnswer = candDName;}
+        }
     }
 
 
