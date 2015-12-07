@@ -11,6 +11,7 @@ public class QuestionTemplate {
     private String attribute;
     private String question;
     private String attributeType;
+    private String elementType;
     private String questionType;
 
 
@@ -23,12 +24,13 @@ public class QuestionTemplate {
 
     private String attributeUnit;
 
-    public QuestionTemplate(String query, String element, String attribute, String question, String type, String attributeUnit, String URI){
+    public QuestionTemplate(String query, String element, String attribute, String question, String elementType, String attributeType, String attributeUnit, String URI){
         this.query = query;
         this.element = element;
         this.attribute = attribute;
         this.question = question;
-        this.attributeType = type;
+        this.elementType = elementType;
+        this.attributeType = attributeType;
         this.attributeUnit = attributeUnit;
         this.URI = URI;
     }
@@ -55,4 +57,9 @@ public class QuestionTemplate {
     public String getURI() {
         return URI;
     }
+
+    public String getElementType() {
+        return elementType;
+    }
+
 }

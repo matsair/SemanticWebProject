@@ -244,13 +244,19 @@ public class QuestionActivity extends AppCompatActivity {
             buttonThree.append(Html.fromHtml("<br>" +formatter.format(Double.valueOf(question.getCandCAttribute())) + " " + "km<sup>2</sup>"));
             buttonFour.append(Html.fromHtml("<br>" + formatter.format(Double.valueOf(question.getCandDAttribute())) + " " + "km<sup>2</sup>"));
 
-        } else if (question.questionTemplate.getAttributeUnit().equals("year")) {
+        } else if (question.questionTemplate.getAttributeType().equals("string")) {
             buttonOne.append("\n" + question.getCandAAttribute());
             buttonTwo.append("\n" + question.getCandBAttribute());
             buttonThree.append("\n" + question.getCandCAttribute());
             buttonFour.append("\n" + question.getCandDAttribute());
 
-        }
+    } else if (question.questionTemplate.getAttributeType().equals("year")) {
+        buttonOne.append("\n" + Double.valueOf(question.getCandAAttribute()).intValue());
+        buttonTwo.append("\n" + Double.valueOf(question.getCandBAttribute()).intValue());
+        buttonThree.append("\n" + Double.valueOf(question.getCandCAttribute()).intValue());
+        buttonFour.append("\n" + Double.valueOf(question.getCandDAttribute()).intValue());
+
+    }
         else if (question.questionTemplate.getAttribute().equals("director")) {
             // Do nothing
         }

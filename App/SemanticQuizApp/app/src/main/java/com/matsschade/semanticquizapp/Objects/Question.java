@@ -80,14 +80,13 @@ public class Question {
             Log.d("initial Value",String.valueOf(qs.getLiteral(questionTemplate.getElement())));
 
             String element = StringProcessing.clean(
-                    String.valueOf(qs.getLiteral(questionTemplate.getElement())), "string");
+                    String.valueOf(qs.getLiteral(questionTemplate.getElement())), questionTemplate.getElementType());
 
             String attribute = StringProcessing.clean(
                     String.valueOf(qs.getLiteral(questionTemplate.getAttribute())), questionTemplate.getAttributeType());
 
             // get rid of useless values and redundant elements
-            if (!attribute.equals("0.0") && !elementsArray.contains(element)&& !attributesArray.contains(attribute)
-                    && !element.equals("Snoop Dogg")) {
+            if (!attribute.equals("0.0") && !elementsArray.contains(element) && !attributesArray.contains(attribute)) {
                 elementsArray.add(element);
 
                 if (questionTemplate.getAttribute().equals("rating")) {

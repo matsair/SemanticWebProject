@@ -440,28 +440,28 @@ public class QuestionTemplates {
 
         String questionMovie4 = " was the director of which movie?";
 
-        queries[0][0] = new QuestionTemplate(queryCity1,"city_name", "sun", questionCity1,"number", "hours", "http://dbpedia.org/sparql");
-        queries[0][1] = new QuestionTemplate(queryCity2, "city_name", "precip", questionCity2,"number", "mm", "http://dbpedia.org/sparql");
-        queries[0][2] = new QuestionTemplate(queryCity3, "name", "population", questionCity3,"number", "inhabitants", "http://dbpedia.org/sparql");
-        queries[0][3] = new QuestionTemplate(queryCity4, "name", "geo", questionCity4,"location", "km", "http://dbpedia.org/sparql");
-        queries[1][0] = new QuestionTemplate(queryCompany1, "name", "employees", questionCompany1,"number", "employees", "http://dbpedia.org/sparql");
-        queries[1][1] = new QuestionTemplate(queryCompany2, "name", "revenue", questionCompany2,"currency", "US Dollars", "http://dbpedia.org/sparql");
-        queries[1][2] = new QuestionTemplate(queryCompany3, "name", "year", questionCompany3,"number", "year", "http://dbpedia.org/sparql");
-        queries[1][3] = new QuestionTemplate(queryCompany4, "name", "geo", questionCompany4,"location", "km", "http://dbpedia.org/sparql");
-        queries[2][0] = new QuestionTemplate(queryCountry1, "country_name", "area", questionCountry1,"number", "km2", "http://dbpedia.org/sparql");
-        queries[2][1] = new QuestionTemplate(queryCountry2, "country_name", "gini", questionCountry2,"number", "Gini Index", "http://dbpedia.org/sparql");
-        queries[2][2] = new QuestionTemplate(queryCountry3, "country_name", "hdi", questionCountry3,"number", "HDI Index", "http://dbpedia.org/sparql");
-        queries[2][3] = new QuestionTemplate(queryCountry4, "country_name", "geo", questionCountry4,"location", "km", "http://dbpedia.org/sparql");
-        queries[3][0] = new QuestionTemplate(queryMovie1, "name", "rating", questionMovie1,"", "","http://dbpedia.org/sparql");
-        queries[3][1] = new QuestionTemplate(queryMovie2, "name", "date", questionMovie2,"year", "year", "http://dbpedia.org/sparql");
-        queries[3][2] = new QuestionTemplate(queryMovie3, "date", "name", questionMovie3,"string", "year", "http://data.linkedmdb.org/sparql");
-        queries[3][3] = new QuestionTemplate(queryMovie4, "name", "director", questionMovie4,"string", "", "http://dbpedia.org/sparql");
+        queries[0][0] = new QuestionTemplate(queryCity1,"city_name", "sun", questionCity1,"string", "number", "hours", "http://dbpedia.org/sparql");
+        queries[0][1] = new QuestionTemplate(queryCity2, "city_name", "precip", questionCity2,"string","number", "mm", "http://dbpedia.org/sparql");
+        queries[0][2] = new QuestionTemplate(queryCity3, "name", "population", questionCity3,"string","number", "inhabitants", "http://dbpedia.org/sparql");
+        queries[0][3] = new QuestionTemplate(queryCity4, "name", "geo", questionCity4,"string","location", "km", "http://dbpedia.org/sparql");
+        queries[1][0] = new QuestionTemplate(queryCompany1, "name", "employees", questionCompany1,"string","number", "employees", "http://dbpedia.org/sparql");
+        queries[1][1] = new QuestionTemplate(queryCompany2, "name", "revenue", questionCompany2,"string","currency", "US Dollars", "http://dbpedia.org/sparql");
+        queries[1][2] = new QuestionTemplate(queryCompany3, "name", "year", questionCompany3,"string","year", "", "http://dbpedia.org/sparql");
+        queries[1][3] = new QuestionTemplate(queryCompany4, "name", "geo", questionCompany4,"string","location", "km", "http://dbpedia.org/sparql");
+        queries[2][0] = new QuestionTemplate(queryCountry1, "country_name", "area", questionCountry1,"string","number", "km2", "http://dbpedia.org/sparql");
+        queries[2][1] = new QuestionTemplate(queryCountry2, "country_name", "gini", questionCountry2,"string","number", "Gini Index", "http://dbpedia.org/sparql");
+        queries[2][2] = new QuestionTemplate(queryCountry3, "country_name", "hdi", questionCountry3,"string","number", "HDI Index", "http://dbpedia.org/sparql");
+        queries[2][3] = new QuestionTemplate(queryCountry4, "country_name", "geo", questionCountry4,"string","location", "km", "http://dbpedia.org/sparql");
+        queries[3][0] = new QuestionTemplate(queryMovie1, "name", "rating", questionMovie1,"string","", "","http://dbpedia.org/sparql");
+        queries[3][1] = new QuestionTemplate(queryMovie2, "name", "date", questionMovie2,"string","year", "", "http://dbpedia.org/sparql");
+        queries[3][2] = new QuestionTemplate(queryMovie3, "date", "name", questionMovie3,"year","string", "", "http://data.linkedmdb.org/sparql");
+        queries[3][3] = new QuestionTemplate(queryMovie4, "name", "director", questionMovie4,"string","string", "", "http://dbpedia.org/sparql");
     }
 
     // Has to be randomized
     public static QuestionTemplate getRandomQuestionTemplate(int categoryID) {
-        int arraySize = 3;//queries[categoryID].length;
+        int arraySize = queries[categoryID].length;
        int randomNumber = (int) (Math.random()*arraySize);
-        return queries[categoryID][0];
+        return queries[categoryID][randomNumber];
     }
 }
