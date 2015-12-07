@@ -17,10 +17,8 @@ import com.matsschade.semanticquizapp.GPS.GPSTracker;
 import com.matsschade.semanticquizapp.Processing.JSONReader;
 import com.matsschade.semanticquizapp.Processing.StringProcessing;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -32,7 +30,7 @@ public class Question {
     private int categoryID;
     public QuestionTemplate questionTemplate;
     private String candAName, candBName, candCName, candDName;
-    private double candAAttribute, candBAttribute, candCAttribute, candDAttribute;
+    private String candAAttribute, candBAttribute, candCAttribute, candDAttribute;
     private String correctAnswer;
     private ResultSet resultsSet;
     private ArrayList<String> elementsArray;
@@ -55,7 +53,7 @@ public class Question {
         //Initialize the resultsSet
         questionTemplate = QuestionTemplates.getRandomQuestionTemplate(categoryID);
         Query query = QueryFactory.create(questionTemplate.getQuery());
-        String endpoint = "http://dbpedia.org/sparql";
+        String endpoint = questionTemplate.getURI();
         //String endpoint = "http://linkedmdb.org/sparql";
 
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
@@ -84,32 +82,30 @@ public class Question {
             String element = StringProcessing.clean(
                     String.valueOf(qs.getLiteral(questionTemplate.getElement())), "string");
 
+            String attribute = StringProcessing.clean(
+                    String.valueOf(qs.getLiteral(questionTemplate.getAttribute())), questionTemplate.getAttributeType());
+
             // get rid of useless values and redundant elements
-            if (/*!attribute.equals("0.0") && */!elementsArray.contains(element)) {
+            if (!attribute.equals("0.0") && !elementsArray.contains(element)) {
                 elementsArray.add(element);
-                if (categoryID != 3) {
-                    String attribute = StringProcessing.clean(
-                            String.valueOf(qs.getLiteral(questionTemplate.getAttribute())), questionTemplate.getAttributeType());
-                    attributesArray.add(attribute);
-                }
-                else {
-                    String movie = element;
-                    movie = movie.replaceAll("\\(.+\\)", "");
-                    movie = movie.replace(" ", "+");
-                    String requestURL = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&r=json";
+
+                if (questionTemplate.getAttribute().equals("rating")) {
+                    element = element.replace(" ", "+");
+                    String requestURL = "http://www.omdbapi.com/?t=" + element + "&y=&plot=short&r=json";
                     Log.d("Movie Request URL", requestURL);
                     JSONReader reader = new JSONReader();
                     JSONObject obj = null;
                     try {
                         obj = reader.readJsonFromUrl(requestURL);
                         double rating = obj.getDouble("imdbRating");
-                        Log.d("Rating", String.valueOf(rating));
+                        //Log.d("Rating", String.valueOf(rating));
                         attributesArray.add(String.valueOf(rating));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
+                }
+                else {
+                    attributesArray.add(attribute);
                 }
             }
         }
@@ -144,50 +140,61 @@ public class Question {
             lat2lon2 = attributesArray.get(randomInt1);
             lat2 = Double.valueOf(lat2lon2.split(" ")[0]);
             lon2 = Double.valueOf(lat2lon2.split(" ")[1]);
-            this.candAAttribute = GEODistance.getDistance(lat1, lon1, lat2, lon2);
+            this.candAAttribute = Double.toString(GEODistance.getDistance(lat1, lon1, lat2, lon2));
 
             lat2lon2 = attributesArray.get(randomInt2);
             lat2 = Double.valueOf(lat2lon2.split(" ")[0]);
             lon2 = Double.valueOf(lat2lon2.split(" ")[1]);
-            this.candBAttribute = GEODistance.getDistance(lat1, lon1, lat2, lon2);
+            this.candBAttribute = Double.toString(GEODistance.getDistance(lat1, lon1, lat2, lon2));
 
             lat2lon2 = attributesArray.get(randomInt3);
             lat2 = Double.valueOf(lat2lon2.split(" ")[0]);
             lon2 = Double.valueOf(lat2lon2.split(" ")[1]);
-            this.candCAttribute = GEODistance.getDistance(lat1, lon1, lat2, lon2);
+            this.candCAttribute = Double.toString(GEODistance.getDistance(lat1, lon1, lat2, lon2));
 
             lat2lon2 = attributesArray.get(randomInt4);
             lat2 = Double.valueOf(lat2lon2.split(" ")[0]);
             lon2 = Double.valueOf(lat2lon2.split(" ")[1]);
-            this.candDAttribute = GEODistance.getDistance(lat1, lon1, lat2, lon2);
+            this.candDAttribute = Double.toString(GEODistance.getDistance(lat1, lon1, lat2, lon2));
 
         } else {
-            this.candAAttribute = Double.valueOf(attributesArray.get(randomInt1));
-            this.candBAttribute = Double.valueOf(attributesArray.get(randomInt2));
-            this.candCAttribute = Double.valueOf(attributesArray.get(randomInt3));
-            this.candDAttribute = Double.valueOf(attributesArray.get(randomInt4));
-        }
+                this.candAAttribute = (attributesArray.get(randomInt1));
+                this.candBAttribute = (attributesArray.get(randomInt2));
+                this.candCAttribute = (attributesArray.get(randomInt3));
+                this.candDAttribute = (attributesArray.get(randomInt4));
+            }
     }
 
     private void determineCorrectAnswer() {
 
-        double correctValue;
+        String correctValue;
 
         if (questionTemplate.getAttributeType().equals("location")) {
-            correctValue = Math.min(candAAttribute, Math.min(candBAttribute,
-                    Math.min(candCAttribute, candDAttribute)));
+            correctValue = String.valueOf(Math.min(Double.valueOf(candAAttribute), Math.min(Double.valueOf(candBAttribute),
+                    Math.min(Double.valueOf(candCAttribute), Double.valueOf(candDAttribute)))));
+        } else if (questionTemplate.getAttributeType().equals("string")) {
+
+            ArrayList<String> list = new ArrayList<String>();
+            list.add (candAAttribute);
+            list.add (candBAttribute);
+            list.add (candCAttribute);
+            list.add (candDAttribute);
+
+            //choose arbitrary string of the four strings
+            correctValue = list.get((int) (Math.random()*4));
+
         } else {
-            correctValue = Math.max(candAAttribute, Math.max(candBAttribute,
-                    Math.max(candCAttribute, candDAttribute)));
+            correctValue = String.valueOf(Math.max(Double.valueOf(candAAttribute), Math.max(Double.valueOf(candBAttribute),
+                    Math.max(Double.valueOf(candCAttribute), Double.valueOf(candDAttribute)))));
         }
 
-        if (correctValue == candAAttribute){
+        if (correctValue.equals(candAAttribute)){
             this.correctAnswer = candAName;}
-        if (correctValue == candBAttribute){
+        if (correctValue.equals(candBAttribute)){
             this.correctAnswer = candBName;}
-        if (correctValue == candCAttribute){
+        if (correctValue.equals(candCAttribute)){
             this.correctAnswer = candCName;}
-        if (correctValue == candDAttribute){
+        if (correctValue.equals(candDAttribute)){
             this.correctAnswer = candDName;}
     }
 
@@ -203,8 +210,6 @@ public class Question {
 
         return list;
     }
-
-
 
 
     public String getCorrectAnswer() {
@@ -228,19 +233,19 @@ public class Question {
     }
 
 
-    public double getCandAAttribute() {
+    public String getCandAAttribute() {
         return candAAttribute;
     }
 
-    public double getCandBAttribute() {
+    public String getCandBAttribute() {
         return candBAttribute;
     }
 
-    public double getCandCAttribute() {
+    public String getCandCAttribute() {
         return candCAttribute;
     }
 
-    public double getCandDAttribute() {
+    public String getCandDAttribute() {
         return candDAttribute;
     }
 

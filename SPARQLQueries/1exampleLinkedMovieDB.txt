@@ -1,3 +1,6 @@
+PREFIX dc: <http://purl.org/dc/terms/>
+PREFIX movie: <http://data.linkedmdb.org/resource/movie/>
+
 SELECT ?name  ?distr ?date
 
 WHERE{

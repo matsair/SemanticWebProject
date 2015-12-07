@@ -202,17 +202,17 @@ public class QuestionActivity extends AppCompatActivity {
             buttonThree.append(Html.fromHtml("<br>" +formatter.format(question.getCandCAttribute()) + " " + "km<sup>2</sup>"));
             buttonFour.append(Html.fromHtml("<br>" + formatter.format(question.getCandDAttribute()) + " " + "km<sup>2</sup>"));
 
-        } else if (question.questionTemplate.getAttributeUnit().equals("year")) {
-            buttonOne.append("\n" + (int) question.getCandAAttribute());
-            buttonTwo.append("\n" + (int) question.getCandBAttribute());
-            buttonThree.append("\n" + (int) question.getCandCAttribute());
-            buttonFour.append("\n" + (int) question.getCandDAttribute());
+        } else if (question.questionTemplate.getAttributeUnit().equals("year") ||  question.questionTemplate.getAttributeType().equals("string")) {
+            buttonOne.append("\n" + question.getCandAAttribute());
+            buttonTwo.append("\n" + question.getCandBAttribute());
+            buttonThree.append("\n" + question.getCandCAttribute());
+            buttonFour.append("\n" + question.getCandDAttribute());
 
         } else {
-            buttonOne.append("\n" + formatter.format(question.getCandAAttribute()) + " " + question.questionTemplate.getAttributeUnit());
-            buttonTwo.append("\n" + formatter.format(question.getCandBAttribute()) + " " + question.questionTemplate.getAttributeUnit());
-            buttonThree.append("\n" + formatter.format(question.getCandCAttribute()) + " " + question.questionTemplate.getAttributeUnit());
-            buttonFour.append("\n" + formatter.format(question.getCandDAttribute()) + " " + question.questionTemplate.getAttributeUnit());
+            buttonOne.append("\n" + formatter.format(Double.valueOf(question.getCandAAttribute())) + " " + question.questionTemplate.getAttributeUnit());
+            buttonTwo.append("\n" + formatter.format(Double.valueOf(question.getCandBAttribute())) + " " + question.questionTemplate.getAttributeUnit());
+            buttonThree.append("\n" + formatter.format(Double.valueOf(question.getCandCAttribute())) + " " + question.questionTemplate.getAttributeUnit());
+            buttonFour.append("\n" + formatter.format(Double.valueOf(question.getCandDAttribute())) + " " + question.questionTemplate.getAttributeUnit());
         }
         Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), snackBarText, Snackbar.LENGTH_INDEFINITE)
                 .setAction("Next Question", new View.OnClickListener() {

@@ -23,6 +23,7 @@ public class StringProcessing {
         else if (attributeType.equals("currency")) {
             string = cleanCurrency(string);
         }
+
         Log.d("test", string);
         return string;
     }
@@ -39,6 +40,10 @@ public class StringProcessing {
 
         if (string.contains("@")) {
             string = removeAt(string);
+        }
+
+        if(string.contains("(")) {
+            string = string.replaceAll("\\(.+\\)", "");
         }
 
         //Log.d("test", string);

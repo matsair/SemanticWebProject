@@ -329,54 +329,107 @@ public class QuestionTemplates {
         String questionCountry4 = "Considering the capital, which country is closest to your current location?";
 
         String queryMovie1 = "PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                " \n" +
+                "                PREFIX  dbo:  <http://dbpedia.org/ontology/> \n" +
+                "                PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+                "                PREFIX dbp: <http://dbpedia.org/property/> \n" +
+                "                PREFIX vrank:<http://purl.org/voc/vrank#> \n" +
+                "                 \n" +
+                "                SELECT DISTINCT  ?name ?rating\n" +
+                "                 \n" +
+                "                FROM <http://dbpedia.org>  \n" +
+                "                FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank>  \n" +
+                "                 \n" +
+                "                WHERE \n" +
+                "                  { ?film rdf:type dbo:Film . \n" +
+                "                    ?film rdfs:label ?name . \n" +
+                "                    ?film dbp:country \"United States\"@en. \n" +
+                "                    ?film vrank:hasRank ?value. \n" +
+                "                    ?film rdfs:label ?rating.                  \n" +
+                "                    ?film dbp:gross ?budget. \n" +
+                "                 \n" +
+                "                FILTER langMatches(lang(?name), \"EN\")\n" +
+                "                FILTER langMatches(lang(?rating), \"EN\")  \n" +
+                "                FILTER (?budget>1000000) \n" +
+                "                 \n" +
+                "                  } \n" +
+                "                ORDER BY DESC (?value)  \n" +
+                "                LIMIT 50";
+
+        String questionMovie1 = "Which of these movies has the highest IMDB rating?";
+
+
+        String queryMovie2 = "PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
                 "PREFIX  dbo:  <http://dbpedia.org/ontology/>\n" +
                 "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
                 "PREFIX dbp: <http://dbpedia.org/property/>\n" +
                 "PREFIX vrank:<http://purl.org/voc/vrank#>\n" +
+                "PREFIX yago: <http://dbpedia.org/class/yago/>\n" +
+                "PREFIX dct: <http://purl.org/dc/terms/>\n" +
                 "\n" +
-                "SELECT DISTINCT  ?name\n ?budget" +
+                "SELECT DISTINCT  ?name ?date\n" +
                 "\n" +
                 "FROM <http://dbpedia.org> \n" +
                 "FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank> \n" +
                 "\n" +
                 "WHERE\n" +
-                "  { ?film rdf:type dbo:Film .\n" +
-                "    ?film rdfs:label ?name .\n" +
-                "    ?film dbp:country \"United States\"@en.\n" +
-                "    ?film vrank:hasRank ?value.\n" +
-                "\n" +
-                "\n" +
-                "    ?film dbp:gross ?budget.\n" +
+                "  { ?actor rdf:type yago:AmericanFilmActors.\n" +
+                "    ?actor dct:subject ?filter.\n" +
+                "    ?actor rdfs:label ?name.\n" +
+                "    ?actor vrank:hasRank ?value.\n" +
+                "    ?actor dbp:birthDate ?date\n" +
                 "\n" +
                 "    FILTER langMatches(lang(?name), \"EN\")\n" +
-                "FILTER (?budget >1000000)\n" +
-                "\n" +
+                "    FILTER regex(?filter, \"st-century_American_\", \"i\")\n" +
+                "    FILTER regex(?filter, \"act\", \"i\")\n" +
                 "  }\n" +
+                "\n" +
                 "ORDER BY DESC (?value) \n" +
                 "LIMIT 50";
 
-        String questionMovie1 = "Which of these movies has the highest IMDB rating?";
+        String questionMovie2 = "Which of the following actors is the youngest?";
 
-        queries[0][0] = new QuestionTemplate(queryCity1,"city_name", "sun", questionCity1,"number", "hours");
-        queries[0][1] = new QuestionTemplate(queryCity2, "city_name", "precip", questionCity2,"number", "mm");
-        queries[0][2] = new QuestionTemplate(queryCity3, "name", "population", questionCity3,"number", "inhabitants");
-        queries[0][3] = new QuestionTemplate(queryCity4, "name", "geo", questionCity4,"location", "km");
-        queries[1][0] = new QuestionTemplate(queryCompany1, "name", "employees", questionCompany1,"number", "employees");
-        queries[1][1] = new QuestionTemplate(queryCompany2, "name", "revenue", questionCompany2,"currency", "US Dollars");
-        queries[1][2] = new QuestionTemplate(queryCompany3, "name", "year", questionCompany3,"number", "year");
-        queries[1][3] = new QuestionTemplate(queryCompany4, "name", "geo", questionCompany4,"location", "km");
-        queries[2][0] = new QuestionTemplate(queryCountry1, "country_name", "area", questionCountry1,"number", "km2");
-        queries[2][1] = new QuestionTemplate(queryCountry2, "country_name", "gini", questionCountry2,"number", "Gini Index");
-        queries[2][2] = new QuestionTemplate(queryCountry3, "country_name", "hdi", questionCountry3,"number", "HDI Index");
-        queries[2][3] = new QuestionTemplate(queryCountry4, "country_name", "geo", questionCountry4,"location", "km");
+        String queryMovie3= "PREFIX dc: <http://purl.org/dc/terms/>\n" +
+                "PREFIX movie: <http://data.linkedmdb.org/resource/movie/>\n" +
+                "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "\n" +
+                "\n" +
+                "SELECT ?name  ?date\n" +
+                "\n" +
+                "WHERE{\n" +
+                "\n" +
+                "?film dc:date ?date.\n" +
+                "?a movie:film_of_distributor ?film.\n" +
+                "?a movie:film_film_distributor_relationship_distributor \"20th Century Fox\".\n" +
+                "?film rdfs:label ?name.\n" +
+                "?film movie:initial_release_date ?date\n" +
+                "}\n" +
+                "ORDER BY DESC (?date)\n" +
+                "LIMIT 300";
 
-        queries[3][0] = new QuestionTemplate(queryMovie1, "name", "budget", questionMovie1,"number", "");
+        String questionMovie3 = "Which of the following films has been produced most recently?";
+
+        queries[0][0] = new QuestionTemplate(queryCity1,"city_name", "sun", questionCity1,"number", "hours", "http://dbpedia.org/sparql");
+        queries[0][1] = new QuestionTemplate(queryCity2, "city_name", "precip", questionCity2,"number", "mm", "http://dbpedia.org/sparql");
+        queries[0][2] = new QuestionTemplate(queryCity3, "name", "population", questionCity3,"number", "inhabitants", "http://dbpedia.org/sparql");
+        queries[0][3] = new QuestionTemplate(queryCity4, "name", "geo", questionCity4,"location", "km", "http://dbpedia.org/sparql");
+        queries[1][0] = new QuestionTemplate(queryCompany1, "name", "employees", questionCompany1,"number", "employees", "http://dbpedia.org/sparql");
+        queries[1][1] = new QuestionTemplate(queryCompany2, "name", "revenue", questionCompany2,"currency", "US Dollars", "http://dbpedia.org/sparql");
+        queries[1][2] = new QuestionTemplate(queryCompany3, "name", "year", questionCompany3,"number", "year", "http://dbpedia.org/sparql");
+        queries[1][3] = new QuestionTemplate(queryCompany4, "name", "geo", questionCompany4,"location", "km", "http://dbpedia.org/sparql");
+        queries[2][0] = new QuestionTemplate(queryCountry1, "country_name", "area", questionCountry1,"number", "km2", "http://dbpedia.org/sparql");
+        queries[2][1] = new QuestionTemplate(queryCountry2, "country_name", "gini", questionCountry2,"number", "Gini Index", "http://dbpedia.org/sparql");
+        queries[2][2] = new QuestionTemplate(queryCountry3, "country_name", "hdi", questionCountry3,"number", "HDI Index", "http://dbpedia.org/sparql");
+        queries[2][3] = new QuestionTemplate(queryCountry4, "country_name", "geo", questionCountry4,"location", "km", "http://dbpedia.org/sparql");
+        queries[3][0] = new QuestionTemplate(queryMovie1, "name", "rating", questionMovie1,"", "","http://dbpedia.org/sparql");
+        queries[3][1] = new QuestionTemplate(queryMovie2, "name", "date", questionMovie2,"number", "year", "http://dbpedia.org/sparql");
+        queries[3][1] = new QuestionTemplate(queryMovie3, "date", "name", questionMovie3,"string", "", "http://data.linkedmdb.org/sparql");
     }
 
     // Has to be randomized
     public static QuestionTemplate getRandomQuestionTemplate(int categoryID) {
-//        int arraySize = queries[categoryID].length;
-//        int randomNumber = (int) (Math.random()*arraySize);
-        return queries[categoryID][0];
+        int arraySize = 2;//queries[categoryID].length;
+       int randomNumber = (int) (Math.random()*arraySize);
+        return queries[categoryID][randomNumber];
     }
 }

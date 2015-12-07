@@ -1,0 +1,27 @@
+PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+ 
+                PREFIX  dbo:  <http://dbpedia.org/ontology/> 
+                PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+                PREFIX dbp: <http://dbpedia.org/property/> 
+                PREFIX vrank:<http://purl.org/voc/vrank#> 
+                 
+                SELECT DISTINCT  ?name ?rating
+                 
+                FROM <http://dbpedia.org>  
+                FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank>  
+                 
+                WHERE 
+                  { ?film rdf:type dbo:Film . 
+                    ?film rdfs:label ?name . 
+                    ?film dbp:country "United States"@en. 
+                    ?film vrank:hasRank ?value. 
+                    ?film rdfs:label ?rating.                  
+                    ?film dbp:gross ?budget. 
+                 
+                FILTER langMatches(lang(?name), "EN")
+                FILTER langMatches(lang(?rating), "EN")  
+                FILTER (?budget>1000000) 
+                 
+                  } 
+                ORDER BY DESC (?value)  
+                LIMIT 50
