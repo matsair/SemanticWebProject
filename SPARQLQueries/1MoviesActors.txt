@@ -1,27 +1,28 @@
-PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX  dbo:  <http://dbpedia.org/ontology/>
-PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX dbp: <http://dbpedia.org/property/>
-PREFIX vrank:<http://purl.org/voc/vrank#>
-PREFIX yago: <http://dbpedia.org/class/yago/>
-PREFIX dct: <http://purl.org/dc/terms/>
-
-SELECT DISTINCT  ?name ?date
-
-FROM <http://dbpedia.org> 
-FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank> 
-
-WHERE
-  { ?actor rdf:type yago:AmericanFilmActors.
-    ?actor dct:subject ?filter.
-    ?actor rdfs:label ?name.
-    ?actor vrank:hasRank ?value.
-    ?actor dbp:birthDate ?date
-
-    FILTER langMatches(lang(?name), "EN")
-    FILTER regex(?filter, "st-century_American_", "i")
-    FILTER regex(?filter, "act", "i")
-  }
-
-ORDER BY DESC (?value) 
-LIMIT 50
+PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+                PREFIX  dbo:  <http://dbpedia.org/ontology/> 
+                PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+                PREFIX dbp: <http://dbpedia.org/property/> 
+                PREFIX vrank:<http://purl.org/voc/vrank#> 
+                PREFIX yago: <http://dbpedia.org/class/yago/> 
+                PREFIX dct: <http://purl.org/dc/terms/> 
+                 
+                SELECT DISTINCT  ?name ?date 
+                 
+                FROM <http://dbpedia.org>  
+                FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank>  
+                 
+                WHERE 
+                  { ?actor rdf:type yago:AmericanFilmActors. 
+                    ?actor dct:subject ?filter. 
+                    ?actor rdfs:label ?name. 
+                    ?actor vrank:hasRank ?value. 
+                    ?actor dbp:birthDate ?date 
+                 
+                    FILTER langMatches(lang(?name), "EN") 
+                    FILTER regex(?filter, "st-century_American_", "i") 
+                    FILTER regex(?filter, "act", "i") 
+                    FILTER (?name != "Snoop Dogg"@en) 
+                  } 
+                 
+                ORDER BY DESC (?value)  
+                LIMIT 50

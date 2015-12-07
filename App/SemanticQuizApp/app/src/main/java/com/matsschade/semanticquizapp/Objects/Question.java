@@ -86,7 +86,8 @@ public class Question {
                     String.valueOf(qs.getLiteral(questionTemplate.getAttribute())), questionTemplate.getAttributeType());
 
             // get rid of useless values and redundant elements
-            if (!attribute.equals("0.0") && !elementsArray.contains(element)) {
+            if (!attribute.equals("0.0") && !elementsArray.contains(element)&& !attributesArray.contains(attribute)
+                    && !element.equals("Snoop Dogg")) {
                 elementsArray.add(element);
 
                 if (questionTemplate.getAttribute().equals("rating")) {
@@ -99,7 +100,12 @@ public class Question {
                         obj = reader.readJsonFromUrl(requestURL);
                         double rating = obj.getDouble("imdbRating");
                         //Log.d("Rating", String.valueOf(rating));
-                        attributesArray.add(String.valueOf(rating));
+
+                        if(!attributesArray.contains(attribute)){
+
+                            attributesArray.add(String.valueOf(rating));
+
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -172,6 +178,7 @@ public class Question {
         if (questionTemplate.getAttributeType().equals("location")) {
             correctValue = String.valueOf(Math.min(Double.valueOf(candAAttribute), Math.min(Double.valueOf(candBAttribute),
                     Math.min(Double.valueOf(candCAttribute), Double.valueOf(candDAttribute)))));
+
         } else if (questionTemplate.getAttributeType().equals("string")) {
 
             ArrayList<String> list = new ArrayList<String>();

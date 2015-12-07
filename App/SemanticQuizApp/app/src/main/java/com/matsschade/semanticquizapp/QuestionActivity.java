@@ -202,7 +202,7 @@ public class QuestionActivity extends AppCompatActivity {
             buttonThree.append(Html.fromHtml("<br>" +formatter.format(question.getCandCAttribute()) + " " + "km<sup>2</sup>"));
             buttonFour.append(Html.fromHtml("<br>" + formatter.format(question.getCandDAttribute()) + " " + "km<sup>2</sup>"));
 
-        } else if (question.questionTemplate.getAttributeUnit().equals("year") ||  question.questionTemplate.getAttributeType().equals("string")) {
+        } else if (question.questionTemplate.getAttributeUnit().equals("year")) {
             buttonOne.append("\n" + question.getCandAAttribute());
             buttonTwo.append("\n" + question.getCandBAttribute());
             buttonThree.append("\n" + question.getCandCAttribute());

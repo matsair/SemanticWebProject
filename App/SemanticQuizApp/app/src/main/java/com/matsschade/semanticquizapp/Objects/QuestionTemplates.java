@@ -382,6 +382,7 @@ public class QuestionTemplates {
                 "    FILTER langMatches(lang(?name), \"EN\")\n" +
                 "    FILTER regex(?filter, \"st-century_American_\", \"i\")\n" +
                 "    FILTER regex(?filter, \"act\", \"i\")\n" +
+                "    FILTER (?name != \"Snoop Dogg\"@en)\n" +
                 "  }\n" +
                 "\n" +
                 "ORDER BY DESC (?value) \n" +
@@ -422,13 +423,13 @@ public class QuestionTemplates {
         queries[2][2] = new QuestionTemplate(queryCountry3, "country_name", "hdi", questionCountry3,"number", "HDI Index", "http://dbpedia.org/sparql");
         queries[2][3] = new QuestionTemplate(queryCountry4, "country_name", "geo", questionCountry4,"location", "km", "http://dbpedia.org/sparql");
         queries[3][0] = new QuestionTemplate(queryMovie1, "name", "rating", questionMovie1,"", "","http://dbpedia.org/sparql");
-        queries[3][1] = new QuestionTemplate(queryMovie2, "name", "date", questionMovie2,"number", "year", "http://dbpedia.org/sparql");
-        queries[3][1] = new QuestionTemplate(queryMovie3, "date", "name", questionMovie3,"string", "", "http://data.linkedmdb.org/sparql");
+        queries[3][1] = new QuestionTemplate(queryMovie2, "name", "date", questionMovie2,"year", "year", "http://dbpedia.org/sparql");
+        queries[3][2] = new QuestionTemplate(queryMovie3, "date", "name", questionMovie3,"string", "year", "http://data.linkedmdb.org/sparql");
     }
 
     // Has to be randomized
     public static QuestionTemplate getRandomQuestionTemplate(int categoryID) {
-        int arraySize = 2;//queries[categoryID].length;
+        int arraySize = 3;//queries[categoryID].length;
        int randomNumber = (int) (Math.random()*arraySize);
         return queries[categoryID][randomNumber];
     }

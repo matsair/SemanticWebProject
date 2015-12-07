@@ -20,6 +20,12 @@ public class StringProcessing {
             double value = Double.valueOf(string);
             string = Double.toString(value);
         }
+
+        else if (attributeType.equals("year")) {
+            string = cleanString(string);
+            string = Double.toString(Double.valueOf(string.substring(0, 4)));
+        }
+
         else if (attributeType.equals("currency")) {
             string = cleanCurrency(string);
         }
