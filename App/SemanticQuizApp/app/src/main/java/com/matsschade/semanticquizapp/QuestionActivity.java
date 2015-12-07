@@ -239,10 +239,10 @@ public class QuestionActivity extends AppCompatActivity {
         makeButtonsClickable(false);
         changeButtonTextSize(14);
         if (question.questionTemplate.getAttributeUnit().equals("km2")) {
-            buttonOne.append(Html.fromHtml("<br>" + formatter.format(question.getCandAAttribute()) + " " + "km<sup>2</sup>"));
-            buttonTwo.append(Html.fromHtml("<br>" + formatter.format(question.getCandBAttribute()) + " " + "km<sup>2</sup>"));
-            buttonThree.append(Html.fromHtml("<br>" +formatter.format(question.getCandCAttribute()) + " " + "km<sup>2</sup>"));
-            buttonFour.append(Html.fromHtml("<br>" + formatter.format(question.getCandDAttribute()) + " " + "km<sup>2</sup>"));
+            buttonOne.append(Html.fromHtml("<br>" + formatter.format(Double.valueOf(question.getCandAAttribute())) + " " + "km<sup>2</sup>"));
+            buttonTwo.append(Html.fromHtml("<br>" + formatter.format(Double.valueOf(question.getCandBAttribute())) + " " + "km<sup>2</sup>"));
+            buttonThree.append(Html.fromHtml("<br>" +formatter.format(Double.valueOf(question.getCandCAttribute())) + " " + "km<sup>2</sup>"));
+            buttonFour.append(Html.fromHtml("<br>" + formatter.format(Double.valueOf(question.getCandDAttribute())) + " " + "km<sup>2</sup>"));
 
         } else if (question.questionTemplate.getAttributeUnit().equals("year") ||  question.questionTemplate.getAttributeType().equals("string")) {
             buttonOne.append("\n" + question.getCandAAttribute());

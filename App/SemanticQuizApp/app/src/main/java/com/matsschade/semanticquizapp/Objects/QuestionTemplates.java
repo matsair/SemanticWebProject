@@ -461,6 +461,6 @@ public class QuestionTemplates {
     public static QuestionTemplate getRandomQuestionTemplate(int categoryID) {
         int arraySize = 2;//queries[categoryID].length;
        int randomNumber = (int) (Math.random()*arraySize);
-        return queries[categoryID][3];
+        return queries[categoryID][0];
     }
 }
