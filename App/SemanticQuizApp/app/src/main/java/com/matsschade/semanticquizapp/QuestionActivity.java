@@ -38,6 +38,8 @@ public class QuestionActivity extends AppCompatActivity {
 
     private Question question;
 
+    private boolean testForDirector;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,10 +73,24 @@ public class QuestionActivity extends AppCompatActivity {
         QuestionTemplates.initializeQueries();
         generateNewQuestion();
 
+        if (question.questionTemplate.getAttribute().equals("director")) {
+            testForDirector = true;
+        }
+        else {
+            testForDirector = false;
+        }
+
         buttonOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (question.getCorrectAnswer().equals(question.getCandAName())) {
+                String candA;
+                if (testForDirector) {
+                    candA = question.getCandAAttribute();
+                }
+                else {
+                    candA = question.getCandAName();
+                }
+                if (question.getCorrectAnswer().equals(candA)) {
                     incrementCorrect();
                     snackBarText = "Yeah!";
                     buttonOne.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
@@ -93,7 +109,14 @@ public class QuestionActivity extends AppCompatActivity {
         buttonTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (question.getCorrectAnswer().equals(question.getCandBName())) {
+                String candB;
+                if (testForDirector) {
+                    candB = question.getCandBAttribute();
+                }
+                else {
+                    candB = question.getCandBName();
+                }
+                if (question.getCorrectAnswer().equals(candB)) {
                     incrementCorrect();
                     snackBarText = "Yeah!";
                     buttonTwo.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
@@ -113,7 +136,14 @@ public class QuestionActivity extends AppCompatActivity {
         buttonThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (question.getCorrectAnswer().equals(question.getCandCName())) {
+                String candC;
+                if (testForDirector) {
+                    candC = question.getCandCAttribute();
+                }
+                else {
+                    candC = question.getCandCName();
+                }
+                if (question.getCorrectAnswer().equals(candC)) {
                     incrementCorrect();
                     snackBarText = "Yeah!";
                     buttonThree.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
@@ -134,7 +164,14 @@ public class QuestionActivity extends AppCompatActivity {
         buttonFour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (question.getCorrectAnswer().equals(question.getCandDName())) {
+                String candD;
+                if (testForDirector) {
+                    candD = question.getCandDAttribute();
+                }
+                else {
+                    candD = question.getCandDName();
+                }
+                if (question.getCorrectAnswer().equals(candD)) {
                     incrementCorrect();
                     snackBarText = "Yeah!";
                     buttonFour.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
@@ -157,7 +194,12 @@ public class QuestionActivity extends AppCompatActivity {
 
         question = new Question(categoryID, this);
 
-        questionText.setText(question.questionTemplate.getQuestion());
+        if (question.questionTemplate.getAttribute().equals("director")) {
+            questionText.setText(question.getCorrectAnswer() + question.questionTemplate.getQuestion());
+        }
+        else {
+            questionText.setText(question.questionTemplate.getQuestion());
+        }
         buttonOne.setText(question.getCandAName());
         buttonTwo.setText(question.getCandBName());
         buttonThree.setText(question.getCandCName());
@@ -208,7 +250,11 @@ public class QuestionActivity extends AppCompatActivity {
             buttonThree.append("\n" + question.getCandCAttribute());
             buttonFour.append("\n" + question.getCandDAttribute());
 
-        } else {
+        }
+        else if (question.questionTemplate.getAttribute().equals("director")) {
+            // Do nothing
+        }
+        else {
             buttonOne.append("\n" + formatter.format(Double.valueOf(question.getCandAAttribute())) + " " + question.questionTemplate.getAttributeUnit());
             buttonTwo.append("\n" + formatter.format(Double.valueOf(question.getCandBAttribute())) + " " + question.questionTemplate.getAttributeUnit());
             buttonThree.append("\n" + formatter.format(Double.valueOf(question.getCandCAttribute())) + " " + question.questionTemplate.getAttributeUnit());

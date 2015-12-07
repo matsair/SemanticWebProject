@@ -409,6 +409,36 @@ public class QuestionTemplates {
 
         String questionMovie3 = "Which of the following films has been produced most recently?";
 
+        String queryMovie4 = "PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                " \n" +
+                "                PREFIX  dbo:  <http://dbpedia.org/ontology/> \n" +
+                "                PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+                "                PREFIX dbp: <http://dbpedia.org/property/> \n" +
+                "                PREFIX vrank:<http://purl.org/voc/vrank#> \n" +
+                "                 \n" +
+                "                SELECT DISTINCT  ?name ?director\n" +
+                "                 \n" +
+                "                FROM <http://dbpedia.org>  \n" +
+                "                FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank>  \n" +
+                "                 \n" +
+                "                WHERE \n" +
+                "                  { ?film rdf:type dbo:Film . \n" +
+                "                    ?film rdfs:label ?name . \n" +
+                "                    ?film dbp:country \"United States\"@en. \n" +
+                "                    ?film vrank:hasRank ?value. \n" +
+                "                    ?film rdfs:label ?director.                  \n" +
+                "                    ?film dbp:gross ?budget. \n" +
+                "                 \n" +
+                "                FILTER langMatches(lang(?name), \"EN\")\n" +
+                "                FILTER langMatches(lang(?director), \"EN\")  \n" +
+                "                FILTER (?budget>1000000) \n" +
+                "                 \n" +
+                "                  } \n" +
+                "                ORDER BY DESC (?value)  \n" +
+                "                LIMIT 50";
+
+        String questionMovie4 = " was the director of which movie?";
+
         queries[0][0] = new QuestionTemplate(queryCity1,"city_name", "sun", questionCity1,"number", "hours", "http://dbpedia.org/sparql");
         queries[0][1] = new QuestionTemplate(queryCity2, "city_name", "precip", questionCity2,"number", "mm", "http://dbpedia.org/sparql");
         queries[0][2] = new QuestionTemplate(queryCity3, "name", "population", questionCity3,"number", "inhabitants", "http://dbpedia.org/sparql");
@@ -423,13 +453,14 @@ public class QuestionTemplates {
         queries[2][3] = new QuestionTemplate(queryCountry4, "country_name", "geo", questionCountry4,"location", "km", "http://dbpedia.org/sparql");
         queries[3][0] = new QuestionTemplate(queryMovie1, "name", "rating", questionMovie1,"", "","http://dbpedia.org/sparql");
         queries[3][1] = new QuestionTemplate(queryMovie2, "name", "date", questionMovie2,"number", "year", "http://dbpedia.org/sparql");
-        queries[3][1] = new QuestionTemplate(queryMovie3, "date", "name", questionMovie3,"string", "", "http://data.linkedmdb.org/sparql");
+        queries[3][2] = new QuestionTemplate(queryMovie3, "date", "name", questionMovie3,"string", "", "http://data.linkedmdb.org/sparql");
+        queries[3][3] = new QuestionTemplate(queryMovie4, "name", "director", questionMovie4,"string", "", "http://dbpedia.org/sparql");
     }
 
     // Has to be randomized
     public static QuestionTemplate getRandomQuestionTemplate(int categoryID) {
         int arraySize = 2;//queries[categoryID].length;
        int randomNumber = (int) (Math.random()*arraySize);
-        return queries[categoryID][randomNumber];
+        return queries[categoryID][3];
     }
 }
