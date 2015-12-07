@@ -11,4 +11,9 @@
         android:title="@string/action_back"
         android:orderInCategory="101"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_report"
+        android:title="@string/action_report"
+        android:orderInCategory="102"
+        app:showAsAction="never" />
 </menu>

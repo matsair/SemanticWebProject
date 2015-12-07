@@ -14,8 +14,13 @@ import com.hp.hpl.jena.query.ResultSetFactory;
 import com.hp.hpl.jena.query.ResultSetFormatter;
 import com.matsschade.semanticquizapp.GPS.GEODistance;
 import com.matsschade.semanticquizapp.GPS.GPSTracker;
+import com.matsschade.semanticquizapp.Processing.JSONReader;
 import com.matsschade.semanticquizapp.Processing.StringProcessing;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -25,7 +30,7 @@ import java.util.Collections;
 public class Question {
 
     private int categoryID;
-    public QuestionTemplate q;
+    public QuestionTemplate questionTemplate;
     private String candAName, candBName, candCName, candDName;
     private double candAAttribute, candBAttribute, candCAttribute, candDAttribute;
     private String correctAnswer;
@@ -48,8 +53,8 @@ public class Question {
     private void executeQuery(int categoryID) {
 
         //Initialize the resultsSet
-        q = QuestionTemplates.getRandomQuestionTemplate(categoryID);
-        Query query = QueryFactory.create(q.getQuery());
+        questionTemplate = QuestionTemplates.getRandomQuestionTemplate(categoryID);
+        Query query = QueryFactory.create(questionTemplate.getQuery());
         String endpoint = "http://dbpedia.org/sparql";
         //String endpoint = "http://linkedmdb.org/sparql";
 
@@ -74,18 +79,38 @@ public class Question {
             QuerySolution qs;
             qs = resultsSet.next();
 
-            Log.d("initial Value",String.valueOf(qs.getLiteral(q.getElement())));
+            Log.d("initial Value",String.valueOf(qs.getLiteral(questionTemplate.getElement())));
 
             String element = StringProcessing.clean(
-                    String.valueOf(qs.getLiteral(q.getElement())), "string");
-
-            String attribute = StringProcessing.clean(
-                    String.valueOf(qs.getLiteral(q.getAttribute())), q.getAttributeType());
+                    String.valueOf(qs.getLiteral(questionTemplate.getElement())), "string");
 
             // get rid of useless values and redundant elements
-            if (!attribute.equals("0.0") && !elementsArray.contains(element)) {
+            if (/*!attribute.equals("0.0") && */!elementsArray.contains(element)) {
                 elementsArray.add(element);
-                attributesArray.add(attribute);
+                if (categoryID != 3) {
+                    String attribute = StringProcessing.clean(
+                            String.valueOf(qs.getLiteral(questionTemplate.getAttribute())), questionTemplate.getAttributeType());
+                    attributesArray.add(attribute);
+                }
+                else {
+                    String movie = element;
+                    movie = movie.replaceAll("\\(.+\\)", "");
+                    movie = movie.replace(" ", "+");
+                    String requestURL = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&r=json";
+                    Log.d("Movie Request URL", requestURL);
+                    JSONReader reader = new JSONReader();
+                    JSONObject obj = null;
+                    try {
+                        obj = reader.readJsonFromUrl(requestURL);
+                        double rating = obj.getDouble("imdbRating");
+                        Log.d("Rating", String.valueOf(rating));
+                        attributesArray.add(String.valueOf(rating));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }
@@ -101,13 +126,12 @@ public class Question {
         randomInt3 = shuffledArray.get(2);
         randomInt4 = shuffledArray.get(3);
 
-
         this.candAName = elementsArray.get(randomInt1);
         this.candBName = elementsArray.get(randomInt2);
         this.candCName = elementsArray.get(randomInt3);
         this.candDName = elementsArray.get(randomInt4);
 
-        if (q.getAttributeType().equals("location")) {
+        if (questionTemplate.getAttributeType().equals("location")) {
 
             tracker = new GPSTracker(mycontext);
             Location location = tracker.getLocation();
@@ -149,7 +173,7 @@ public class Question {
 
         double correctValue;
 
-        if (q.getAttributeType().equals("location")) {
+        if (questionTemplate.getAttributeType().equals("location")) {
             correctValue = Math.min(candAAttribute, Math.min(candBAttribute,
                     Math.min(candCAttribute, candDAttribute)));
         } else {

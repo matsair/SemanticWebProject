@@ -3,11 +3,13 @@ package com.matsschade.semanticquizapp;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
+import com.matsschade.semanticquizapp.Email.GMailSender;
 import com.matsschade.semanticquizapp.Objects.Question;
 import com.matsschade.semanticquizapp.Objects.QuestionTemplates;
 
@@ -154,7 +157,7 @@ public class QuestionActivity extends AppCompatActivity {
 
         question = new Question(categoryID, this);
 
-        questionText.setText(question.q.getQuestion());
+        questionText.setText(question.questionTemplate.getQuestion());
         buttonOne.setText(question.getCandAName());
         buttonTwo.setText(question.getCandBName());
         buttonThree.setText(question.getCandCName());
@@ -193,23 +196,23 @@ public class QuestionActivity extends AppCompatActivity {
 
         makeButtonsClickable(false);
         changeButtonTextSize(14);
-        if (question.q.getAttributeUnit().equals("km2")) {
+        if (question.questionTemplate.getAttributeUnit().equals("km2")) {
             buttonOne.append(Html.fromHtml("<br>" + formatter.format(question.getCandAAttribute()) + " " + "km<sup>2</sup>"));
             buttonTwo.append(Html.fromHtml("<br>" + formatter.format(question.getCandBAttribute()) + " " + "km<sup>2</sup>"));
             buttonThree.append(Html.fromHtml("<br>" +formatter.format(question.getCandCAttribute()) + " " + "km<sup>2</sup>"));
             buttonFour.append(Html.fromHtml("<br>" + formatter.format(question.getCandDAttribute()) + " " + "km<sup>2</sup>"));
 
-        } else if (question.q.getAttributeUnit().equals("year")) {
+        } else if (question.questionTemplate.getAttributeUnit().equals("year")) {
             buttonOne.append("\n" + (int) question.getCandAAttribute());
             buttonTwo.append("\n" + (int) question.getCandBAttribute());
             buttonThree.append("\n" + (int) question.getCandCAttribute());
             buttonFour.append("\n" + (int) question.getCandDAttribute());
 
         } else {
-            buttonOne.append("\n" + formatter.format(question.getCandAAttribute()) + " " + question.q.getAttributeUnit());
-            buttonTwo.append("\n" + formatter.format(question.getCandBAttribute()) + " " + question.q.getAttributeUnit());
-            buttonThree.append("\n" + formatter.format(question.getCandCAttribute()) + " " + question.q.getAttributeUnit());
-            buttonFour.append("\n" + formatter.format(question.getCandDAttribute()) + " " + question.q.getAttributeUnit());
+            buttonOne.append("\n" + formatter.format(question.getCandAAttribute()) + " " + question.questionTemplate.getAttributeUnit());
+            buttonTwo.append("\n" + formatter.format(question.getCandBAttribute()) + " " + question.questionTemplate.getAttributeUnit());
+            buttonThree.append("\n" + formatter.format(question.getCandCAttribute()) + " " + question.questionTemplate.getAttributeUnit());
+            buttonFour.append("\n" + formatter.format(question.getCandDAttribute()) + " " + question.questionTemplate.getAttributeUnit());
         }
         Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), snackBarText, Snackbar.LENGTH_INDEFINITE)
                 .setAction("Next Question", new View.OnClickListener() {
@@ -290,6 +293,10 @@ public class QuestionActivity extends AppCompatActivity {
             goBack();
         }
 
+        if (id == R.id.action_report) {
+            new SendEmailAsyncTask().execute();
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -314,5 +321,27 @@ public class QuestionActivity extends AppCompatActivity {
     private void goBack(){
         Intent intent = new Intent(this, StartActivity.class);
         startActivity(intent);
+    }
+
+    private class SendEmailAsyncTask extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                GMailSender sender = new GMailSender("semanticquizappfeedback@gmail.com", "124nv9Av53");
+                sender.sendMail("This is Subject",
+                        "Correct Answer: " + question.getCorrectAnswer() +
+                                "\nCandidate A: " + question.getCandAName() + question.getCandAAttribute() +
+                                "\nCandidate B: " + question.getCandBName() + question.getCandBAttribute() +
+                                "\nCandidate C: " + question.getCandCName() + question.getCandCAttribute() +
+                                "\nCandidate D: " + question.getCandDName() + question.getCandDAttribute(),
+                        "semanticquizappfeedback@gmail.com",
+                        "matsschade@gmail.com");
+                return true;
+            } catch (Exception e) {
+                Log.e("SendMail", e.getMessage(), e);
+                return false;
+            }
+        }
     }
 }

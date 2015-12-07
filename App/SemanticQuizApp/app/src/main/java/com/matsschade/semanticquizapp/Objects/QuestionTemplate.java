@@ -11,6 +11,7 @@ public class QuestionTemplate {
     private String attribute;
     private String question;
     private String attributeType;
+    private String questionType;
 
     public String getAttributeUnit() {
         return attributeUnit;
@@ -23,7 +24,7 @@ public class QuestionTemplate {
         this.element = element;
         this.attribute = attribute;
         this.question = question;
-        this. attributeType = type;
+        this.attributeType = type;
         this.attributeUnit = attributeUnit;
     }
 
