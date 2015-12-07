@@ -210,7 +210,7 @@ public class QuestionActivity extends AppCompatActivity {
                 questionPlaceholder = question.getCandDAttribute();
             }
 
-            questionText.setText(questionPlaceholder + question.questionTemplate.getQuestion());
+            questionText.setText("\"" + questionPlaceholder + "\"" + question.questionTemplate.getQuestion());
         }
         else if(question.questionTemplate.getAttribute().equals("name")) {
 

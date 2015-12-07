@@ -461,7 +461,7 @@ public class QuestionTemplates {
     // Has to be randomized
     public static QuestionTemplate getRandomQuestionTemplate(int categoryID) {
         int arraySize = queries[categoryID].length;
-       int randomNumber = (int) (Math.random()*arraySize);
+        int randomNumber = (int) (Math.random()*arraySize);
         return queries[categoryID][randomNumber];
     }
 }
