@@ -86,9 +86,11 @@ public class QuestionActivity extends AppCompatActivity {
                 String candA;
                 if (testForDirector) {
                     candA = question.getCandAAttribute();
+                    Log.d("TestForDirector TRUE", candA);
                 }
                 else {
                     candA = question.getCandAName();
+                    Log.d("TestForDirector FALSE", candA);
                 }
                 if (question.getCorrectAnswer().equals(candA)) {
                     incrementCorrect();
@@ -195,9 +197,38 @@ public class QuestionActivity extends AppCompatActivity {
         question = new Question(categoryID, this);
 
         if (question.questionTemplate.getAttribute().equals("director")) {
-            questionText.setText(question.getCorrectAnswer() + question.questionTemplate.getQuestion());
+
+            String questionPlaceholder;
+
+            if (question.getCorrectAnswer().equals(question.getCandAName())){
+                questionPlaceholder = question.getCandAAttribute();
+            } else if (question.getCorrectAnswer().equals(question.getCandBName())) {
+                questionPlaceholder = question.getCandBAttribute();
+            }else if (question.getCorrectAnswer().equals(question.getCandCName())) {
+                questionPlaceholder = question.getCandCAttribute();
+            }else {
+                questionPlaceholder = question.getCandDAttribute();
+            }
+
+            questionText.setText(questionPlaceholder + question.questionTemplate.getQuestion());
         }
-        else {
+        else if(question.questionTemplate.getAttribute().equals("name")) {
+
+            String questionPlaceholder;
+
+            if (question.getCorrectAnswer().equals(question.getCandAName())){
+                questionPlaceholder = question.getCandAAttribute();
+            } else if (question.getCorrectAnswer().equals(question.getCandBName())) {
+                questionPlaceholder = question.getCandBAttribute();
+            }else if (question.getCorrectAnswer().equals(question.getCandCName())) {
+                questionPlaceholder = question.getCandCAttribute();
+            }else {
+                questionPlaceholder = question.getCandDAttribute();
+            }
+
+            questionText.setText("When did \"" + questionPlaceholder + "\" first play in theaters?");
+
+        }else {
             questionText.setText(question.questionTemplate.getQuestion());
         }
         buttonOne.setText(question.getCandAName());
@@ -207,18 +238,18 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     private void setRightAnswer() {
-        if (question.getCorrectAnswer().equals(question.getCandDName())) {
-            buttonFour.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
-        }
-        else if (question.getCorrectAnswer().equals(question.getCandCName())) {
-            buttonThree.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
-        }
-        else if (question.getCorrectAnswer().equals(question.getCandBName())) {
-            buttonTwo.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
-        }
-        else if (question.getCorrectAnswer().equals(question.getCandAName())){
-            buttonOne.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
-        }
+            if (question.getCorrectAnswer().equals(question.getCandDName())) {
+                buttonFour.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
+            }
+            else if (question.getCorrectAnswer().equals(question.getCandCName())) {
+                buttonThree.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
+            }
+            else if (question.getCorrectAnswer().equals(question.getCandBName())) {
+                buttonTwo.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
+            }
+            else if (question.getCorrectAnswer().equals(question.getCandAName())){
+                buttonOne.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
+            }
     }
 
     private void resetButtonColors() {

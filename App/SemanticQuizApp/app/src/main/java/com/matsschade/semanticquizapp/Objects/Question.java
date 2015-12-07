@@ -11,7 +11,6 @@ import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.query.ResultSetFactory;
-import com.hp.hpl.jena.query.ResultSetFormatter;
 import com.matsschade.semanticquizapp.GPS.GEODistance;
 import com.matsschade.semanticquizapp.GPS.GPSTracker;
 import com.matsschade.semanticquizapp.Processing.JSONReader;
@@ -64,7 +63,7 @@ public class Question {
             ResultSet showSet = ResultSetFactory.copyResults(qexec.execSelect());
 
             //This also moves the resultsSet to the last row --> commented out to avoid errors
-            ResultSetFormatter.out(System.out, showSet);
+//            ResultSetFormatter.out(System.out, showSet);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -77,61 +76,53 @@ public class Question {
             QuerySolution qs;
             qs = resultsSet.next();
 
-            Log.d("initial Value",String.valueOf(qs.getLiteral(questionTemplate.getElement())));
+            Log.d("initial Value", String.valueOf(qs.getLiteral(questionTemplate.getElement())));
 
             String element = StringProcessing.clean(
                     String.valueOf(qs.getLiteral(questionTemplate.getElement())), questionTemplate.getElementType());
 
-            String attribute = StringProcessing.clean(
-                    String.valueOf(qs.getLiteral(questionTemplate.getAttribute())), questionTemplate.getAttributeType());
+            String attribute = "";
+            if (questionTemplate.getAttribute().equals("rating")) {
+                String placeholder = element.replace(" ", "+");
+                String requestURL = "http://www.omdbapi.com/?t=" + placeholder + "&y=&plot=short&r=json";
+//                Log.d("Movie Request URL", requestURL);
+                JSONReader reader = new JSONReader();
+                JSONObject obj;
+                try {
+                    obj = reader.readJsonFromUrl(requestURL);
+                    attribute = Double.toString(obj.getDouble("imdbRating"));
+                    //Log.d("Rating", String.valueOf(rating));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (questionTemplate.getAttribute().equals("director")) {
+                String placeholder = element.replace(" ", "+");
+                String requestURL = "http://www.omdbapi.com/?t=" + placeholder + "&y=&plot=short&r=json";
+//                Log.d("Movie Request URL", requestURL);
+                JSONReader reader = new JSONReader();
+                JSONObject obj;
+                try {
+                    obj = reader.readJsonFromUrl(requestURL);
+                    String director = obj.getString("Director");
+                    //Log.d("Rating", String.valueOf(rating));
+                    int spaceIndex = director.indexOf(",");
+                    if (spaceIndex != -1) {
+                        director = director.substring(0, spaceIndex);
+                    }
+                    attribute = String.valueOf(director);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                attribute = StringProcessing.clean(
+                        String.valueOf(qs.getLiteral(questionTemplate.getAttribute())), questionTemplate.getAttributeType());
+            }
 
             // get rid of useless values and redundant elements
             if (!attribute.equals("0.0") && !elementsArray.contains(element) && !attributesArray.contains(attribute)) {
                 elementsArray.add(element);
-
-                if (questionTemplate.getAttribute().equals("rating")) {
-                    element = element.replace(" ", "+");
-                    String requestURL = "http://www.omdbapi.com/?t=" + element + "&y=&plot=short&r=json";
-                    Log.d("Movie Request URL", requestURL);
-                    JSONReader reader = new JSONReader();
-                    JSONObject obj;
-                    try {
-                        obj = reader.readJsonFromUrl(requestURL);
-                        double rating = obj.getDouble("imdbRating");
-                        //Log.d("Rating", String.valueOf(rating));
-
-                        if(!attributesArray.contains(attribute)){
-
-                            attributesArray.add(String.valueOf(rating));
-
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                else if (questionTemplate.getAttribute().equals("director")) {
-                    element = element.replace(" ", "+");
-                    String requestURL = "http://www.omdbapi.com/?t=" + element + "&y=&plot=short&r=json";
-                    Log.d("Movie Request URL", requestURL);
-                    JSONReader reader = new JSONReader();
-                    JSONObject obj;
-                    try {
-                        obj = reader.readJsonFromUrl(requestURL);
-                        String director = obj.getString("Director");
-                        //Log.d("Rating", String.valueOf(rating));
-                        int spaceIndex = director.indexOf(",");
-                        if (spaceIndex != -1)
-                        {
-                            director = director.substring(0, spaceIndex);
-                        }
-                        attributesArray.add(String.valueOf(director));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                else {
-                    attributesArray.add(attribute);
-                }
+                attributesArray.add(attribute);
             }
         }
     }
@@ -157,10 +148,22 @@ public class Question {
             randomInt3 = shuffledArray.get(2);
             randomInt4 = shuffledArray.get(3);
         }
-        this.candAName = elementsArray.get(randomInt1);
-        this.candBName = elementsArray.get(randomInt2);
-        this.candCName = elementsArray.get(randomInt3);
-        this.candDName = elementsArray.get(randomInt4);
+
+        if (questionTemplate.getElementType().equals("year")){
+
+            this.candAName = Integer.toString(Double.valueOf(elementsArray.get(randomInt1)).intValue());
+            this.candBName = Integer.toString(Double.valueOf(elementsArray.get(randomInt2)).intValue());
+            this.candCName = Integer.toString(Double.valueOf(elementsArray.get(randomInt3)).intValue());
+            this.candDName = Integer.toString(Double.valueOf(elementsArray.get(randomInt4)).intValue());
+
+        }else {
+
+            this.candAName = elementsArray.get(randomInt1);
+            this.candBName = elementsArray.get(randomInt2);
+            this.candCName = elementsArray.get(randomInt3);
+            this.candDName = elementsArray.get(randomInt4);
+
+        }
 
         if (questionTemplate.getAttributeType().equals("location")) {
 
@@ -203,7 +206,7 @@ public class Question {
     private void determineCorrectAnswer() {
 
         String correctValue;
-        boolean blabla = true;
+        //boolean answerIsANumber = true;
 
         if (questionTemplate.getAttributeType().equals("location")) {
             correctValue = String.valueOf(Math.min(Double.valueOf(candAAttribute), Math.min(Double.valueOf(candBAttribute),
@@ -219,15 +222,14 @@ public class Question {
 
             //choose arbitrary string of the four strings
             correctValue = list.get((int) (Math.random()*4));
-            this.correctAnswer = correctValue;
-            blabla = false;
+            //this.correctAnswer = correctValue;
 
         } else {
             correctValue = String.valueOf(Math.max(Double.valueOf(candAAttribute), Math.max(Double.valueOf(candBAttribute),
                     Math.max(Double.valueOf(candCAttribute), Double.valueOf(candDAttribute)))));
         }
 
-        if (blabla) {
+        //if (answerIsANumber) {
             if (correctValue.equals(candAAttribute)){
                 this.correctAnswer = candAName;}
             if (correctValue.equals(candBAttribute)){
@@ -236,7 +238,8 @@ public class Question {
                 this.correctAnswer = candCName;}
             if (correctValue.equals(candDAttribute)){
                 this.correctAnswer = candDName;}
-        }
+       // }
+        Log.d("CorrectAnswer", "" + this.correctAnswer);
     }
 
 
