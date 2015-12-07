@@ -94,7 +94,7 @@ public class Question {
                     String requestURL = "http://www.omdbapi.com/?t=" + element + "&y=&plot=short&r=json";
                     Log.d("Movie Request URL", requestURL);
                     JSONReader reader = new JSONReader();
-                    JSONObject obj = null;
+                    JSONObject obj;
                     try {
                         obj = reader.readJsonFromUrl(requestURL);
                         double rating = obj.getDouble("imdbRating");

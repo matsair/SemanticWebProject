@@ -329,12 +329,12 @@ public class QuestionActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             try {
                 GMailSender sender = new GMailSender("semanticquizappfeedback@gmail.com", "124nv9Av53");
-                sender.sendMail("This is Subject",
+                sender.sendMail("[Semantic Quiz App] Error Report",
                         "Correct Answer: " + question.getCorrectAnswer() +
-                                "\nCandidate A: " + question.getCandAName() + question.getCandAAttribute() +
-                                "\nCandidate B: " + question.getCandBName() + question.getCandBAttribute() +
-                                "\nCandidate C: " + question.getCandCName() + question.getCandCAttribute() +
-                                "\nCandidate D: " + question.getCandDName() + question.getCandDAttribute(),
+                                "\nCandidate A: " + question.getCandAName() + " " + question.getCandAAttribute() +
+                                "\nCandidate B: " + question.getCandBName() + " " + question.getCandBAttribute() +
+                                "\nCandidate C: " + question.getCandCName() + " " + question.getCandCAttribute() +
+                                "\nCandidate D: " + question.getCandDName() + " " + question.getCandDAttribute(),
                         "semanticquizappfeedback@gmail.com",
                         "matsschade@gmail.com");
                 return true;

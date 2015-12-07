@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Semantic Quiz</string>
-    <string name="action_refresh">Settings</string>
     <string name="action_reset">Reset Stats</string>
     <string name="action_back">Back to Home Screen</string>
-    <string name="action_report">Report</string>
+    <string name="action_report">Report Error</string>
 
     <string name="question">Which of the following country has the largest population?</string>
+
 </resources>

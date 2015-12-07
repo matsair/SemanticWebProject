@@ -67,27 +67,31 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_below="@id/categories_title" >
+            android:layout_below="@id/categories_title">
             <RadioButton android:id="@+id/radio_cities"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="Cities"
+                android:textSize="12dp"
                 android:onClick="onRadioButtonClicked"/>
             <RadioButton android:id="@+id/radio_companies"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Companies"
+                android:textSize="12dp"
                 android:onClick="onRadioButtonClicked"/>
             <RadioButton android:id="@+id/radio_countries"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Countries"
+                android:textSize="12dp"
                 android:onClick="onRadioButtonClicked"/>
             <RadioButton android:id="@+id/radio_movies"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Movies"
+                android:textSize="12dp"
                 android:onClick="onRadioButtonClicked"/>
         </RadioGroup>
 
