@@ -17,30 +17,29 @@ public class doesQueryWork {
     {
 
         ResultSet resultsSet;
-        String text = "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
-                "PREFIX dct: <http://purl.org/dc/terms/>\n" +
-                "PREFIX dbc: <http://dbpedia.org/resource/Category:>\n" +
-                "PREFIX dbp: <http://dbpedia.org/property/>\n" +
-                "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-                "PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+        String text = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "PREFIX movie: <http://data.linkedmdb.org/resource/movie/>\n" +
+                "PREFIX vrank:<http://purl.org/voc/vrank#>\n" +
+                "PREFIX dc: <http://purl.org/dc/terms/>\n" +
                 "\n" +
-                "SELECT DISTINCT ?name ?revenue ?intl\n" +
-                "WHERE\n" +
-                "{\n" +
-                "  ?company rdf:type dbo:Company .\n" +
-                "  ?company rdfs:label ?name .\n" +
-                "  ?company dbp:revenue ?revenue.\n" +
-                "  ?company dbp:numEmployees ?employees .\n" +
-                "  ?company dbp:intl ?intl .\n" +
+                "SELECT ?movie_name  ?date \n" +
                 "\n" +
-                "   FILTER langMatches(lang(?name), \"DE\")\n" +
-                "   FILTER (?employees>100000).\n" +
-                "   FILTER regex(?intl, \"yes\", \"i\") \n" +
-                "}";
+                "FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank> \n" +
+                "FROM <http://data.linkedmdb.org/all>\n" +
+                "\n" +
+                "WHERE { \n" +
+                "?movie movie:actor ?actor.\n" +
+                "?actor movie:actor_name \"Brad Pitt\".\n" +
+                "?movie rdfs:label ?movie_name.\n" +
+                "?movie dc:date ?date. \n" +
+                "?movie_name vrank:hasRank ?value.\n" +
+                "}\n" +
+                "\n" +
+                "ORDER BY DESC(?value)";
 
 
         Query query = QueryFactory.create(text);
-        String endpoint = "http://dbpedia.org/sparql";
+        String endpoint = "http://linkedmdb.org/sparql";
 
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
         try

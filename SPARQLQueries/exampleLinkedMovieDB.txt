@@ -1,0 +1,12 @@
+SELECT ?name  ?distr ?date
+
+
+WHERE{
+
+?film dc:date ?date.
+?a movie:film_of_distributor ?film.
+?a movie:film_film_distributor_relationship_distributor ?distr.
+?film rdfs:label ?name.
+?film movie:initial_release_date ?date
+}
+ORDER BY DESC (?date)

@@ -4,10 +4,10 @@ PREFIX  dbp:  <http://dbpedia.org/property/>
 PREFIX  dct:  <http://purl.org/dc/terms/> 
 PREFIX  dbc:  <http://dbpedia.org/resource/Category:> 
 PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX yago: <http://yago-knowledge.org/resource/>
-PREFIX vrank:<http://purl.org/voc/vrank#>
+PREFIX yago: <http://dbpedia.org/class/yago/>
+PREFIX vrank: <http://purl.org/voc/vrank#>
  
-SELECT DISTINCT  ?city_name ?sun 
+SELECT DISTINCT  ?city_name ?sun
 
 FROM <http://dbpedia.org> 
 FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank> 
@@ -19,9 +19,7 @@ WHERE {
 ?city dbp:yearSun  ?sun.
 ?city vrank:hasRank ?value.
 
-?city  dbo:populationTotal ?population
-
 FILTER langMatches(lang(?city_name), "EN") 
 } 
 ORDER BY DESC (?value)
-LIMIT 60
+LIMIT 50
