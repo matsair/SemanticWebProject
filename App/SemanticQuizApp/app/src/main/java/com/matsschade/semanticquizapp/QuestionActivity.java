@@ -375,11 +375,12 @@ public class QuestionActivity extends AppCompatActivity {
             try {
                 GMailSender sender = new GMailSender("semanticquizappfeedback@gmail.com", "124nv9Av53");
                 sender.sendMail("[Semantic Quiz App] Error Report",
-                        "Correct Answer: " + question.getCorrectAnswer() +
-                                "\nCandidate A: " + question.getCandAName() + " " + question.getCandAAttribute() +
-                                "\nCandidate B: " + question.getCandBName() + " " + question.getCandBAttribute() +
-                                "\nCandidate C: " + question.getCandCName() + " " + question.getCandCAttribute() +
-                                "\nCandidate D: " + question.getCandDName() + " " + question.getCandDAttribute(),
+                        "Question: " + question.questionTemplate.getQuestion() +
+                                "\nCorrect Answer: " + question.getCorrectAnswer() +
+                                "\nCandidate A: " + question.getCandAName() + " " + question.getCandAAttribute() + question.questionTemplate.getAttributeUnit() +
+                                "\nCandidate B: " + question.getCandBName() + " " + question.getCandBAttribute() + question.questionTemplate.getAttributeUnit() +
+                                "\nCandidate C: " + question.getCandCName() + " " + question.getCandCAttribute() + question.questionTemplate.getAttributeUnit() +
+                                "\nCandidate D: " + question.getCandDName() + " " + question.getCandDAttribute() + question.questionTemplate.getAttributeUnit(),
                         "semanticquizappfeedback@gmail.com",
                         "matsschade@gmail.com");
                 return true;
