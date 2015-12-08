@@ -76,7 +76,7 @@ public class Question {
             QuerySolution qs;
             qs = resultsSet.next();
 
-            Log.d("initial Value", String.valueOf(qs.getLiteral(questionTemplate.getElement())));
+//            Log.d("initial Value", String.valueOf(qs.getLiteral(questionTemplate.getElement())));
 
             String element = StringProcessing.clean(
                     String.valueOf(qs.getLiteral(questionTemplate.getElement())), questionTemplate.getElementType());

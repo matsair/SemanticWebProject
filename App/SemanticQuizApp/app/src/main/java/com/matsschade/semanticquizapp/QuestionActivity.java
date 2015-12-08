@@ -61,15 +61,6 @@ public class QuestionActivity extends AppCompatActivity {
         buttonThree = (BootstrapButton) findViewById(R.id.answer_button_three);
         buttonFour = (BootstrapButton) findViewById(R.id.answer_button_four);
 
-//        back = (Button) findViewById(R.id.button_back);
-
-//        back.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                goBack();
-//            }
-//        });
-
         QuestionTemplates.initializeQueries();
         generateNewQuestion();
 
@@ -268,30 +259,36 @@ public class QuestionActivity extends AppCompatActivity {
         formatter.setMinimumFractionDigits(0);
 
         makeButtonsClickable(false);
-        changeButtonTextSize(14);
         if (question.questionTemplate.getAttributeUnit().equals("km2")) {
+            changeButtonTextSize(14);
             buttonOne.append(Html.fromHtml("<br>" + formatter.format(Double.valueOf(question.getCandAAttribute())) + " " + "km<sup>2</sup>"));
             buttonTwo.append(Html.fromHtml("<br>" + formatter.format(Double.valueOf(question.getCandBAttribute())) + " " + "km<sup>2</sup>"));
             buttonThree.append(Html.fromHtml("<br>" +formatter.format(Double.valueOf(question.getCandCAttribute())) + " " + "km<sup>2</sup>"));
             buttonFour.append(Html.fromHtml("<br>" + formatter.format(Double.valueOf(question.getCandDAttribute())) + " " + "km<sup>2</sup>"));
 
-        } else if (question.questionTemplate.getAttributeType().equals("string")) {
+        } else if (question.questionTemplate.getAttributeType().equals("string") && !question.questionTemplate.getAttribute().equals("name")) {
+            changeButtonTextSize(14);
             buttonOne.append("\n" + question.getCandAAttribute());
             buttonTwo.append("\n" + question.getCandBAttribute());
             buttonThree.append("\n" + question.getCandCAttribute());
             buttonFour.append("\n" + question.getCandDAttribute());
 
-    } else if (question.questionTemplate.getAttributeType().equals("year")) {
-        buttonOne.append("\n" + Double.valueOf(question.getCandAAttribute()).intValue());
-        buttonTwo.append("\n" + Double.valueOf(question.getCandBAttribute()).intValue());
-        buttonThree.append("\n" + Double.valueOf(question.getCandCAttribute()).intValue());
-        buttonFour.append("\n" + Double.valueOf(question.getCandDAttribute()).intValue());
+        } else if (question.questionTemplate.getAttributeType().equals("year")) {
+            changeButtonTextSize(14);
+            buttonOne.append("\n" + Double.valueOf(question.getCandAAttribute()).intValue());
+            buttonTwo.append("\n" + Double.valueOf(question.getCandBAttribute()).intValue());
+            buttonThree.append("\n" + Double.valueOf(question.getCandCAttribute()).intValue());
+            buttonFour.append("\n" + Double.valueOf(question.getCandDAttribute()).intValue());
 
-    }
+        }
         else if (question.questionTemplate.getAttribute().equals("director")) {
             // Do nothing
         }
+        else if (question.questionTemplate.getAttribute().equals("name")) {
+            // Do nothing
+        }
         else {
+            changeButtonTextSize(14);
             buttonOne.append("\n" + formatter.format(Double.valueOf(question.getCandAAttribute())) + " " + question.questionTemplate.getAttributeUnit());
             buttonTwo.append("\n" + formatter.format(Double.valueOf(question.getCandBAttribute())) + " " + question.questionTemplate.getAttributeUnit());
             buttonThree.append("\n" + formatter.format(Double.valueOf(question.getCandCAttribute())) + " " + question.questionTemplate.getAttributeUnit());
@@ -311,6 +308,7 @@ public class QuestionActivity extends AppCompatActivity {
         TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(Color.WHITE);
         snackbar.show();
+
     }
 
     private void makeButtonsClickable(boolean bool) {

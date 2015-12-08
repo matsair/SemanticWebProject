@@ -1,16 +1,15 @@
 package com.matsschade.semanticquizapp.Processing;
 
-import android.util.Log;
-
 /**
  * Created by rober_000 on 24.11.2015.
  */
 public class StringProcessing {
 
+    private final String TAG = "STRING PROCESSING";
 
     public static String clean(String string, String attributeType) {
 
-        Log.d("test", string);
+//        Log.d(TAG, string);
 
         if (attributeType.equals("string")  || attributeType.equals("location")) {
             string = cleanString(string);
@@ -30,7 +29,7 @@ public class StringProcessing {
             string = cleanCurrency(string);
         }
 
-        Log.d("test", string);
+//        Log.d(TAG, string);
         return string;
     }
 
@@ -52,12 +51,12 @@ public class StringProcessing {
             string = string.replaceAll("\\(.+\\)", "");
         }
 
-        //Log.d("test", string);
+        //Log.d(TAG, string);
         return string;
     }
 
     public static String cleanCurrency(String string) {
-        //Log.d("test", string);
+        //Log.d(TAG, string);
         String currency = "undefined";
         double value = 0;
 
@@ -101,7 +100,7 @@ public class StringProcessing {
             value = value * 1.06;
         }
 
-        //Log.d("test", Double.toString(value));
+        //Log.d(TAG, Double.toString(value));
         return Double.toString(value);
     }
 

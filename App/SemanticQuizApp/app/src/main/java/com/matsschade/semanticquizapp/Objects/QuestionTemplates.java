@@ -237,7 +237,7 @@ public class QuestionTemplates {
                 "ORDER BY DESC(?value)\n" +
                 "LIMIT 50";
 
-        String questionCompany4 = "The headquarters of which company are closest to your current location?";
+        String questionCompany4 = "Which company's headquarters is closest to your current location?";
 
         String queryCountry1 = "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
                 "PREFIX dct: <http://purl.org/dc/terms/>\n" +
@@ -408,7 +408,7 @@ public class QuestionTemplates {
                 "ORDER BY DESC (?date)\n" +
                 "LIMIT 300";
 
-        String questionMovie3 = "Which of the following films has been produced most recently?";
+        String questionMovie3 = "When did {movie} first play in theaters?";
 
         String queryMovie4 = "PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
                 " \n" +
