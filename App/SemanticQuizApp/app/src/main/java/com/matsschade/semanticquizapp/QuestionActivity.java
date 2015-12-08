@@ -65,26 +65,10 @@ public class QuestionActivity extends AppCompatActivity {
         QuestionTemplates.initializeQueries();
         generateNewQuestion();
 
-        if (question.questionTemplate.getAttribute().equals("director")) {
-            testForDirector = true;
-        }
-        else {
-            testForDirector = false;
-        }
-
         buttonOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String candA;
-                if (testForDirector) {
-                    candA = question.getCandAAttribute();
-                    Log.d("TestForDirector TRUE", candA);
-                }
-                else {
-                    candA = question.getCandAName();
-                    Log.d("TestForDirector FALSE", candA);
-                }
-                if (question.getCorrectAnswer().equals(candA)) {
+                if (question.getCorrectAnswer().equals(question.getCandAName())) {
                     incrementCorrect();
                     snackBarText = "Yeah!";
                     buttonOne.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
@@ -103,14 +87,7 @@ public class QuestionActivity extends AppCompatActivity {
         buttonTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String candB;
-                if (testForDirector) {
-                    candB = question.getCandBAttribute();
-                }
-                else {
-                    candB = question.getCandBName();
-                }
-                if (question.getCorrectAnswer().equals(candB)) {
+                if (question.getCorrectAnswer().equals(question.getCandBName())) {
                     incrementCorrect();
                     snackBarText = "Yeah!";
                     buttonTwo.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
@@ -130,14 +107,7 @@ public class QuestionActivity extends AppCompatActivity {
         buttonThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String candC;
-                if (testForDirector) {
-                    candC = question.getCandCAttribute();
-                }
-                else {
-                    candC = question.getCandCName();
-                }
-                if (question.getCorrectAnswer().equals(candC)) {
+                if (question.getCorrectAnswer().equals(question.getCandCName())) {
                     incrementCorrect();
                     snackBarText = "Yeah!";
                     buttonThree.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
@@ -158,14 +128,7 @@ public class QuestionActivity extends AppCompatActivity {
         buttonFour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String candD;
-                if (testForDirector) {
-                    candD = question.getCandDAttribute();
-                }
-                else {
-                    candD = question.getCandDName();
-                }
-                if (question.getCorrectAnswer().equals(candD)) {
+                if (question.getCorrectAnswer().equals(question.getCandDName())) {
                     incrementCorrect();
                     snackBarText = "Yeah!";
                     buttonFour.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
