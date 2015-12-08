@@ -25,6 +25,7 @@ import com.matsschade.semanticquizapp.Objects.QuestionTemplates;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Locale;
 
 
 public class QuestionActivity extends AppCompatActivity {
@@ -254,7 +255,7 @@ public class QuestionActivity extends AppCompatActivity {
 
     private void finishQuestion() {
 
-        NumberFormat formatter = DecimalFormat.getInstance();
+        NumberFormat formatter = DecimalFormat.getInstance(Locale.US);
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(0);
 
