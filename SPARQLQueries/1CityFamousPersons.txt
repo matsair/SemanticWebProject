@@ -5,7 +5,7 @@ PREFIX dbo: <http://dbpedia.org/ontology/>
 
 SELECT DISTINCT  ?name COUNT (DISTINCT ?personName)
 WHERE
-  { 
+{ 
     ?city rdf:type yago:Capital108518505 .
     ?city rdfs:label ?name.
     ?person rdfs:label ?personName.
@@ -13,5 +13,5 @@ WHERE
     ?city dbo:populationTotal ?population.
 
 FILTER (langMatches(lang(?name), "EN")) .
-    FILTER (?population > 2000000)
- }
+FILTER (?population > 2000000)
+}
