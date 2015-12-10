@@ -1,5 +1,6 @@
 package com.matsschade.semanticquizapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.TypefaceProvider;
@@ -339,7 +341,9 @@ public class QuestionActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_report) {
-            new SendEmailAsyncTask().execute();
+            SendEmailAsyncTask sendEmailAsyncTask = new SendEmailAsyncTask();
+            sendEmailAsyncTask.setmActivity(this);
+            sendEmailAsyncTask.execute();
         }
 
         return super.onOptionsItemSelected(item);
@@ -370,6 +374,8 @@ public class QuestionActivity extends AppCompatActivity {
 
     private class SendEmailAsyncTask extends AsyncTask<Void, Void, Boolean> {
 
+        Activity mActivity;
+
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
@@ -383,11 +389,16 @@ public class QuestionActivity extends AppCompatActivity {
                                 "\nCandidate D: " + question.getCandDName() + " " + question.getCandDAttribute() + question.questionTemplate.getAttributeUnit(),
                         "semanticquizappfeedback@gmail.com",
                         "matsschade@gmail.com");
+                Toast.makeText(mActivity, "Report sent, thanks!", Toast.LENGTH_SHORT).show();
                 return true;
             } catch (Exception e) {
                 Log.e("SendMail", e.getMessage(), e);
                 return false;
             }
+        }
+
+        public void setmActivity(Activity mActivity) {
+            this.mActivity = mActivity;
         }
     }
 }
