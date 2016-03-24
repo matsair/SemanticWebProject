@@ -39,7 +39,7 @@ public class QuestionActivity extends AppCompatActivity {
 
     String snackBarText;
 
-    private Question question;
+    public Question question;
 
     private boolean testForDirector;
 
@@ -65,7 +65,15 @@ public class QuestionActivity extends AppCompatActivity {
         buttonFour = (BootstrapButton) findViewById(R.id.answer_button_four);
 
         QuestionTemplates.initializeQueries();
-        generateNewQuestion();
+        newAsyncTask();
+
+    }
+
+    public void newAsyncTask() {
+        new GetQuestionOnlineTask(this).execute(categoryID);
+    }
+
+    public void setupButtons() {
 
         buttonOne.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,12 +154,9 @@ public class QuestionActivity extends AppCompatActivity {
                 finishQuestion();
             }
         });
-
     }
 
-    private void generateNewQuestion(){
-
-        question = new Question(categoryID, this);
+    public void generateNewQuestion(){
 
         if (question.questionTemplate.getAttribute().equals("director")) {
 
@@ -209,7 +214,7 @@ public class QuestionActivity extends AppCompatActivity {
             }
     }
 
-    private void resetButtonColors() {
+    public void resetButtonColors() {
         buttonOne.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
         buttonTwo.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
         buttonThree.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
@@ -264,8 +269,7 @@ public class QuestionActivity extends AppCompatActivity {
                 .setAction("Next Question", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        generateNewQuestion();
-                        resetButtonColors();
+                        newAsyncTask();
                     }
                 })
                 .setActionTextColor(Color.WHITE);
@@ -389,11 +393,20 @@ public class QuestionActivity extends AppCompatActivity {
                                 "\nCandidate D: " + question.getCandDName() + " " + question.getCandDAttribute() + question.questionTemplate.getAttributeUnit(),
                         "semanticquizappfeedback@gmail.com",
                         "matsschade@gmail.com");
-                Toast.makeText(mActivity, "Report sent, thanks!", Toast.LENGTH_SHORT).show();
                 return true;
             } catch (Exception e) {
                 Log.e("SendMail", e.getMessage(), e);
                 return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (result) {
+                Toast.makeText(mActivity, "Report sent, thanks!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(mActivity, "Report not sent, something went wrong.", Toast.LENGTH_SHORT).show();
             }
         }
 

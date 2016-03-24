@@ -1,16 +1,14 @@
 package com.matsschade.semanticquizapp;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.StrictMode;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -28,10 +26,11 @@ import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.crashlytics.android.Crashlytics;
 import com.matsschade.semanticquizapp.intro.Intro;
 
-import io.fabric.sdk.android.Fabric;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.fabric.sdk.android.Fabric;
 import lecho.lib.hellocharts.listener.PieChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.SliceValue;
@@ -63,10 +62,6 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
 
-
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
         if (Build.VERSION.SDK_INT >= 23) {
             int requestId = 1;
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -96,19 +91,37 @@ public class StartActivity extends AppCompatActivity {
 
         startQuiz = (BootstrapButton) findViewById(R.id.start_quiz_button);
 
+        getPieChartData();
+
         startQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startQuiz();
+                final CheckInternetConnTask checkConn = new CheckInternetConnTask(getThisActivity());
+                checkConn.execute();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (checkConn.getStatus() == AsyncTask.Status.RUNNING) {
+                            checkConn.cancel(true);
+                            Toast.makeText(getThisActivity(),
+                                    "Please connect to the internet to start the quiz.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, 3000);
             }
         });
-        getPieChartData();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         getPieChartData();
+    }
+
+    protected StartActivity getThisActivity() {
+        return this;
     }
 
     private void getPieChartData() {
@@ -155,13 +168,8 @@ public class StartActivity extends AppCompatActivity {
         }
     }
 
-    private void startQuiz() {
-        if (isNetworkAvailable()) {
-            startActivity(intent);
-        }
-        else {
-            Toast.makeText(getBaseContext(), "Please connect to the internet to start the quiz.", Toast.LENGTH_SHORT).show();
-        }
+    public void startQuiz() {
+        startActivity(intent);
     }
 
     private class PieTouchListener implements PieChartOnValueSelectListener {
@@ -239,10 +247,18 @@ public class StartActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    private boolean isOnline() {
+
+        Runtime runtime = Runtime.getRuntime();
+        try {
+
+            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
+            int     exitValue = ipProcess.waitFor();
+            return (exitValue == 0);
+
+        } catch (IOException e)          { e.printStackTrace(); }
+        catch (InterruptedException e) { e.printStackTrace(); }
+
+        return false;
     }
 }

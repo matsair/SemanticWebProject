@@ -35,15 +35,12 @@ public class Question {
     private ArrayList<String> elementsArray;
     private ArrayList<String> attributesArray;
     private GPSTracker tracker;
-    private Context mycontext;
 
-    public Question(int categoryID, Context mycontext) {
+
+    public Question(int categoryID) {
 
         this.categoryID = categoryID;
-        this.mycontext = mycontext;
         executeQuery(categoryID);
-        initializeCandidates();
-        determineCorrectAnswer();
     }
 
 
@@ -127,7 +124,7 @@ public class Question {
         }
     }
 
-    private void initializeCandidates() {
+    public void initializeCandidates(Context context) {
         int randomInt1, randomInt2, randomInt3, randomInt4;
 
         //Use shuffledArray in order to generate random numbers
@@ -167,7 +164,7 @@ public class Question {
 
         if (questionTemplate.getAttributeType().equals("location")) {
 
-            tracker = new GPSTracker(mycontext);
+            tracker = new GPSTracker(context);
             Location location = tracker.getLocation();
             double lat1 = location.getLatitude();
             double lon1= location.getLongitude();
@@ -203,7 +200,7 @@ public class Question {
             }
     }
 
-    private void determineCorrectAnswer() {
+    public void determineCorrectAnswer() {
 
         String correctValue;
         //boolean answerIsANumber = true;
