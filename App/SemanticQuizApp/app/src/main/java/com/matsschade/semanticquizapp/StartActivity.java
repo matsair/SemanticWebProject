@@ -70,8 +70,6 @@ public class StartActivity extends AppCompatActivity {
             }
         }
 
-        //doesQueryWork.test();
-
         SharedPreferences settings = getSharedPreferences("prefs", 0);
         boolean firstRun = settings.getBoolean("firstRun", true);
         if (firstRun) {
