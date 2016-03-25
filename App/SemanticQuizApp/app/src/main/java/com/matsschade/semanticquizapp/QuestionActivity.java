@@ -72,11 +72,11 @@ public class QuestionActivity extends AppCompatActivity {
         buttonFour = (BootstrapButton) findViewById(R.id.answer_button_four);
 
         QuestionTemplates.initializeQueries();
-        newAsyncTask();
+        newQuestionTask();
 
     }
 
-    public void newAsyncTask() {
+    public void newQuestionTask() {
         questionFinished = false;
         new GetQuestionOnlineTask(this).execute(categoryID);
     }
@@ -278,7 +278,7 @@ public class QuestionActivity extends AppCompatActivity {
                 .setAction("Next Question", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        newAsyncTask();
+                        newQuestionTask();
                     }
                 })
                 .setActionTextColor(Color.WHITE);
@@ -315,11 +315,7 @@ public class QuestionActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.action_report);
-        if(questionFinished) {
-            item.setVisible(true);
-        } else {
-            item.setVisible(false);
-        }
+        item.setVisible(questionFinished);
         return true;
     }
 

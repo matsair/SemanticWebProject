@@ -2,6 +2,7 @@ package com.matsschade.semanticquizapp.Utils;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.matsschade.semanticquizapp.StartActivity;
 
@@ -54,6 +55,11 @@ public class CheckInternetConnTask extends AsyncTask<Void, Void, Boolean> {
             }
             if (result) {
                 activity.startQuiz();
+            }
+            else {
+                Toast.makeText(activity,
+                        "Please connect to the internet to start the quiz.",
+                        Toast.LENGTH_SHORT).show();
             }
         }
 
