@@ -49,3 +49,7 @@ fabric.properties
 
 #local properties
 local.properties
+
+#config files
+email.txt
+password.txt
