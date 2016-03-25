@@ -43,10 +43,10 @@
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:typeface="sans"
-            android:text="Question"/>
+            android:text="@string/default_question"/>
 
         <com.beardedhen.androidbootstrap.BootstrapButton
             android:id="@+id/answer_button_one"
@@ -55,7 +55,7 @@
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/question"
-            android:text="Answer 1"
+            android:text="@string/default_answer"
             app:bootstrapBrand="primary"
             app:bootstrapSize="lg"
             app:buttonMode="regular"
@@ -70,7 +70,7 @@
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/answer_button_one"
-            android:text="Answer 2"
+            android:text="@string/default_answer"
             app:bootstrapBrand="primary"
             app:bootstrapSize="lg"
             app:buttonMode="regular"
@@ -85,7 +85,7 @@
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/answer_button_two"
-            android:text="Answer 2"
+            android:text="@string/default_answer"
             app:bootstrapBrand="primary"
             app:bootstrapSize="lg"
             app:buttonMode="regular"
@@ -100,7 +100,7 @@
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/answer_button_three"
-            android:text="Answer 4"
+            android:text="@string/default_answer"
             app:bootstrapBrand="primary"
             app:bootstrapSize="lg"
             app:buttonMode="regular"

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".QuestionActivity">
+    tools:context=".StartActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_height="wrap_content"
@@ -53,10 +53,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:text="Select a category"
+            android:text="@string/category_selection_title"
             android:layout_below="@id/chart"
             android:gravity="center"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:typeface="sans"
             />
@@ -72,26 +72,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="Cities"
-                android:textSize="12dp"
+                android:text="@string/category_cities"
+                android:textSize="12sp"
                 android:onClick="onRadioButtonClicked"/>
             <RadioButton android:id="@+id/radio_companies"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Companies"
-                android:textSize="12dp"
+                android:text="@string/category_companies"
+                android:textSize="12sp"
                 android:onClick="onRadioButtonClicked"/>
             <RadioButton android:id="@+id/radio_countries"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Countries"
-                android:textSize="12dp"
+                android:text="@string/category_countries"
+                android:textSize="12sp"
                 android:onClick="onRadioButtonClicked"/>
             <RadioButton android:id="@+id/radio_movies"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Movies"
-                android:textSize="12dp"
+                android:text="@string/category_movies"
+                android:textSize="12sp"
                 android:onClick="onRadioButtonClicked"/>
         </RadioGroup>
 
@@ -103,7 +103,7 @@
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/radio_buttons"
-            android:text="Start Quiz"
+            android:text="@string/button_start"
             app:bootstrapBrand="primary"
             app:bootstrapSize="lg"
             app:buttonMode="regular"

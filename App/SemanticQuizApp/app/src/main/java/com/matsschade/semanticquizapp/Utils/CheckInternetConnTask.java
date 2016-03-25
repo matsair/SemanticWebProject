@@ -1,7 +1,9 @@
-package com.matsschade.semanticquizapp;
+package com.matsschade.semanticquizapp.Utils;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+
+import com.matsschade.semanticquizapp.StartActivity;
 
 import java.io.IOException;
 

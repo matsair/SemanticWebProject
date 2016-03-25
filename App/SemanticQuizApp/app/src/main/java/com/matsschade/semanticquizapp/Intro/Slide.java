@@ -1,8 +1,5 @@
-package com.matsschade.semanticquizapp.intro;
+package com.matsschade.semanticquizapp.Intro;
 
-/**
- * Created by Mats on 10/11/15.
- */
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,23 +7,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class IntroSlide extends Fragment {
+public class Slide extends Fragment {
 
     private static final String ARG_LAYOUT_RES_ID = "layoutResId";
 
-    public static IntroSlide newInstance(int layoutResId) {
-        IntroSlide introSlide = new IntroSlide();
+    public static Slide newInstance(int layoutResId) {
+        Slide sampleSlide = new Slide();
 
         Bundle args = new Bundle();
         args.putInt(ARG_LAYOUT_RES_ID, layoutResId);
-        introSlide.setArguments(args);
+        sampleSlide.setArguments(args);
 
-        return introSlide;
+        return sampleSlide;
     }
 
     private int layoutResId;
 
-    public IntroSlide() {}
+    public Slide() {}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

@@ -1,4 +1,4 @@
-package com.matsschade.semanticquizapp.Objects;
+package com.matsschade.semanticquizapp.Questions;
 
 import android.content.Context;
 import android.location.Location;
@@ -13,8 +13,8 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.query.ResultSetFactory;
 import com.matsschade.semanticquizapp.GPS.GEODistance;
 import com.matsschade.semanticquizapp.GPS.GPSTracker;
-import com.matsschade.semanticquizapp.Processing.JSONReader;
-import com.matsschade.semanticquizapp.Processing.StringProcessing;
+import com.matsschade.semanticquizapp.Utils.JSONReader;
+import com.matsschade.semanticquizapp.Utils.StringProcessing;
 
 import org.json.JSONObject;
 
@@ -203,7 +203,6 @@ public class Question {
     public void determineCorrectAnswer() {
 
         String correctValue;
-        //boolean answerIsANumber = true;
 
         if (questionTemplate.getAttributeType().equals("location")) {
             correctValue = String.valueOf(Math.min(Double.valueOf(candAAttribute), Math.min(Double.valueOf(candBAttribute),
@@ -219,23 +218,21 @@ public class Question {
 
             //choose arbitrary string of the four strings
             correctValue = list.get((int) (Math.random()*4));
-            //this.correctAnswer = correctValue;
 
         } else {
             correctValue = String.valueOf(Math.max(Double.valueOf(candAAttribute), Math.max(Double.valueOf(candBAttribute),
                     Math.max(Double.valueOf(candCAttribute), Double.valueOf(candDAttribute)))));
         }
 
-        //if (answerIsANumber) {
-            if (correctValue.equals(candAAttribute)){
-                this.correctAnswer = candAName;}
-            if (correctValue.equals(candBAttribute)){
-                this.correctAnswer = candBName;}
-            if (correctValue.equals(candCAttribute)){
-                this.correctAnswer = candCName;}
-            if (correctValue.equals(candDAttribute)){
-                this.correctAnswer = candDName;}
-       // }
+        if (correctValue.equals(candAAttribute)){
+            this.correctAnswer = candAName;}
+        if (correctValue.equals(candBAttribute)){
+            this.correctAnswer = candBName;}
+        if (correctValue.equals(candCAttribute)){
+            this.correctAnswer = candCName;}
+        if (correctValue.equals(candDAttribute)){
+            this.correctAnswer = candDName;}
+
         Log.d("CorrectAnswer", "" + this.correctAnswer);
     }
 

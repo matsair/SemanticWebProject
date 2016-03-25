@@ -1,4 +1,4 @@
-package com.matsschade.semanticquizapp.Processing;
+package com.matsschade.semanticquizapp.Utils;
 
 /**
  * Created by rober_000 on 24.11.2015.

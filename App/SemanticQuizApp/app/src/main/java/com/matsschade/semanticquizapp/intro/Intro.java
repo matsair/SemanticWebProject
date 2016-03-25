@@ -1,42 +1,40 @@
-package com.matsschade.semanticquizapp.intro;
+package com.matsschade.semanticquizapp.Intro;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 
-import com.github.paolorotolo.appintro.AppIntro;
-import com.github.paolorotolo.appintro.AppIntroFragment;
+import com.github.paolorotolo.appintro.AppIntro2;
 import com.matsschade.semanticquizapp.R;
 import com.matsschade.semanticquizapp.StartActivity;
 
 /**
  * Created by Mats on 10/11/15.
  */
-public class Intro extends AppIntro {
+public class Intro extends AppIntro2 {
 
     @Override
     public void init(Bundle savedInstanceState) {
 
-        addSlide(AppIntroFragment.newInstance("Welcome", "This quiz app uses semantic web technologies.", R.drawable.news, R.color.colorPrimary));
+        addSlide(Slide.newInstance(R.layout.intro_welcome));
+        addSlide(Slide.newInstance(R.layout.intro_permissions));
 
-        setBarColor(Color.parseColor("#3F51B5"));
-        setSeparatorColor(Color.parseColor("#2196F3"));
-        showSkipButton(false);
-        showDoneButton(true);
-        setFadeAnimation();
-    }
+        askForPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 2);
 
-    @Override
-    public void onSkipPressed() {
-        saveFirstRun();
-        loadMainActivity();
     }
 
     @Override
     public void onDonePressed() {
         saveFirstRun();
         loadMainActivity();
+    }
+    @Override
+    public void onNextPressed() {
+    }
+
+    @Override
+    public void onSlideChanged() {
     }
 
     private void loadMainActivity(){

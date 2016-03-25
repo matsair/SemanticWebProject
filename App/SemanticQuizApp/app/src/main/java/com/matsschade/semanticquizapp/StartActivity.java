@@ -24,7 +24,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.crashlytics.android.Crashlytics;
-import com.matsschade.semanticquizapp.intro.Intro;
+import com.matsschade.semanticquizapp.Intro.Intro;
+import com.matsschade.semanticquizapp.Utils.CheckInternetConnTask;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -215,6 +216,13 @@ public class StartActivity extends AppCompatActivity {
                         }
                     })
                     .show();
+        }
+
+        if (id == R.id.reset_first_run) {
+            SharedPreferences settings = getSharedPreferences("prefs", 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("firstRun", true);
+            editor.commit();
         }
 
         return super.onOptionsItemSelected(item);

@@ -1,10 +1,11 @@
-package com.matsschade.semanticquizapp;
+package com.matsschade.semanticquizapp.Utils;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.matsschade.semanticquizapp.Objects.Question;
+import com.matsschade.semanticquizapp.QuestionActivity;
+import com.matsschade.semanticquizapp.Questions.Question;
 
 /**
  * Created by Mats on 23/03/16.

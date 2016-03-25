@@ -6,4 +6,9 @@
         android:title="@string/action_reset"
         android:orderInCategory="100"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/reset_first_run"
+        android:title="Reset first run"
+        android:orderInCategory="110"
+        app:showAsAction="never" />
 </menu>

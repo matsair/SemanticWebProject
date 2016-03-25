@@ -1,4 +1,4 @@
-package com.matsschade.semanticquizapp.Processing;
+package com.matsschade.semanticquizapp.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;

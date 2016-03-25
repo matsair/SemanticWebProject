@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,8 +21,9 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
 import com.matsschade.semanticquizapp.Email.GMailSender;
-import com.matsschade.semanticquizapp.Objects.Question;
-import com.matsschade.semanticquizapp.Objects.QuestionTemplates;
+import com.matsschade.semanticquizapp.Questions.Question;
+import com.matsschade.semanticquizapp.Questions.QuestionTemplates;
+import com.matsschade.semanticquizapp.Utils.GetQuestionOnlineTask;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -32,16 +32,16 @@ import java.util.Locale;
 
 public class QuestionActivity extends AppCompatActivity {
 
-    BootstrapButton buttonOne, buttonTwo, buttonThree, buttonFour;
-    Button back;
+    BootstrapButton buttonOne;
+    BootstrapButton buttonTwo;
+    BootstrapButton buttonThree;
+    BootstrapButton buttonFour;
     TextView questionText;
     int categoryID;
 
     String snackBarText;
 
     public Question question;
-
-    private boolean testForDirector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -295,36 +295,6 @@ public class QuestionActivity extends AppCompatActivity {
         buttonFour.setTextSize(size);
     }
 
-       /*
-        String requestURL = "http://developer.echonest.com/api/v4/artist/familiarity?api_key=MN9EYDKKLH6QBGHBH&name=Rihanna&format=json";
-
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET, requestURL, createMyReqSuccessListener(), createMyReqErrorListener());
-
-        Volley.newRequestQueue(this).add(jsonObjReq);
-
-    private Response.Listener<JSONObject> createMyReqSuccessListener() {
-        return new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    Double familiarity = response.getJSONObject("response").getJSONObject("artist").getDouble("familiarity");
-                    answerOne.setText(familiarity.toString());
-                } catch (JSONException e) {
-                    answerOne.setText("Parse error");
-                }
-            }
-        };
-    }
-
-    private Response.ErrorListener createMyReqErrorListener() {
-        return new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                answerOne.setText(error.getMessage());
-            }
-        };
-    }
-    */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
