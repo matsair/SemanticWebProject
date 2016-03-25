@@ -46,6 +46,8 @@ public class QuestionActivity extends AppCompatActivity {
 
     String snackBarText;
 
+    private boolean questionFinished;
+
     public Question question;
 
     @Override
@@ -75,6 +77,7 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     public void newAsyncTask() {
+        questionFinished = false;
         new GetQuestionOnlineTask(this).execute(categoryID);
     }
 
@@ -270,6 +273,7 @@ public class QuestionActivity extends AppCompatActivity {
             buttonThree.append("\n" + formatter.format(Double.valueOf(question.getCandCAttribute())) + " " + question.questionTemplate.getAttributeUnit());
             buttonFour.append("\n" + formatter.format(Double.valueOf(question.getCandDAttribute())) + " " + question.questionTemplate.getAttributeUnit());
         }
+
         Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), snackBarText, Snackbar.LENGTH_INDEFINITE)
                 .setAction("Next Question", new View.OnClickListener() {
                     @Override
@@ -283,6 +287,7 @@ public class QuestionActivity extends AppCompatActivity {
         TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(Color.WHITE);
         snackbar.show();
+        questionFinished = true;
 
     }
 
@@ -304,6 +309,17 @@ public class QuestionActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_question, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.action_report);
+        if(questionFinished) {
+            item.setVisible(true);
+        } else {
+            item.setVisible(false);
+        }
         return true;
     }
 
