@@ -41,7 +41,7 @@
                 android:layout_gravity="center"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:src="@drawable/news2"/>
+                android:src="@drawable/news"/>
         </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
@@ -53,7 +53,7 @@
             android:paddingLeft="64dp"
             android:paddingRight="64dp"
             android:textSize="16sp"
-            android:text="This quiz app uses semantic web technologies."/>
+            android:text="This app uses the semantic web, specifically DBpedia and the OMDb, to generate answers."/>
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="64dp" />
