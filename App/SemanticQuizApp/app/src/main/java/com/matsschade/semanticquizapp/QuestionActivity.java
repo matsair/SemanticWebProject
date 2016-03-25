@@ -25,6 +25,11 @@ import com.matsschade.semanticquizapp.Questions.Question;
 import com.matsschade.semanticquizapp.Questions.QuestionTemplates;
 import com.matsschade.semanticquizapp.Utils.GetQuestionOnlineTask;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -346,6 +351,66 @@ public class QuestionActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private String readEmailAddress() {
+
+        String ret = "";
+
+        try {
+            InputStream inputStream = getResources().openRawResource(R.raw.email);
+
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                    stringBuilder.append(receiveString);
+                }
+
+                inputStream.close();
+                ret = stringBuilder.toString();
+            }
+        }
+        catch (FileNotFoundException e) {
+            Log.e("login activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("login activity", "Can not read file: " + e.toString());
+        }
+        Log.d("Email Address", ret);
+        return ret;
+    }
+
+    private String readEmailAddressPassword() {
+
+        String ret = "";
+
+        try {
+            InputStream inputStream = getResources().openRawResource(R.raw.password);
+
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                    stringBuilder.append(receiveString);
+                }
+
+                inputStream.close();
+                ret = stringBuilder.toString();
+            }
+        }
+        catch (FileNotFoundException e) {
+            Log.e("login activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("login activity", "Can not read file: " + e.toString());
+        }
+        Log.d("Password", ret);
+        return ret;
+    }
+
     private class SendEmailAsyncTask extends AsyncTask<Void, Void, Boolean> {
 
         Activity mActivity;
@@ -353,7 +418,9 @@ public class QuestionActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                GMailSender sender = new GMailSender("semanticquizappfeedback@gmail.com", "124nv9Av53");
+                String email = readEmailAddress();
+                String password = readEmailAddressPassword();
+                GMailSender sender = new GMailSender(email, password);
                 sender.sendMail("[Semantic Quiz App] Error Report",
                         "Question: " + question.questionTemplate.getQuestion() +
                                 "\nCorrect Answer: " + question.getCorrectAnswer() +
