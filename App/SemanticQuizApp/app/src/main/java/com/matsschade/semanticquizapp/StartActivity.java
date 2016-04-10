@@ -27,7 +27,6 @@ import com.crashlytics.android.Crashlytics;
 import com.matsschade.semanticquizapp.Intro.Intro;
 import com.matsschade.semanticquizapp.Utils.CheckInternetConnTask;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -217,14 +216,6 @@ public class StartActivity extends AppCompatActivity {
                     })
                     .show();
         }
-
-        if (id == R.id.reset_first_run) {
-            SharedPreferences settings = getSharedPreferences("prefs", 0);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putBoolean("firstRun", true);
-            editor.commit();
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -251,20 +242,5 @@ public class StartActivity extends AppCompatActivity {
                     intent.putExtra("category", 3);
                 break;
         }
-    }
-
-    private boolean isOnline() {
-
-        Runtime runtime = Runtime.getRuntime();
-        try {
-
-            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
-            int     exitValue = ipProcess.waitFor();
-            return (exitValue == 0);
-
-        } catch (IOException e)          { e.printStackTrace(); }
-        catch (InterruptedException e) { e.printStackTrace(); }
-
-        return false;
     }
 }
