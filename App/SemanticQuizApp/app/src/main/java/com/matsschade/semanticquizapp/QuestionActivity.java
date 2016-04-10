@@ -66,10 +66,15 @@ public class QuestionActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         questionText = (TextView) findViewById(R.id.question);
+        questionText.setVisibility(View.INVISIBLE);
         buttonOne = (BootstrapButton) findViewById(R.id.answer_button_one);
+        buttonOne.setVisibility(View.INVISIBLE);
         buttonTwo = (BootstrapButton) findViewById(R.id.answer_button_two);
+        buttonTwo.setVisibility(View.INVISIBLE);
         buttonThree = (BootstrapButton) findViewById(R.id.answer_button_three);
+        buttonThree.setVisibility(View.INVISIBLE);
         buttonFour = (BootstrapButton) findViewById(R.id.answer_button_four);
+        buttonFour.setVisibility(View.INVISIBLE);
 
         QuestionTemplates.initializeQueries();
         newQuestionTask();
@@ -82,6 +87,12 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     public void setupButtons() {
+
+        questionText.setVisibility(View.VISIBLE);
+        buttonOne.setVisibility(View.VISIBLE);
+        buttonTwo.setVisibility(View.VISIBLE);
+        buttonThree.setVisibility(View.VISIBLE);
+        buttonFour.setVisibility(View.VISIBLE);
 
         buttonOne.setOnClickListener(new View.OnClickListener() {
             @Override

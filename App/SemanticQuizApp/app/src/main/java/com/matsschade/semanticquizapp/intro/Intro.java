@@ -3,6 +3,7 @@ package com.matsschade.semanticquizapp.Intro;
 import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.github.paolorotolo.appintro.AppIntro2;
@@ -18,10 +19,10 @@ public class Intro extends AppIntro2 {
     public void init(Bundle savedInstanceState) {
 
         addSlide(Slide.newInstance(R.layout.intro_welcome));
-        addSlide(Slide.newInstance(R.layout.intro_permissions));
-
-        askForPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 2);
-
+        if (Build.VERSION.SDK_INT >= 23) {
+            addSlide(Slide.newInstance(R.layout.intro_permissions));
+            askForPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 2);
+        }
     }
 
     @Override
