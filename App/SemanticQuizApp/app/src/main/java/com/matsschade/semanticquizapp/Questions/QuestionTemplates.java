@@ -249,13 +249,12 @@ public class QuestionTemplates {
                 "SELECT DISTINCT ?country_name ?area\n" +
                 "WHERE\n" +
                 "{\n" +
-                "  ?country rdf:type dbo:Country .\n" +
+                "  ?country rdf:type yago:WikicatMemberStatesOfTheUnitedNations .\n" +
                 "  ?country rdfs:label ?country_name .\n" +
                 "  ?country dbp:areaKm ?area .\n" +
-                "  ?country dbp:gini ?gini .\n" +
                 "\n" +
                 "  FILTER (langMatches(lang(?country_name), \"EN\")) .\n" +
-                "}\n";
+                "}";
 
         String questionCountry1 = "Which is the largest country by area?";
 
@@ -297,34 +296,33 @@ public class QuestionTemplates {
         String questionCountry3 = "Which country has the highest standard of living?";
 
             String queryCountry4 = "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
-                "PREFIX dct: <http://purl.org/dc/terms/>\n" +
-                "PREFIX dbc: <http://dbpedia.org/resource/Category:>\n" +
-                "PREFIX dbp: <http://dbpedia.org/property/>\n" +
-                "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
-                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-                "PREFIX georss: <http://www.georss.org/georss/>\n" +
-                "PREFIX vrank:<http://purl.org/voc/vrank#>\n" +
-                "\n" +
-                "SELECT DISTINCT ?country_name ?geo\t\n" +
-                "\n" +
-                "FROM <http://dbpedia.org> \n" +
-                "FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank> \n" +
-                "\n" +
-                "WHERE\n" +
-                "{\n" +
-                "  ?country rdf:type dbo:Country.\n" +
-                "  ?country rdfs:label ?country_name.\n" +
-                "  ?country dbo:capital ?capital. \n" +
-                "  ?capital georss:point ?geo.\n" +
-                "  ?country dbp:gini ?gini .\n" +
-                "\n" +
-                "  ?country vrank:hasRank ?value.\n" +
-                "\n" +
-                "  FILTER (langMatches(lang(?country_name), \"EN\")) .\n" +
-                "}\n" +
-                "\n" +
-                "ORDER BY DESC(?value)\n" +
-                "LIMIT 100";
+                    "PREFIX dct: <http://purl.org/dc/terms/>\n" +
+                    "PREFIX dbc: <http://dbpedia.org/resource/Category:>\n" +
+                    "PREFIX dbp: <http://dbpedia.org/property/>\n" +
+                    "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                    "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                    "PREFIX georss: <http://www.georss.org/georss/>\n" +
+                    "PREFIX vrank:<http://purl.org/voc/vrank#>\n" +
+                    "\n" +
+                    "SELECT DISTINCT ?country_name ?geo\t\n" +
+                    "\n" +
+                    "FROM <http://dbpedia.org> \n" +
+                    "FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank> \n" +
+                    "\n" +
+                    "WHERE\n" +
+                    "{\n" +
+                    "  ?country rdf:type yago:WikicatMemberStatesOfTheUnitedNations .\n" +
+                    "  ?country rdfs:label ?country_name .\n" +
+                    "  ?country dbo:capital ?capital . \n" +
+                    "  ?capital georss:point ?geo .\n" +
+                    "\n" +
+                    "  ?country vrank:hasRank ?value.\n" +
+                    "\n" +
+                    "  FILTER (langMatches(lang(?country_name), \"EN\")) .\n" +
+                    "}\n" +
+                    "\n" +
+                    "ORDER BY DESC(?value)\n" +
+                    "LIMIT 100";
 
         String questionCountry4 = "Considering the capital, which country is closest to your current location?";
 
@@ -373,7 +371,7 @@ public class QuestionTemplates {
                 "FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank> \n" +
                 "\n" +
                 "WHERE\n" +
-                "  { ?actor rdf:type yago:AmericanFilmActors.\n" +
+                "  { ?actor rdf:type yago:Actor109765278.\n" +
                 "    ?actor dct:subject ?filter.\n" +
                 "    ?actor rdfs:label ?name.\n" +
                 "    ?actor vrank:hasRank ?value.\n" +
@@ -440,22 +438,24 @@ public class QuestionTemplates {
 
         String questionMovie4 = " was the director of which movie?";
 
-        queries[0][0] = new QuestionTemplate(queryCity1,"city_name", "sun", questionCity1,"string", "number", "hours", "http://dbpedia.org/sparql");
-        queries[0][1] = new QuestionTemplate(queryCity2, "city_name", "precip", questionCity2,"string","number", "mm", "http://dbpedia.org/sparql");
-        queries[0][2] = new QuestionTemplate(queryCity3, "name", "population", questionCity3,"string","number", "inhabitants", "http://dbpedia.org/sparql");
-        queries[0][3] = new QuestionTemplate(queryCity4, "name", "geo", questionCity4,"string","location", "km", "http://dbpedia.org/sparql");
-        queries[1][0] = new QuestionTemplate(queryCompany1, "name", "employees", questionCompany1,"string","number", "employees", "http://dbpedia.org/sparql");
-        queries[1][1] = new QuestionTemplate(queryCompany2, "name", "revenue", questionCompany2,"string","currency", "US Dollars", "http://dbpedia.org/sparql");
-        queries[1][2] = new QuestionTemplate(queryCompany3, "name", "year", questionCompany3,"string","year", "", "http://dbpedia.org/sparql");
-        queries[1][3] = new QuestionTemplate(queryCompany4, "name", "geo", questionCompany4,"string","location", "km", "http://dbpedia.org/sparql");
-        queries[2][0] = new QuestionTemplate(queryCountry1, "country_name", "area", questionCountry1,"string","number", "km2", "http://dbpedia.org/sparql");
-        queries[2][1] = new QuestionTemplate(queryCountry2, "country_name", "gini", questionCountry2,"string","number", "Gini Index", "http://dbpedia.org/sparql");
-        queries[2][2] = new QuestionTemplate(queryCountry3, "country_name", "hdi", questionCountry3,"string","number", "HDI Index", "http://dbpedia.org/sparql");
-        queries[2][3] = new QuestionTemplate(queryCountry4, "country_name", "geo", questionCountry4,"string","location", "km", "http://dbpedia.org/sparql");
-        queries[3][0] = new QuestionTemplate(queryMovie1, "name", "rating", questionMovie1,"string","", "","http://dbpedia.org/sparql");
-        queries[3][1] = new QuestionTemplate(queryMovie2, "name", "date", questionMovie2,"string","year", "", "http://dbpedia.org/sparql");
+        queries[0][0] = new QuestionTemplate(queryCity1,"city_name", "sun", questionCity1,"string", "number", "hours", "https://dbpedia.org/sparql");
+        queries[0][1] = new QuestionTemplate(queryCity2, "city_name", "precip", questionCity2,"string","number", "mm", "https://dbpedia.org/sparql");
+        queries[0][2] = new QuestionTemplate(queryCity3, "name", "population", questionCity3,"string","number", "inhabitants", "https://dbpedia.org/sparql");
+        queries[0][3] = new QuestionTemplate(queryCity4, "name", "geo", questionCity4,"string","location", "km", "https://dbpedia.org/sparql");
+        queries[1][0] = new QuestionTemplate(queryCompany1, "name", "employees", questionCompany1,"string","number", "employees", "https://dbpedia.org/sparql");
+        queries[1][1] = new QuestionTemplate(queryCompany2, "name", "revenue", questionCompany2,"string","currency", "US Dollars", "https://dbpedia.org/sparql");
+        queries[1][2] = new QuestionTemplate(queryCompany3, "name", "year", questionCompany3,"string","year", "", "https://dbpedia.org/sparql");
+        queries[1][3] = new QuestionTemplate(queryCompany4, "name", "geo", questionCompany4,"string","location", "km", "https://dbpedia.org/sparql");
+        queries[2][0] = new QuestionTemplate(queryCountry1, "country_name", "area", questionCountry1,"string","number", "km2", "https://dbpedia.org/sparql");
+//        queries[2][1] = new QuestionTemplate(queryCountry2, "country_name", "gini", questionCountry2,"string","number", "Gini Index", "https://dbpedia.org/sparql");
+        queries[2][1] = new QuestionTemplate(queryCountry1, "country_name", "area", questionCountry1,"string","number", "km2", "https://dbpedia.org/sparql");
+//        queries[2][2] = new QuestionTemplate(queryCountry3, "country_name", "hdi", questionCountry3,"string","number", "HDI Index", "https://dbpedia.org/sparql");
+        queries[2][2] = new QuestionTemplate(queryCountry4, "country_name", "geo", questionCountry4,"string","number", "km", "https://dbpedia.org/sparql");
+        queries[2][3] = new QuestionTemplate(queryCountry4, "country_name", "geo", questionCountry4,"string","location", "km", "https://dbpedia.org/sparql");
+        queries[3][0] = new QuestionTemplate(queryMovie1, "name", "rating", questionMovie1,"string","", "","https://dbpedia.org/sparql");
+        queries[3][1] = new QuestionTemplate(queryMovie2, "name", "date", questionMovie2,"string","year", "", "https://dbpedia.org/sparql");
         queries[3][2] = new QuestionTemplate(queryMovie3, "date", "name", questionMovie3,"year","string", "", "http://data.linkedmdb.org/sparql");
-        queries[3][3] = new QuestionTemplate(queryMovie4, "name", "director", questionMovie4,"string","string", "", "http://dbpedia.org/sparql");
+        queries[3][3] = new QuestionTemplate(queryMovie4, "name", "director", questionMovie4,"string","string", "", "https://dbpedia.org/sparql");
     }
 
     // Has to be randomized

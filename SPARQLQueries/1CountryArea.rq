@@ -8,10 +8,9 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 SELECT DISTINCT ?country_name ?area
 WHERE
 {
-  ?country rdf:type dbo:Country .
+  ?country rdf:type yago:WikicatMemberStatesOfTheUnitedNations .
   ?country rdfs:label ?country_name .
   ?country dbp:areaKm ?area .
-  ?country dbp:gini ?gini .
 
   FILTER (langMatches(lang(?country_name), "EN")) .
 }

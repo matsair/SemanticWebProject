@@ -14,11 +14,10 @@ FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank>
 
 WHERE
 {
-  ?country rdf:type dbo:Country.
-  ?country rdfs:label ?country_name.
-  ?country dbo:capital ?capital. 
-  ?capital georss:point ?geo.
-  ?country dbp:gini ?gini .
+  ?country rdf:type yago:WikicatMemberStatesOfTheUnitedNations .
+  ?country rdfs:label ?country_name .
+  ?country dbo:capital ?capital . 
+  ?capital georss:point ?geo .
 
   ?country vrank:hasRank ?value.
 

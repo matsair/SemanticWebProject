@@ -12,7 +12,7 @@ PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                 FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank>  
                  
                 WHERE 
-                  { ?actor rdf:type yago:AmericanFilmActors. 
+                  { ?actor rdf:type yago:Actor109765278 . 
                     ?actor dct:subject ?filter. 
                     ?actor rdfs:label ?name. 
                     ?actor vrank:hasRank ?value. 
